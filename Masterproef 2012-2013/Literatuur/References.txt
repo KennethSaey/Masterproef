@@ -1,0 +1,12 @@
+G. Bracha; W. Cook, Mixin-based inheritance, SIGPLAN Not., 25(10), (1990), 303-311
+E. Gamma; R. Helm; et al., Design Patterns: Elements of Reusable Object-Oriented Software, 1e druk, Addison-Wesley, Massachusetts (1994)
+B. Meyer, Object-Oriented Software Construction, Prentice Hall (2000)
+M. Odersky; L. Spoon; et al., Programming in Scala, 2e druk, Artima Press, California (2010)
+M. Odersky; M. Zenger, Scalable component abstractions, SIGPLAN Not., 40(10), (2005), 41-57
+B. Desouter, Modulaire zoekheuristieken in Scala, (2012)
+T. Rompf; M. Odersky, Lightweight Modular Staging: A Pragmatic Approach to Runtime Code Generation and Compiled DSLs, École Polytechnique Fédérale de Lausanne, Eindhoven, The Netherlands (October 2010)
+		http://infoscience.epfl.ch/record/150347/files/gpce63-rompf.pdf
+Hassan Chafi, Stanford, Zach DeVito, Stanford, Adriaan Moors, Tiark Rompf, Arvind K. Sujeeth, Pat Hanrahan, Martin Odersky and Kunle Olukotun, Language Virtualization for Heterogeneous Parallel Computing, EPFL/Stanford, Reno/Tahoe, Nevada, USA (October 2010)
+		http://infoscience.epfl.ch/record/150346/files/onl0000031-chafi.pdf
+Gilles Dubochet, On Embedding Domain-specific Languages with User-friendly Syntax, EPFL, Proceedings of the 1st ECOOP Workshop on Domain-Specific Program Development, pp. 19–22, Nantes (July 2006)
+		http://infoscience.epfl.ch/record/85862/files/dubochet2006zytyg.pdf

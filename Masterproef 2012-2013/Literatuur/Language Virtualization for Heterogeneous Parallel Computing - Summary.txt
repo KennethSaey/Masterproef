@@ -1,0 +1,38 @@
+Language Virtualization for Heterogeneous Parallel Computing
+============================================================
+Existing applications can no longer take advantage of the additional compute power available in these new and emerging systems without a significant parallel programming and program specialization effort. However, writing parallel programs is not straightforward because in contrast to the familiar and standard von Neumann model for sequential programming, a variety of incompatible parallel programming models are required, each with their own set of trade-offs.
+
+One way to capture application-specific knowledge for a whole class of applications and simplify application development at the same time is to use a domain specific language (DSL).
+
+DSL compilers can use aggressive optimization techniques using knowledge of the data structures and algorithms derived from the DSL.
+
+2 phases:
+* DSL developer designs DSL
+* Many domain experts use DSL to develop applications
+
+DSL development for parallelism needs to be simplified, so any DSL developer can do it.
+
+The main problem with embedded DSLs is that they cannot exploit domain knowledge to efficiently map programsto specialized architectures because they live inside a general purpose language. To overcome this problem, we need embedding languages that are particularly suited to the task of serving as a host language to DSL implementations. A language with this capability supports what we call language virtualization.
+
+A language is virtualizable if and only if it can provide an environment to embedded languages that makes them essentially identical to corresponding stand-alone language implementations in terms of
+1. expressiveness - being able to express a DSL in a way which is natural to domain specialists,
+2. performance - leveraging domain knowledge to produce optimal code, and
+3. safety - domain programs are guaranteed to have certain properties implied by the DSL,
+4. while at the same time requiring only modestly more effort than implementing a simple embedding.
+
+A key element in LMS is to provide facilities to compile a limited range of Scala constructs to architectures different from the JVM, Scala’s primary target.
+
+trait A { this: B =>
+	def c(x, y, z) = {
+		...
+	}
+}
+Any concrete instantiation of A needs to mix-in a concrete subclass of the B trait, but it is not specified which subclass. This means that concrete DSL programs can be combined with arbitrary embeddings by choosing the right mix-in.
+
+References
+----------
+P. Hudak. Modular domain specific languages and tools. In Software Reuse, 1998. Proceedings. Fifth International Conference on, pages 134–142, 1998.
+
+M. Odersky and M. Zenger. Scalable component abstractions. In R. E. Johnson and R. P. Gabriel, editors, OOPSLA, pages 41–57. ACM, 2005.
+
+A. van Deursen, P. Klint, and J. Visser. Domain-specific languages: an annotated bibliography. SIGPLAN Not., 35(6):26–36, 2000.

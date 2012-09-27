@@ -1,0 +1,248 @@
+===========================
+= Scale for the impatient =
+===========================
+
+The Basics
+==========
+Constant: val x: Type = value
+Variable: var y: Type = value
+
+1.toString() -> "1"
+1.to(10) -> Range(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+a method b is shorthand for a.method(b)
+
+Importing: import scala.packagename._
+
+Not static methods, but a singleton object and a companion object.
+
+Apply method: var(val) is shorthand for var.apply(val)
+
+Scaladoc at www.scala-lang.org/api
+
+Control Structures and Functions
+================================
+if (){} else if (){} else (){}
+if-statement has a value which can be saved in a val/var.
+print, println, printf
+readInt, readDouble, readByte, readShort, readLong, readFloat, readBoolean, readChar, readLine
+while (){}
+for(i <- expr){}
+NO break/continue statements
+Breaks object (avoid when time is of the essence):
+	import scala.util.control.Breaks._
+	breakable {
+		for (...){
+			if (...) break;
+			...
+		}
+	}
+Nested loops: for(i <- expr1; j <- expr2){}
+Nested loops with guard: for(i <- expr1; j <- expr2 if i!=j){}
+For comprehensions: for(i <- 1 to 5) yield i%3 results in Vector(1, 2, 0, 1, 2)
+Function definition: def name(varname: Type = defaultValue): Type = {}
+Named arguments are available!
+Also, default values are available!
+Variable number of args: def name(varname: Type*) = {}
+Consider Range as an argument sequence:		1 to 5: _*
+Argument sequences have a .head and .tail operator.
+Functions which do not return a value, don't need a =-symbol.
+Lazy values: lazy val x = value
+Try-catch does pattern matching:
+	try {} catch {
+		case _: Type1Exception => //do something
+		case ex: IOException => ex.printStackTrace()
+	} finally {}
+
+Working with Arrays
+===================
+new Array[Type](length)
+Array(value1, value2, value3)
+Use () to access elements instead of [].
+ArrayBuffer (equivalent to ArrayList in Java)=
+	import scala.collection.mutable.ArrayBuffer
+	ArrayBuffer[Type]()
+	Add elements with +=
+	Append with ++= : b ++= Array(1, 2, 3)
+Multidimensional arrays: Array.ofDim[Type](dim1size, dim2size)
+
+Maps and Tuples
+===============
+Immutable map:	Map(key1 -> value1, key2 -> value2)
+				Map((key1, value1), (key2, value2))
+Mutable map: scala.collection.mutable.Map(key1 -> value1, key2 -> value2)
+Empty map: new scala.collection.mutable.HashMap[String, Int]
+Lookup: mapname(key)
+Check if key exists:	if(mapname.ontains(key)) mapname(key) else defaultvalue
+						mapname.getOrElse(key, defaultvalue)
+Update: mapname(key) = newvalue
+mapname += (key3 -> value3, key4 -> value4)
+mapname -= key3
+Iteration: for ((k, v) <- map)
+mapname.keySet
+mapname.values
+Tuples:
+	t = (val1, val2, val3)
+	t._1 is the first element!
+	Pattern matching: val (first, second, _) = t
+
+Classes
+=======
+Properties can be get and set with object.propertyname. Getter function .propertyname and setter function .propertyname_ are implicitely called.
+
+Adding @BeanProperty before a property will additionally generate getPropertyname() and serPropertyname(newvalue) functions.
+
+Auxiliary constructors are called this, and must start with a call to a previously defined auxiliary constructor or the primary constructor.
+
+Primary constructor is interwoven with the class definition: class ClassName(val arg1: Type, val arg2: Type){...}
+
+Objects
+=======
+Singleton classes: object ClassName {...}
+Main method:
+	object ClassName {
+		def main(args: Array[String]){
+			...
+		}
+	}
+	OR
+	object ClassName extends App {
+		...//args is available here
+	}
+
+Enumerations:
+	object ClassName extends Enumeration {
+		val Name1, Name2, Name3 = Value //Literally type "Value"
+	}
+
+Packages and Imports
+====================
+package name {
+	package subname {
+		...
+	}
+}
+EQUIVALENT TO
+package name
+package subname
+...
+
+package object packageName {...}
+
+Imports can be anywhere
+
+Inheritance
+===========
+class B extends A {
+	override def toString = super.toString + ...
+}
+
+Calling a superclass:
+	class B(args) extends A(args)
+
+== is automatically translated to .equals(...)
+
+Files and Regular Expressions
+=============================
+Read lines:
+	import scala.io.Source
+	val source = Source.fromFile("myfile.txt", "UTF-8")
+	val lineIterator = source.getLines
+	val lineArray = source.getLines.toArray
+	val lineArrayBuffer = source.getLines.toBuffer
+	val lineString = source.mkString
+	source.close
+
+Read characters:
+	for(c <- source) ...
+
+Read character without consuming:
+	val source = Source.fromFile("myfile.txt")
+	val iter = source.buffered
+	while(iter.hasNext){
+		if(iter.head ...) // = sneek peek
+			...
+		else
+			...
+	}
+
+Read tokens:
+	val tokens = source.mkString.split("\\s+")
+
+Conversions:
+	.toInt
+	.toDouble
+	val numbers = tokens.map(_.toInt)
+
+Other source types:
+	Source.fromURL("http://www.......", "UTF-8") // Must know character encoding
+	Source.fromString("...")
+	Source.stdin
+
+Read binary file (Java):
+	val file = new File(filename)
+	val in = new FileInputStream(file)
+	val bytes = new Array[Byte](file.length.toInt)
+	in.read(bytes)
+	in.close()
+
+Writing files (Java):
+	val out = new PrintWriter("numbers.txt")
+	for(i <- 1 to 100) out.println(i)
+	out.close()
+
+printf'ing numbers:
+	out.printf("%6d", quantity.asInstanceOf[AnyRef])
+	OR
+	out.print("%6d".format(quantity));
+
+Subdirectory iterator:
+	import java.io.file
+	def subdirs(dir: File): Iterator[File] = {
+		val children = dir.listFiles.filter(_isDirectory)
+		children.toIterator ++ children.toIterator.flatMap(subdirs _)
+	}
+
+Shell scripting:
+	import sys.process._
+	"ls -al .." !
+	val result = "ls -al .." !!
+	"command 1" #| "command 2" !
+	"ls -al .." #> new File("output.txt") ! // Output
+	"ls -al .." #>> new File("output.txt") ! // Append
+	"grep sec" #< new File("output.txt) ! // Input
+	"grep sec" #< new URL("http://www.......) ! // Input
+	p #&& q ! // Execute q if p was successful
+	p #|| q ! // Execute q if p failed
+
+Regular expressions:
+	import scala.util.matching.Regex
+	val numPattern = "[0-9]+".r
+	for(match <- numPatter.findAllIn("99 bottles, 98 bottles")) ...
+	val matches = numPattern.findAllIn("99 bottles, 98 bottles").toArray
+	numPattern.findFirstIn(...)
+	numPattern.findPrefixOf(...)
+	numPattern.replaceFirstIn(...)
+	numPattern.replaceAllIn(...)
+
+Raw string syntax (for using backslashes):
+	val wsnumwsPattern = """\s+[0-9]+\s+""".r
+
+Regex groups:
+	val numItemPattern = "([0-9]+) ([a-z]+)".r
+	val numItemPattern(num, item) = "99 bottles" // num = "99", item = "bottle"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

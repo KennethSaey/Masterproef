@@ -1,0 +1,18 @@
+Lightweight Modular Staging
+===========================
+Complex software systems require abstraction en generalization.
+Performance requires concretization and specialization.
+Generative programming can bridge this gap.
+Lightweight Modular Staging (LMS) is a dynamic code generation approach.
+
+LMS ideas:
+1. Reflect change in binding time by changing the type of a variable from Type to REP[Type] ( acomputation that will yield a Type in the next stage).
+2. Package computations on staged types as components (traits in Scala):
+	trait PowerA { this: Arith =>
+		def power(b: Rep[Double], x: Int): Rep[Double] =
+		if (x == 0) 1.0 else b * power(b, x 1)
+	}
+
+LMS characteristics:
+* binding-times are distinguished only by types
+* sufficiently expressive language => framework can be implemented as library (=lightweight)

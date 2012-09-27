@@ -1,0 +1,42 @@
+On Embedding Domain-specific Languages with User-friendly Syntax
+================================================================
+DSEL = Domain specific embedded language
+ZyTyG = Zygotic type-directed growth
+
+ZyTyG
+-----
+3 Ideas:
+1. strings of identifiers: host language is required to support method-as-infix-operator syntax:
+	expr1 opA expr2 opB expr3 => epxr1.opA(expr2.opB(expr3))
+2. building domain-specific data: the syntax of the DSEL is defined by a type-directed path from the leftmost zygote through zygote methods. In other words: The methods (opA, opB) of a ZygoteClass define which tokens can be chained to the right of a ZygoteClass instance (expr1, expr2, expr3). The return type of a method determines further chaining
+3. from general-purpose to domain specific, and back again: views(~ typecasts) in host language required.
+
+Limitations:
+* if a method expects a list of expressions, then they must be in a host language list, or separated by operators such as "and"
+* identifiers must be legal host language method names (while, if, class, new, ... are already taken)
+
+The ScalaDBC library
+--------------------
+Queries must be kept as native data structures (not strings as in JDBC)
+Example (Scala syntax!):
+select (
+	"age" is smallint,
+	"name" is clob,
+	"salary" is int )
+from ("persons" naturalJoin "employees")
+where (
+	"gender" == "M" and
+	("city" == "lausanne" or "city" == "geneva"))
+orderBy "age"
+
+Issues
+------
+Method-as-infix-operator is limited, but mostly sufficient.
+Views improve DSELs, but make debugging more difficult.
+
+References to check
+-------------------
+* M. Bravenboer and E. Visser. Concrete syntax for objects: domain-specific language embedding and assimilation without restrictions. In Proceedings of the 16th Conference on Object-Oriented Programming, Systems, Languages, and Applications, pages 365–383, 2004.
+* P. Hudak. Building domain-specific embedded languages. ACM Computing Surveys, 28(4es):196, 1996.
+* O. Shivers. A universal scripting framework, or Lambda: the ultimate “little language”. In Concurrency and Parallelism, Programming, Networking, and Security: Proceedings of the Second Asian Computing Science Conference, pages 254–265, 1996.
+* A. van Deursen, P. Klint, and J. Visser. Domainspecific languages. Technical Report SENR0032, Centrum voor Wiskunde en Informatica, 2000.
