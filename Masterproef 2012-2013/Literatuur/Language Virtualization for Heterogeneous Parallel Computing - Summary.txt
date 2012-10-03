@@ -20,6 +20,9 @@ A language is virtualizable if and only if it can provide an environment to embe
 3. safety - domain programs are guaranteed to have certain properties implied by the DSL,
 4. while at the same time requiring only modestly more effort than implementing a simple embedding.
 
+Embedded programs must be available at least at some point using a lifted, AST-like intermediate representation. The must include generic parts, such as function definitions, conditionals or loops.
+Having to implement the lifting for each new DSL that uses a slightly different AST representation would violate the effort cirterion.
+
 A key element in LMS is to provide facilities to compile a limited range of Scala constructs to architectures different from the JVM, Scala’s primary target.
 
 trait A { this: B =>
@@ -28,6 +31,25 @@ trait A { this: B =>
 	}
 }
 Any concrete instantiation of A needs to mix-in a concrete subclass of the B trait, but it is not specified which subclass. This means that concrete DSL programs can be combined with arbitrary embeddings by choosing the right mix-in.
+
+Expression trees (*** I do not yet understand this ***):
+trait Expressions {
+	// constants/symbols (atomic)
+	abstract class Exp[T]
+	case class Const[T](x: T) extends Exp[T]
+	case class Sym[T](n: Int) extends Exp[T]
+	
+	// operations (composite, defined in subtraits)
+	abstract class Op[T]
+	
+	// additional members for managing
+	// encountered definitions
+	def findOrCreateDefinition[T](op: Op[T]): Sym[T]
+	implicit def toExp[T](d: Op[T]): Exp[T] = findOrCreateDefinition(d)
+	object Def { // patternmatch on definitions
+		def unapply[T](e: Exp[T]): Option[Op[T]] = ...
+	}
+}
 
 References
 ----------
