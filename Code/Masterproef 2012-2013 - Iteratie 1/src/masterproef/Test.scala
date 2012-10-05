@@ -1,6 +1,8 @@
 package masterproef
 
 import scala.collection.mutable.ArrayBuffer
+import masterproef.card.Deck
+import masterproef.card.Creature
 
 object Test {
 

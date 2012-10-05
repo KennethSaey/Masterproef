@@ -4,6 +4,10 @@
  */
 package masterproef
 
+import masterproef.card.Deck
+
+import masterproef.card.Card
+
 class Player(name: String, defaultHealth: Int = 20) {
 	var deck: Deck = new Deck();
 	var graveyard: Deck = new Deck();
@@ -40,5 +44,9 @@ class Player(name: String, defaultHealth: Int = 20) {
 	
 	def toGraveyard(card: Card): Unit = {
 		graveyard += battlefield.pick(card);
+	}
+	
+	def hasCardsIn(deck: Deck): Boolean = {
+		!deck.cards.isEmpty;
 	}
 }
