@@ -73,7 +73,7 @@ Immutable map:	Map(key1 -> value1, key2 -> value2)
 Mutable map: scala.collection.mutable.Map(key1 -> value1, key2 -> value2)
 Empty map: new scala.collection.mutable.HashMap[String, Int]
 Lookup: mapname(key)
-Check if key exists:	if(mapname.ontains(key)) mapname(key) else defaultvalue
+Check if key exists:	if(mapname.contains(key)) mapname(key) else defaultvalue
 						mapname.getOrElse(key, defaultvalue)
 Update: mapname(key) = newvalue
 mapname += (key3 -> value3, key4 -> value4)

@@ -9,12 +9,12 @@ import masterproef.game.action.EndPhaseAction
 class AttackPhase() extends Phase("Attack Phase") {
 	
 	def actionsAvailable(): Boolean = {
-		!Game.players(Game.currentPlayer).battlefield.activeCards.isEmpty;
+		!Game.currentPlayer.battlefield.activeCards.isEmpty;
 	}
 
 	def getAvailableActions(): ArrayBuffer[GameAction] = {
 		val actions = new ArrayBuffer[GameAction]();
-		if(!Game.players(Game.currentPlayer).battlefield.activeCards.isEmpty){
+		if(!Game.currentPlayer.battlefield.activeCards.isEmpty){
 			actions += new DeclareAttackAction();
 		}
 		actions += new EndPhaseAction();

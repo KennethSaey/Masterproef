@@ -10,7 +10,7 @@ import masterproef.game.Game
 class DrawCardPhase(var number: Int = 1) extends Phase("Draw Card Phase") {
 
 	def actionsAvailable(): Boolean = {
-		number > 0 && Game.players(Game.currentPlayer).hasCardsIn(Game.players(Game.currentPlayer).deck);
+		number > 0 && Game.currentPlayer.hasCardsIn(Game.currentPlayer.deck);
 	}
 
 	def getAvailableActions(): ArrayBuffer[GameAction] = {

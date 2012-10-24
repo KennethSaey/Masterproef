@@ -9,12 +9,12 @@ import masterproef.game.action.EndPhaseAction
 class PlayCardPhase extends Phase {
 
 	def actionsAvailable(): Boolean = {
-		Game.players(Game.currentPlayer).hasCardsIn(Game.players(Game.currentPlayer).hand);
+		Game.currentPlayer.hasCardsIn(Game.currentPlayer.hand);
 	}
 
 	def getAvailableActions(): ArrayBuffer[GameAction] = {
 		val actions = new ArrayBuffer[GameAction]();
-		if(Game.players(Game.currentPlayer).hasCardsIn(Game.players(Game.currentPlayer).hand)){
+		if(Game.currentPlayer.hasCardsIn(Game.currentPlayer.hand)){
 			actions += new PlayCardAction();
 		}
 		actions += new EndPhaseAction();

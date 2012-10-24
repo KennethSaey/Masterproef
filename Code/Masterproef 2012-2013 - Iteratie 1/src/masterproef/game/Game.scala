@@ -11,14 +11,11 @@ object Game extends Reactor {
 	var phases: ArrayBuffer[Phase] = new ArrayBuffer();
 	var currentPhase: Int = 0;
 	var players: ArrayBuffer[Player] = new ArrayBuffer();
-	var currentPlayer: Int = 0;
+	var currentPlayerIndex: Int = 0;
 	
-	def newGame(): Unit = {
-		currentPhase = 0;
-		currentPlayer = 0;
-		for(player <- players){
-			player.reset();
-		}
+	def init(phases: ArrayBuffer[Phase], players: ArrayBuffer[Player]): Unit = {
+		this.phases = phases
+		this.players = players
 		for(phase <- phases){
 			listenTo(phase);
 			reactions += {
@@ -26,10 +23,35 @@ object Game extends Reactor {
 				case PhaseFinished() => println("Phase Finished");
 			}
 		}
+	}
+	
+	def currentPlayer(): Player = {
+		players(currentPlayerIndex)
+	}
+	
+	def newGame(): Unit = {
+		currentPhase = 0;
+		currentPlayerIndex = 0;
+		for(player <- players){
+			player.reset();
+		}
+		
 		startGame();
 	}
 	
 	def startGame(): Unit = {
 		
+	}
+	
+	def playRound(): Unit = {
+		for(phase <- phases){
+			phase.start
+			if(phase.actionsAvailable){
+				val actions = phase.getAvailableActions
+				if(actions.size == 1){
+					actions(0).execute
+				}
+			}
+		}
 	}
 }

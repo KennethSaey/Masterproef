@@ -10,3 +10,7 @@ Hassan Chafi, Stanford, Zach DeVito, Stanford, Adriaan Moors, Tiark Rompf, Arvin
 		http://infoscience.epfl.ch/record/150346/files/onl0000031-chafi.pdf
 Gilles Dubochet, On Embedding Domain-specific Languages with User-friendly Syntax, EPFL, Proceedings of the 1st ECOOP Workshop on Domain-Specific Program Development, pp. 19–22, Nantes (July 2006)
 		http://infoscience.epfl.ch/record/85862/files/dubochet2006zytyg.pdf
+		
+T. Neward, The busy Java developer's guide to Scala: Building a calculator, http://www.ibm.com/developerworks/java/library/j-scala08268/index.html, 26 Aug 2008
+Part 2: http://www.ibm.com/developerworks/java/library/j-scala10248/index.html
+Part 3: http://www.ibm.com/developerworks/java/library/j-scala11218/index.html

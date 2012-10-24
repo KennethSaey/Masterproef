@@ -1,5 +1,6 @@
 package masterproef.game.action
 
-class GameAction {
+abstract class GameAction {
 
+	def execute(): Unit;
 }

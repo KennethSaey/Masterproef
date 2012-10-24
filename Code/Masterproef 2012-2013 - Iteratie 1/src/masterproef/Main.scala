@@ -7,6 +7,13 @@ import scala.swing.BoxPanel
 import scala.swing.Orientation
 import scala.swing.event.ButtonClicked
 import java.awt.Dimension
+import masterproef.game.Game
+import masterproef.game.phase.Phase
+import scala.collection.mutable.ArrayBuffer
+import masterproef.game.phase.PlayCardPhase
+import masterproef.game.phase.DrawCardPhase
+import masterproef.game.phase.PreparationPhase
+import masterproef.game.phase.AttackPhase
 
 object Main extends SimpleSwingApplication {
 
@@ -56,6 +63,19 @@ object Main extends SimpleSwingApplication {
       case ButtonClicked(newGameItem) =>
         println("Listener");
     }
+    
+    val phases: ArrayBuffer[Phase] = new ArrayBuffer();
+    phases += new DrawCardPhase
+    phases += new PlayCardPhase
+    phases += new PreparationPhase
+    phases += new AttackPhase
+    
+    val players: ArrayBuffer[Player] = new ArrayBuffer();
+    players += new Player("Me")
+    players += new Player("Opponent") 
+    
+    Game.init(phases, players)
+    
     
   }
 }
