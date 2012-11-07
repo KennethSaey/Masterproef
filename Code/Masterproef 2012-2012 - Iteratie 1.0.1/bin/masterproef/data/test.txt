@@ -1,0 +1,4 @@
+required UselessPhase ended by one EndPhaseAction
+required DrawCardPhase consisting of one required DrawCardAction ended by one EndPhaseAction
+optional PlayCardPhase consisting of one or more optional PlayCardAction ended by one EndPhaseAction
+optional AttackPhase consisting of one required DeclareAttackPhase followed by one required DeclareDefencePhase followed by one required AttackPhase ended by one EndPhaseAction
