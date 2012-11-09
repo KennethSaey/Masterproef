@@ -40,6 +40,8 @@ class CreatureCard(name: String, defaultDamage: Int, defaultHealth: Int, var abi
 			false
 		} else if (hasAbility("Flying")) {
 			creature.hasAbility("Flying") || creature.hasAbility("Reach")
+		} else if (hasAbility("Shadow")) {
+			creature.hasAbility("Shadow")
 		} else {
 			true
 		}

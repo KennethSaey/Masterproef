@@ -2,9 +2,9 @@ Blood Seeker, 1, 1
 Bloodlord of Vaasgoth, 3, 3, Flying
 Bloodrage Vampire, 3, 1
 Cemetery Reaper, 2, 2
-Child of Night, 2, 1
+Child of Night, 2, 1, Shadow
 Devouring Swarm, 2, 1, Flying
-Drifting Shade, 1, 1, Flying
+Drifting Shade, 1, 1, Shadow
 Duskhunter Bat, 4, 2, Flying, Trample
 Grave Titan, 6, 6, Reach
 Gravedigger, 2, 2
