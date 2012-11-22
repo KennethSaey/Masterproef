@@ -27,12 +27,6 @@ import scala.swing.Action
 import scala.swing.event.Key
 import masterproef.phases.PlayCardPhase
 import javax.swing.UIManager
-import masterproef.views.CardView
-import scala.swing.FlowPanel
-import masterproef.views.CreatureCardView
-import masterproef.cards.CreatureCard
-import masterproef.views.CardView2
-import masterproef.views.CreatureCardView2
 
 /**
  * 22 november 14:00 volgende afspraak
@@ -58,13 +52,8 @@ object Main extends SimpleSwingApplication {
 		gameMenu.mnemonic = Key.G;
 
 		val newGameItem = new MenuItem(Action("New Game") {
-//			game()
-			val allCards = cards
-			allCards.shuffle
-			contents = new FlowPanel() {
-				contents += new CreatureCardView2(allCards(0).asInstanceOf[CreatureCard])
-//				contents += new CreatureCardView(allCards(0).asInstanceOf[CreatureCard])
-			}
+			game()
+//			println(Game.getPhases("PlayCardPhase"))
 		});
 
 		val exitItem = new MenuItem(Action("Exit") {

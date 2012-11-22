@@ -1,7 +1,7 @@
 Blood Seeker, 1, 1
 Bloodlord of Vaasgoth, 3, 3, Flying
 Bloodrage Vampire, 3, 1
-Cemetery Reaper, 2, 2
+Cemetary Reaper, 2, 2
 Child of Night, 2, 1, Shadow
 Devouring Swarm, 2, 1, Flying
 Drifting Shade, 1, 1, Shadow
@@ -14,7 +14,7 @@ Royal Assassin, 1, 1
 Rune-Scarred Demon, 6, 6
 Sengir Vampire, 4, 4
 Sutured Ghoul, 3, 3, Trample
-Tourmented Soul, 1, 1, Unblockable
+Tormented Soul, 1, 1, Unblockable
 Vampire Outcasts, 2, 2
 Vengeful Pharaoh, 5, 4
 Warpath Ghoul, 3, 2
