@@ -1,0 +1,108 @@
+package masterproef
+
+import scala.swing.Action
+import scala.swing.FlowPanel
+import scala.swing.Label
+import scala.swing.MainFrame
+import scala.swing.Menu
+import scala.swing.MenuBar
+import scala.swing.MenuItem
+import scala.swing.SimpleSwingApplication
+import scala.swing.event.Key
+import masterproef.views.Gameboard
+import scala.swing.BorderPanel
+import java.awt.BorderLayout
+import masterproef.views.Gameboard
+
+object Main extends SimpleSwingApplication {
+
+	var gameOutput: Label = new Label("");
+	var gameText: String = "";
+
+	def top = new MainFrame {
+		title = "Masterproef (c) 2012-2013 Kenneth Saey"
+		maximize
+		centerOnScreen
+		menuBar = new MenuBar;
+
+		val gameMenu = new Menu("Game");
+		gameMenu.mnemonic = Key.G;
+
+		val newGameItem = new MenuItem(Action("New Game") {
+//			contents = new BorderPanel() {
+//				add(new FlowPanel(){
+//					contents += new Gameboard
+//				}, BorderPanel.Position.South)
+//			}
+			contents = new BorderPanel() {
+				add(new Gameboard(this), BorderPanel.Position.South)
+			}
+			maximize
+		});
+
+		val exitItem = new MenuItem(Action("Exit") {
+			dispose();
+			System.exit(0);
+		});
+		exitItem.mnemonic = Key.X;
+
+		gameMenu.contents += newGameItem;
+		gameMenu.contents += exitItem;
+		menuBar.contents += gameMenu;
+	}
+
+//	def game(): Unit = {
+//		Game.reset
+//		var allCards = cards
+//		println("Read all cards...")
+//		allCards.shuffle
+//		val cardCount = allCards.size
+//		val me = new Player("Kenneth", 5)
+//		me.addToDeck(allCards.draw(cardCount/2))
+//		println("Created player " + me)
+//		val opponent = new Player("Lord of the Sith", 5)
+//		opponent.addToDeck(allCards)
+//		println("Created player " + opponent)
+//		Game.addPlayer(me)
+//		println("Added " + me + " to the game")
+//		Game.addPlayer(opponent)
+//		println("Added " + opponent + " to the game")
+//		Game.start()
+//	}
+
+//	def cards(): Deck = {
+//		val cards = new Deck
+//		for (line <- Source.fromFile("src/masterproef/data/cards.txt").getLines) {
+//			val card = CardParser.parse(line).get
+//			cards += card.copy
+//			cards += card.copy
+//			cards += card.copy
+//			cards += card.copy
+//		}
+//		cards
+//	}
+
+//	def addLine(text: String): Unit = {
+////		println("Adding line: " + text);
+//		gameText += "<br>" + text
+//		gameOutput.text = "<html>" + gameText + "</html>"
+//	}
+
+//	def clear(): Unit = {
+//		gameText = ""
+//		gameOutput.text = ""
+//	}
+
+//	def getUserInput(player: Player, message: String, cancelText: String): String = {
+//		val input = Dialog.showInput(null, message, player.name + ", what should we do?", Message.Question, Swing.EmptyIcon, Nil, cancelText)
+//		clear
+//		input match {
+//			case Some("exit") => {
+//				System.exit(0)
+//				null
+//			}
+//			case Some(input) => input
+//			case None => cancelText
+//		}
+//	}
+}
