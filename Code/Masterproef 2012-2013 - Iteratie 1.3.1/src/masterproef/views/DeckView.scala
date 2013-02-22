@@ -1,21 +1,35 @@
 package masterproef.views
 
-import scala.swing.Component
-import java.awt.Graphics2D
 import java.awt.Color
 import java.awt.Dimension
-import java.awt.Shape
-import java.awt.Font
+import java.awt.Graphics2D
 
-class DeckView(cardCount: Int = 10) extends Component {
+import scala.swing.Component
+import scala.swing.Reactor
+import scala.swing.event.Event
+import scala.swing.event.MouseReleased
+
+class DeckView(gameboard: Gameboard, var cardCount: Int = 10) extends Component with Reactor {
 
 	var cardWidth: Int = 150
 	var cardHeight: Int = 210
 	var borderRadius: Int = 20
-	opaque = true
+
+	listenTo(mouse.clicks);
+	val released: PartialFunction[Event, Unit] = {
+		case e: MouseReleased => {
+			if (cardCount > 0) {
+				cardCount -= 1
+				repaint
+				gameboard.hand.cardCount += 1
+				gameboard.hand.selectedIndex = gameboard.hand.cardCount
+				gameboard.hand.repaint
+			}
+		}
+	}
+	reactions += released
 
 	override def paintComponent(g: Graphics2D) {
-//		println("DeckView.paintComponent")
 		preferredSize = new Dimension(cardWidth + 20, cardHeight + 20)
 		for (level <- (0 to scala.math.min(9, cardCount - 1)).reverse) {
 			paintCard(g, level)
@@ -23,7 +37,7 @@ class DeckView(cardCount: Int = 10) extends Component {
 	}
 
 	def paintCard(g: Graphics2D, level: Int): Unit = {
-		val offset = 19 - 2 * (cardCount - level)
+		val offset = 19 - 2 * (scala.math.min(10, cardCount) - level)
 		g.setColor(Color.WHITE)
 		g.fillRoundRect(offset + 1, offset + 1, cardWidth, cardHeight, borderRadius, borderRadius)
 		g.setColor(Color.BLACK)

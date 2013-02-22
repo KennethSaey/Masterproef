@@ -13,6 +13,7 @@ import masterproef.views.Gameboard
 import scala.swing.BorderPanel
 import java.awt.BorderLayout
 import masterproef.views.Gameboard
+import java.awt.Dimension
 
 object Main extends SimpleSwingApplication {
 
@@ -24,18 +25,16 @@ object Main extends SimpleSwingApplication {
 		maximize
 		centerOnScreen
 		menuBar = new MenuBar;
+		minimumSize = new Dimension(1200, 800)
 
 		val gameMenu = new Menu("Game");
 		gameMenu.mnemonic = Key.G;
 
-		val newGameItem = new MenuItem(Action("New Game") {
-//			contents = new BorderPanel() {
-//				add(new FlowPanel(){
-//					contents += new Gameboard
-//				}, BorderPanel.Position.South)
-//			}
+		val newGameItem = new MenuItem(Action("New Game") { 
+			var gameboard: Gameboard = null
 			contents = new BorderPanel() {
-				add(new Gameboard(this), BorderPanel.Position.South)
+				gameboard = new Gameboard(this)
+				add(gameboard, BorderPanel.Position.South)
 			}
 			maximize
 		});

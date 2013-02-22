@@ -10,8 +10,10 @@ import scala.swing.event.MouseWheelMoved
 import scala.swing.event.MouseExited
 import scala.swing.Panel
 import java.awt.Dimension
+import scala.swing.event.MouseClicked
+import scala.swing.event.MouseReleased
 
-class HandView(cardCount: Int = 10) extends Component with Reactor {
+class HandView(gameboard: Gameboard, var cardCount: Int = 10) extends Component with Reactor {
 
 	var selectedIndex = cardCount
 	var cardWidth: Int = 150
@@ -19,12 +21,12 @@ class HandView(cardCount: Int = 10) extends Component with Reactor {
 	var borderRadius: Int = 20
 	listenTo(mouse.moves)
 	listenTo(mouse.wheel)
+	listenTo(mouse.clicks)
 	var zoom = false
 	preferredSize = new Dimension(cardWidth / 2 * (cardCount + 2) + 1, cardHeight + 1)
 	reactions += {
 		case MouseMoved(source, point, modifiers) => {
 			val hoverIndex = cardHoverIndex(point.x)
-			//			println(point.x + " => " + hoverIndex + "(actual index = " + selectedIndex + ")")
 			if (hoverIndex != selectedIndex) {
 				selectedIndex = scala.math.max(-1, scala.math.min(hoverIndex, cardCount + 1))
 				repaint
@@ -32,11 +34,14 @@ class HandView(cardCount: Int = 10) extends Component with Reactor {
 		}
 		case MouseWheelMoved(source, point, modifiers, rotation) => {
 			if (rotation < 0) {
-//				deafTo(mouse.moves)
-				zoom = true
-				preferredSize = new Dimension(preferredSize.width, cardHeight * 3 + 1)
+				//				deafTo(mouse.moves)
+				val hooverIndex = cardHoverIndex(point.x) 
+				if (hooverIndex < cardCount && hooverIndex >= 0) {
+					zoom = true
+					preferredSize = new Dimension(preferredSize.width, cardHeight * 3 + 1)
+				}
 			} else {
-//				listenTo(mouse.moves)
+				//				listenTo(mouse.moves)
 				zoom = false
 				preferredSize = new Dimension(preferredSize.width, cardHeight + 1)
 				val hoverIndex = cardHoverIndex(point.x)
@@ -50,6 +55,17 @@ class HandView(cardCount: Int = 10) extends Component with Reactor {
 		case MouseExited(source, point, modifiers) => {
 			selectedIndex = cardCount
 			repaint
+		}
+		case MouseReleased(source, point, modifiers, clicks, triggersPopup) => {
+			if (point.y >= 0 && point.y <= cardHeight) {
+				val hoverIndex = cardHoverIndex(point.x)
+				if (hoverIndex >= 0 && hoverIndex < cardCount) {
+					cardCount -= 1
+					repaint
+					gameboard.battlefield.cardCount += 1
+					gameboard.battlefield.repaint
+				}
+			}
 		}
 	}
 
@@ -97,7 +113,6 @@ class HandView(cardCount: Int = 10) extends Component with Reactor {
 	}
 
 	def paintZoomedCard(g: Graphics2D) {
-		println("Painting zoomed card")
 		val offsetX = (selectedIndex + 1) * cardWidth / 2 - cardWidth / 4
 		g.setColor(Color.WHITE)
 		g.fillRoundRect(offsetX, 1, cardWidth * 3 + 2, cardHeight * 3, borderRadius * 3, borderRadius * 3)

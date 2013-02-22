@@ -1,12 +1,26 @@
 package masterproef.views
 
-import java.awt.Graphics2D
 import java.awt.Color
+import java.awt.Graphics2D
+import scala.swing.event.MouseReleased
 
-class GraveyardView(cardCount: Int = 10) extends DeckView {
+class GraveyardView(gameboard: Gameboard, _cardCount: Int = 10) extends DeckView(gameboard, _cardCount) {
+
+	reactions -= released
+	reactions += {
+		case e: MouseReleased => {
+			if (cardCount > 0) {
+				val cc = cardCount
+				cardCount = 0
+				repaint
+				gameboard.deck.cardCount += cc
+				gameboard.deck.repaint
+			}
+		}
+	}
 
 	override def paintCard(g: Graphics2D, level: Int): Unit = {
-		val offsetX = 2 * (cardCount - level)
+		val offsetX = 2 * (scala.math.min(10, cardCount) - level - 1)
 		val offsetY = 19 - offsetX
 		g.setColor(Color.WHITE)
 		g.fillRoundRect(offsetX, offsetY + 1, cardWidth, cardHeight, borderRadius, borderRadius)
