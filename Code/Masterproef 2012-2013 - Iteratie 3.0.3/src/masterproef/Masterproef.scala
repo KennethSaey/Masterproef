@@ -1,24 +1,19 @@
 package masterproef
 
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
-import java.util.Properties
+import java.util.prefs.Preferences
 import org.newdawn.slick.AppGameContainer
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.state.StateBasedGame
-import masterproef.gamestates.MainMenuState
-import masterproef.gamestates.SettingsState
-import masterproef.gamestates.DrawCardState
-import scala.collection.mutable.HashMap
-import scala.collection.mutable.ArrayBuffer
-import masterproef.gamestates.GameOverState
-import java.util.prefs.Preferences
-import masterproef.gamestates.PlayCardState
+import masterproef.counters.PoisonCounter
+import masterproef.gamestates.AttackState
 import masterproef.gamestates.DeclareAttackState
 import masterproef.gamestates.DeclareBlockState
-import masterproef.gamestates.AttackState
+import masterproef.gamestates.DrawCardState
+import masterproef.gamestates.GameOverState
+import masterproef.gamestates.MainMenuState
+import masterproef.gamestates.PlayCardState
+import masterproef.gamestates.SettingsState
+import masterproef.counters.Counters
 
 object Masterproef {
 	val MENU_ID: Int = 0
@@ -30,9 +25,11 @@ object Masterproef {
 	val DECLARE_BLOCK_ID = 6
 	val ATTACK_ID = 7
 	val GAME_OVER_ID = 8
+	
+	var masterproef: Masterproef = null
 
 	def main(args: Array[String]) {
-		val masterproef = new Masterproef
+		masterproef = new Masterproef
 		val app = new AppGameContainer(masterproef)
 		app.setDisplayMode(1600, 1000, false)
 		app.setTargetFrameRate(60)
@@ -41,6 +38,8 @@ object Masterproef {
 		masterproef.doCleanup()
 		System.exit(0)
 	}
+	
+	def model = masterproef.model
 }
 
 class Masterproef extends StateBasedGame("Masterproef 2012-2013 (c) Kenneth Saey") {

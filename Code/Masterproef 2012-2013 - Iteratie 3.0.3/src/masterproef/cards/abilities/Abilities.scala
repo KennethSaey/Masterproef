@@ -23,4 +23,11 @@ object Abilities {
 	val Bushido: Int => Creature => BushidoCreature = x => c => new BushidoCreature(c, x)
 	val Frenzy: Int => Creature => FrenzyCreature = x => c => new FrenzyCreature(c, x)
 	val Rampage: Int => Creature => RampageCreature = x => c => new RampageCreature(c, x)
+	val Battlecry: Creature => BattlecryCreature = c => new BattlecryCreature(c)
+	val Flanking: Creature => FlankingCreature = c => new FlankingCreature(c)
+	val Persist: Creature => PersistCreature = c => new PersistCreature(c)
+	val Poisonous: Int => Creature => PoisonousCreature = x => c => new PoisonousCreature(c, x)
+	val Vanishing: Int => Creature => VanishingCreature = x => c => new VanishingCreature(c, x)
+	val Wither: Creature => WitherCreature = c => new WitherCreature(c)
+	val Amplify: Creature => AmplifyCreature = c => new AmplifyCreature(c)
 }

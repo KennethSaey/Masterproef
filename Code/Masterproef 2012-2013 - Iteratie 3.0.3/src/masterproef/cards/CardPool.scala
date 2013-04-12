@@ -6,16 +6,17 @@ import masterproef.cards.abilities.Abilities._
 import RequirementImplicits._
 import RequirementsImplicits._
 import masterproef.cards.LandTypes._
+import masterproef.cards.abilities.BattlecryCreature
 
 object CardPool {
 
 	val creatures: Array[Creature] = Array(
-		new Creature called "Blood Seeker"
-			with_default_damage 1
-			with_default_health 1
-			requires 1 * Land & 1 * Swamp
-			has_ability Absorb(4)
-			has_ability Frenzy(4),
+//		new Creature called "Blood Seeker"
+//			with_default_damage 1
+//			with_default_health 1
+//			requires 1 * Land & 1 * Swamp
+//			has_ability Absorb(4)
+//			has_ability Frenzy(4),
 //			
 //		new Creature called "Bloodlord of Vaasgoth"
 //			with_default_damage 3
@@ -47,19 +48,15 @@ object CardPool {
 //			requires 1 * Land & 2 * Swamps
 //			has_ability Flying,
 //			
-//		new Creature called "Drifting Shade"
-//			with_default_damage 1
-//			with_default_health 1
-//			requires 3 * Lands & 1 * Swamp
-//			has_ability Flying
-//			has_ability Shadow,
+		new Creature called "Drifting Shade"
+			with_default_damage 1
+			with_default_health 1
+			requires 1 * Swamp,
 			
-//		new Creature called "Duskhunter Bat"
-//			with_default_damage 4
-//			with_default_health 2
-//			requires 1 * Land & 1 * Swamp
-//			has_ability Flying
-//			has_ability Trample,
+		new Creature called "Duskhunter Bat"
+			with_default_damage 5
+			with_default_health 5
+			requires 1 * Swamp,
 			
 //		new Creature called "Grave Titan"
 //			with_default_damage 6
@@ -71,15 +68,15 @@ object CardPool {
 //		new Creature called "Gravedigger"
 //			with_default_damage 2
 //			with_default_health 2
-//			requires 3 * Lands & 1 * Swamp
-//			has_ability Horsemanship,
-//			
-		new Creature called "Onyx Mage"
-			with_default_damage 2
-			with_default_health 8//1
-			requires 1 * Land & 1 * Swamp
-			has_ability Reach
-			has_ability Rampage(2),
+//			requires 1 * Swamp
+//			has_ability Flanking,
+////			
+//		new Creature called "Onyx Mage"
+//			with_default_damage 2
+//			with_default_health 8//1
+//			requires 1 * Land & 1 * Swamp
+//			has_ability Reach
+//			has_ability Rampage(2),
 //			
 //		new Creature called "Reassembling Skeleton"
 //			with_default_damage 1
@@ -135,8 +132,8 @@ object CardPool {
 		new Creature called "Zombie Goliath"
 			with_default_damage 4
 			with_default_health 4
-			requires 4 * Lands & 1 * Swamp
-			has_ability Reach
+			requires 1 * Swamp
+			has_ability Amplify
 	)
 	val lands: Array[Land] = Array(
 		/*new Forest called "Forest 01",
@@ -156,8 +153,8 @@ object CardPool {
 		new Plains called "Plains 03",
 		new Plains called "Plains 04",*/
 		new Swamp called "Swamp 01",
-		new Swamp called "Swamp 02",
-		new Swamp called "Swamp 03",
+//		new Swamp called "Swamp 02",
+//		new Swamp called "Swamp 03",
 		new Swamp called "Swamp 04"
 	)
 

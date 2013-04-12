@@ -2,10 +2,7 @@ package masterproef.cards.abilities
 
 import masterproef.cards.AbilityCreature
 import masterproef.cards.Creature
-import masterproef.cards.CounterImplicits._
-import masterproef.cards.CounterSetImplicits._
-import masterproef.cards.Counter
-import masterproef.cards.CounterSet
+import masterproef.counters.DamageHealthCounter
 
 class BushidoCreature(val parent: Creature, x: Int) extends AbilityCreature(parent) {
 	
@@ -16,7 +13,7 @@ class BushidoCreature(val parent: Creature, x: Int) extends AbilityCreature(pare
 	
 	override def takeDamageFrom(creature: Creature): Int = {
 		if(!bushidoUsed) {
-			counters += 1 * (x\x)
+			counters += new DamageHealthCounter(x, x)
 			bushidoUsed = true
 		}
 		parent.takeDamageFrom(creature)
@@ -24,7 +21,7 @@ class BushidoCreature(val parent: Creature, x: Int) extends AbilityCreature(pare
 
 	override def doDamageTo(creature: Creature): Int = {
 		if(!bushidoUsed) {
-			counters += 1 * (x\x)
+			counters += new DamageHealthCounter(x, x)
 			bushidoUsed = true
 		}
 		parent.doDamageTo(creature)
@@ -34,7 +31,7 @@ class BushidoCreature(val parent: Creature, x: Int) extends AbilityCreature(pare
 		println("endTurn of Bushido")
 		println("bushidoUsed = " + bushidoUsed)
 		if(bushidoUsed) {
-			counters -= 1 * (x\x)
+			counters -= new DamageHealthCounter(x, x)
 			bushidoUsed = false
 		}
 		parent.endTurn

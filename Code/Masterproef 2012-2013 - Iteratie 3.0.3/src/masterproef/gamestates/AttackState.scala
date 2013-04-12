@@ -27,15 +27,14 @@ class AttackState extends BasicPlayState with ComponentListener {
 					for (blocker <- model.blockers(attacker).map(_.asInstanceOf[Creature])) {
 						attacker.doDamageTo(blocker)
 						blocker.doDamageTo(attacker)
-						if (attacker.health == 0) {
+						if (attacker.health <= 0) {
 							model.player.kill(attacker)
 						}
-						if (blocker.health == 0) {
+						if (blocker.health <= 0) {
 							model.opponent.kill(blocker)
 						}
 					}
 				} else {
-					println("Attacking opponent")
 					// Attack the opponent
 					attacker.asInstanceOf[Creature].doDamageTo(model.opponent, attacker.asInstanceOf[Creature].damage)
 //					model.player.attack(model.opponent, attacker.asInstanceOf[Creature])

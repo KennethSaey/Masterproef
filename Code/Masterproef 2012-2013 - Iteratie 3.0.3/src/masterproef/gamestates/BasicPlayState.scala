@@ -239,8 +239,8 @@ abstract class BasicPlayState extends BasicGameState {
 	def renderPlayerNames(container: GameContainer, game: StateBasedGame, g: Graphics) {
 		g.setColor(Color.lightGray)
 		g.setFont(BasicPlayState.largerFont)
-		val playerString = model.player.name + " (" + model.player.health + ")"
-		val opponentString = model.opponent.name + " (" + model.opponent.health + ")"
+		val playerString = model.player.name + " (" + model.player.health + ")" + (if(model.player.counters.poison > 0) "[P" + model.player.counters.poison + "]" else "")
+		val opponentString = model.opponent.name + " (" + model.opponent.health + ")" + (if(model.opponent.counters.poison > 0) "[P" + model.opponent.counters.poison + "]" else "")
 		g.drawString(opponentString, 5, container.getHeight() / 2 - g.getFont().getHeight(opponentString) - 5)
 		g.drawString(playerString, 5, container.getHeight() / 2 + 5)
 		g.drawLine(0, container.getHeight() / 2, container.getWidth(), container.getHeight() / 2)

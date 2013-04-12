@@ -57,4 +57,9 @@ class GameModel(val game: Masterproef) {
 		newMessage = false
 		_message
 	}
+	
+	def gameOver(winner: Player) {
+		this.winner = winner
+		game.enterState(Masterproef.GAME_OVER_ID)
+	}
 }

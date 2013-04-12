@@ -3,8 +3,7 @@ package masterproef.cards.abilities
 import masterproef.cards.AbilityCreature
 import masterproef.cards.Creature
 import masterproef.players.Player
-import masterproef.cards.CounterImplicits._
-import masterproef.cards.CounterSetImplicits._
+import masterproef.counters.DamageHealthCounter
 
 class FrenzyCreature(val parent: Creature, x: Int) extends AbilityCreature(parent) {
 	
@@ -17,7 +16,7 @@ class FrenzyCreature(val parent: Creature, x: Int) extends AbilityCreature(paren
 		println("doDamageTo in Frenzy")
 		if(!frenzyUsed) {
 			println("Adding counter")
-			counters += 1 * (x\0)
+			counters += new DamageHealthCounter(x, 0)
 			frenzyUsed = true
 		}
 		parent.doDamageTo(player, this.damage)
@@ -25,7 +24,7 @@ class FrenzyCreature(val parent: Creature, x: Int) extends AbilityCreature(paren
 	
 	override def endTurn {
 		if(frenzyUsed) {
-			counters -= 1 * (x\0)
+			counters -= new DamageHealthCounter(x, 0)
 			frenzyUsed = false
 		}
 		parent.endTurn

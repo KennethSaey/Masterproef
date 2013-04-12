@@ -7,6 +7,7 @@ import org.newdawn.slick.gui.ComponentListener
 import org.newdawn.slick.Graphics
 import scala.collection.mutable.ArrayBuffer
 import masterproef.views.CardView
+import masterproef.counters.Counters
 
 class AbilityCreature(var creature: Creature) extends Creature {
 
@@ -124,6 +125,8 @@ class AbilityCreature(var creature: Creature) extends Creature {
 	override def takeDamageFrom(other: Creature): Int = creature.takeDamageFrom(other)
 	override def doDamageTo(other: Creature): Int = creature.doDamageTo(other)
 	override def doDamageTo(player: Player, damage: Int): Int = creature.doDamageTo(player, damage)
+	override def resetDamage = creature.resetDamage
+	override def resetHealth = creature.resetHealth
 	override def endTurn = creature.endTurn
 	override def startTurn = creature.startTurn
 

@@ -5,6 +5,8 @@ import masterproef.cards.Deck
 import masterproef.cards.Creature
 import org.newdawn.slick.Game
 import scala.xml.include.sax.Main
+import masterproef.counters.Counters
+import masterproef.Masterproef
 
 class Player(val name: String, var health: Int = 20) {
 
@@ -13,6 +15,8 @@ class Player(val name: String, var health: Int = 20) {
 	var battlefield: Deck = new Deck
 	var graveyard: Deck = new Deck
 	var exile: Deck = new Deck
+	
+	val counters: Counters = new Counters
 
 	def addToDeck(card: Card): Unit = {
 		card is_owned_by this
@@ -83,6 +87,7 @@ class Player(val name: String, var health: Int = 20) {
 		if (health <= 0) {
 //			Main.addLine(name + " died.")
 //			Game.end()
+			Masterproef.model.gameOver(Masterproef.model.player)
 		}
 	}
 	

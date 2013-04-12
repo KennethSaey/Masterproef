@@ -27,8 +27,9 @@ class CreatureView(card: Card, container: GUIContext, x: Int, y: Int, width: Int
 		g.setFont(CardView.largeFont)
 		g.setColor(Color.black)
 		val creature = card.asInstanceOf[Creature]
-//		val attributeString = creature.damage + creature.counters.damageString + "/" + creature.health + creature.counters.healthString
-		val attributeString = creature.damage + "/" + creature.health
+		val timeCounters = creature.counters.time
+		val timeCounterString = if(timeCounters != 0) " [T" + timeCounters + "]" else ""
+		val attributeString = creature.damage + "/" + creature.health + timeCounterString
 		g.drawString(attributeString, area.getX + 46, area.getY + 146)
 	}
 }

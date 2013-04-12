@@ -7,6 +7,7 @@ import masterproef.views.CreatureView
 import org.newdawn.slick.Image
 import masterproef.Masterproef
 import org.newdawn.slick.gui.GUIContext
+import masterproef.counters.Counters
 
 
 class Creature extends Card(CreatureView) {
@@ -90,7 +91,7 @@ class Creature extends Card(CreatureView) {
 	}
 	
 	def takeDamageFrom(creature: Creature): Int = {
-		val actualDamage = scala.math.min(_health, creature.damage)
+		val actualDamage = scala.math.min(health, creature.damage)
 		_health -= actualDamage
 		actualDamage
 	}
@@ -100,16 +101,20 @@ class Creature extends Card(CreatureView) {
 	}
 
 	def doDamageTo(player: Player, damage: Int): Int = {
-		println("Checking...")
-		println("player: " + player)
-		println("this: " + this)
-		println("damage: " + damage)
 		player takeDamageFrom (this, damage)
 		damage
 	}
 	
 	override def toString(): String = {
-		_name + "[" + _damage + "/" + _health + "]"
+		_name + "[" + damage + "/" + health + "]"
+	}
+	
+	def resetDamage {
+		damage = _defaultDamage
+	}
+	
+	def resetHealth {
+		health = _defaultHealth
 	}
 	
 	override def endTurn = {
@@ -117,10 +122,7 @@ class Creature extends Card(CreatureView) {
 	}
 	
 	override def startTurn = {
-		println("startTurn in Creature")
-		println(damage + "/" + health)
-		damage = _defaultDamage + counters.damage
-		health = _defaultHealth + counters.health
-		println(damage + "/" + health)
+		resetDamage
+		resetHealth
 	}
 }
