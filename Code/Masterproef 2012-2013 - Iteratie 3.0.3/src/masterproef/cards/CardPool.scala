@@ -7,9 +7,11 @@ import RequirementImplicits._
 import RequirementsImplicits._
 import masterproef.cards.LandTypes._
 import masterproef.cards.abilities.BattlecryCreature
+import CardImplicits._
+import CreatureImplicits._
 
 object CardPool {
-
+	
 	val creatures: Array[Creature] = Array(
 //		new Creature called "Blood Seeker"
 //			with_default_damage 1

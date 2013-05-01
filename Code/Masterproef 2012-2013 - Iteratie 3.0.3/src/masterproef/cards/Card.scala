@@ -10,6 +10,10 @@ import masterproef.views.CardView
 import masterproef.Masterproef
 import scala.collection.mutable.ArrayBuffer
 
+object CardImplicits {
+	implicit def String2Card(name: String): Card = new Card called name
+}
+
 class Card(r: Function6[Card, GUIContext, Int, Int, Int, Int, CardView] = CardView) {
 
 	var _rendererClass: Function6[Card, GUIContext, Int, Int, Int, Int, CardView] = r
