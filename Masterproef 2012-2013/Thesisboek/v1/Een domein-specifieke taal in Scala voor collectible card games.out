@@ -1,0 +1,21 @@
+\BOOKMARK [0][-]{chapter.1}{Inleiding}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Achtergrond en motivatie}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Collectible Card Games}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{Domein-specifieke talen}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.3}{Scala}{chapter.2}% 5
+\BOOKMARK [0][-]{chapter.3}{Ontwikkeling van een DSL}{}% 6
+\BOOKMARK [1][-]{section.3.1}{Kaarten}{chapter.3}% 7
+\BOOKMARK [1][-]{section.3.2}{Creatures}{chapter.3}% 8
+\BOOKMARK [2][-]{subsection.3.2.1}{Aanmaak van Creatures}{section.3.2}% 9
+\BOOKMARK [2][-]{subsection.3.2.2}{Het probleem met implicits}{section.3.2}% 10
+\BOOKMARK [1][-]{section.3.3}{Vaardigheden}{chapter.3}% 11
+\BOOKMARK [1][-]{section.3.4}{Vaardigheden met parameters}{chapter.3}% 12
+\BOOKMARK [0][-]{chapter.4}{Evaluatie}{}% 13
+\BOOKMARK [1][-]{section.4.1}{Creatures en vaardigheden}{chapter.4}% 14
+\BOOKMARK [1][-]{section.4.2}{Vaardigheden met parameters}{chapter.4}% 15
+\BOOKMARK [1][-]{section.4.3}{Vaardigheden samenstellen}{chapter.4}% 16
+\BOOKMARK [0][-]{chapter.5}{Gerelateerd werk}{}% 17
+\BOOKMARK [1][-]{section.5.1}{SandScape}{chapter.5}% 18
+\BOOKMARK [1][-]{section.5.2}{Forge}{chapter.5}% 19
+\BOOKMARK [0][-]{chapter.6}{Conclusie}{}% 20
+\BOOKMARK [0][-]{appendix*.4}{Bibliografie}{}% 21

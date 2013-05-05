@@ -1,0 +1,323 @@
+
+\chapter{De documentstructuur}
+
+Elk \latex document bestaat uit twee delen: een \begrip{preamble} en een \begrip{body}. In de \engels{preamble} komen verschillende opties die voor het hele document gelden. In de \engels{body} komt de eigenlijke tekst van het document. De \engels{preamble} begint bij het begin van het bestand en eindigt bij het \latex commando \lcommand{\\begin\{document\}}. Dit is ook het begin van de \engels{body}. De body eindigt met \lcommand{\\end\{document\}}. Een minimaal \latex bestand ziet er dus als volgt uit:\label{grenzen_body}
+\begin{llt}
+\documentclass{article}
+\begin{document}
+In theorie zijn theorie en praktijk gelijk, maar in praktijk zijn ze verschillend.
+\end{document}
+\end{llt}
+
+\section{Preamble}
+
+In de \engels{preamble} komen de verschillende instellingen die moeten gelden voor het hele document, de verschillende extra functionaliteiten die moeten toegevoegd worden aan het basis \latex pakket en eventueel zelfgemaakte commando's. 
+
+\subsection{Het documenttype}\label{documentclass} \index{book}\index{article} \index{report} \index{letter}
+
+Veel van de instellingen voor de opmaak zijn standaard voorgeprogrammeerd voor bepaalde types van documenten. Deze zijn: \engels{book} om een boek te schrijven, \engels{article} om een artikel te schrijven, \engels{report} om een rapport te schrijven en \engels{letter} om een brief te schrijven. Dit is de zogenaamde \engels{documentclass}. Hierbij kunnen ook opties meegegeven worden. Belangrijke opties zijn de grootte van het letters, het papierformaat en of er later dubbelzijdig of enkelzijdig zal afgeprint worden. Voor dit document werd de volgende \engels{documentclass} declaratie gebruikt:
+\begin{llt}
+\documentclass[11pt,a4paper,oneside]{book}
+\end{llt}
+Tussen vierkante haakjes worden de opties meegegeven en tussen accolades komt de \engels{documentclass}. Dingen die ingegeven worden tussen vierkante haakjes, zijn nooit verplicht. Indien hier geen opties worden meegegeven, dus \lcommand{\\documentclass\{book\}}, worden letters van 10 punten groot gebruikt en gaat \latex ervan uit dat het boek dubbelzijdig wordt afgeprint.
+\npar
+Het leuke aan \latex is dat die \lcommand{11pt} ervoor zorgt dat niet alleen de tekst in de juiste grootte wordt geplaatst, maar dat ook de titels evenredig worden aangepast. De mogelijke keuzes zijn 10pt, 11pt en 12pt. \latex kiest standaard altijd voor 10pt. Maar voor een thesis is het aan te raden om 11pt te gebruiken. Dit is iets groter dan de 11pt van die andere populaire tekstverwerker.
+\npar
+De optie \lcommand{a4paper} zorgt ervoor dat de grootte van de gegenereerde bladzijden A4 is. En de optie \lcommand{oneside}, tenslotte, geeft aan dat het boek enkelzijdig afgeprint zal worden. Dit is verplicht voor thesissen.
+\npar
+Daarnaast kunnen er nog meer opties meegegeven worden. Ze worden hier kort overlopen, maar zijn normaalgezien niet nodig voor het schrijven van een thesis:
+\begin{itemize}
+\item \lcommandx{onecolumn}, \lcommandx{twocolumn}: om één of twee kolommen tekst te hebben.
+\item \lcommandx{oneside}, \lcommandx{twoside}: enkelzijdig of dubbelzijdig afdrukken.
+\item \lcommandx{openright}, \lcommandx{openany}: bij een boek begint een nieuw hoofdstuk normaalgezien op een rechter, oneven bladzijde. Indien nodig wordt een witte bladzijde ingevoegd. Met \lcommand{openany} kan ervoor gezorgd worden dat hoofdstukken gewoon beginnen op de volgende bladzijde. Deze optie heeft natuurlijk alleen zin als ook de optie \lcommand{twoside} wordt meegegeven.
+\item \lcommandx{leqno}: zorgt ervoor dat wiskundige formulenummers links worden geplaatst in plaats van rechts.
+\item \lcommandx{fleqn}: wiskundige formules worden links geplaatst in plaats van gecentreerd.
+\item \lcommandx{draft}: als \latex niet op tijd een nieuwe lijn begint (en dus in de rechtermarge schrijft), wordt dit sterk in de verf gezet met een dikke zwarte markering, zodat het goed wordt opgemerkt bij het herlezen en er nog iets kan aan gedaan worden. Die optie moet natuurlijk verwijderd worden bij het finaal processen van het document.
+\end{itemize}
+
+\subsection{Extra functionaliteiten}
+
+Extra functionaliteiten kunnen aan \latex toegevoegd worden met behulp van zogenaamde pakketten (\engels{packages}). Dit gebeurt door in de \engels{preamble} dat pakket op de roepen met de volgende syntax:
+\begin{llt}
+\usepackage[opties]{package_naam}
+\end{llt}
+Interessante basispakketten voor de thesis zijn:
+\begin{llt}
+\usepackage{a4wide}                     % Iets meer tekst op een bladzijde
+\usepackage[dutch]{babel}               % Voor nederlandstalige hyphenatie
+\usepackage{amsmath}                    % Uitgebreide wiskundige mogelijkheden
+\usepackage{url}                        % Om url's te verwerken
+\usepackage{graphicx}                   % Om figuren te kunnen verwerken
+\usepackage[latin1]{inputenc}           % Om niet ascii karakters te kunnen typen
+\usepackage[small,bf,hang]{caption}     % Om de captions wat te verbeteren
+\end{llt}
+\begin{description}
+\item[a4wide]\index{a4wide}: Om meer tekst op een A4 blad te krijgen.
+\item[babel]\index{babel}: Zorgt voor de juiste taal in het document. De optie \lcommand{dutch} zorgt ervoor dat alles aangepast wordt aan de Nederlandse taal: de titels (``Hoofdstuk X'') en de hyphenatie of woordafbreking. \latex bepaalt zelf wanneer een woord afgebroken moet worden om een nieuwe lijn te beginnen.
+\item[amsmath]\index{amsmath}: Is een uitbreiding van \latex door de \engels{American Mathematical Society}. Heb je nodig als je een beetje formules in je thesis hebt.
+\item[url]\index{url}: Deze uitbreiding zorgt voor een mooie opmaak van webadressen en moet als volgt gebruikt worden: \lcommand{\\url\{http://zeus.ugent.be/\}} geeft \url{http://zeus.ugent.be/}.\label{accenten1}
+\item[graphicx]\index{graphix}: Is een belangrijk pakket om figuren te kunnen invoeren in je document.
+\item[inputenc]\index{inputenc}: De \latex compiler verstaat standaard alleen ascii tekst, dus geen accenten en zo. Accenten worden ingevoerd als volgt: \lcommand{\\"e\\`e\\'e\\^e} geeft \"e\`e\'e\^e. Dus je moet het gewenste accent ingeven via een gelijkaardig symbool gecombineerd met een backslash v\`o\`or dat symbool. Niet altijd zeer handig. Met het pakket \lcommand{inputenc} mag een geäccentueerd karakter in het bronbestand voorkomen. Dus \lcommand{\ë\è\é\ê} mag. De optie \lcommand{latin1} moet erbij om de lettercodering toe te kennen. Zet die optie er gewoon bij, het werkt.\index{accent}
+\item[caption]\footnote{Vroeger moest \lcommand{caption2} gebruikt worden omdat dat een verbetering was tegenover \lcommand{caption}. Maar tegenwoordig zijn die verbeteringen opgenomen in \lcommand{caption} en is \lcommand{caption2} verouderd.} \index{caption}: Dient om de verklarende tekst bij tabellen en figuren in een andere vorm te gieten. De verklarende tekst wordt iets kleiner weergegeven dan de lopende tekst (\lcommand{small}); de titel ``Tabel X:''\ wordt in het vet gezet (\lcommand{bf} van \engels{Bold Face}); en de verklarende tekst springt in ten opzichte van de linkermarge (\lcommand{hang}).
+\end{description}
+De uitleg over de verschillende opties hierboven is zeer summier. Elk pakket komt meestal met een eigen help-bestand dat ergens op je systeem staat. Het help-bestand voor babel, bijvoorbeeld, is 50 pagina's lang. De manier om dat bestand te vinden is door eens te zoeken naar \command{pakket-naam.dvi}, \command{pakket-naam.ps} of \command{pakket-naam.pdf}. 
+\npar
+De hierboven opgesomde pakketten zijn maar een kleine deelverzameling van alles wat er in een \latex systeem beschikbaar is. 
+In het vervolg van deze cursus zullen we nog enkele nieuwe pakketten zien voor meer gespecialiseerde dingen.
+
+\subsection{Documentinstellingen, zelfgedefinieerde commando's en omgevingen}
+
+\subsubsection{Documentinstellingen}
+
+Documentinstellingen worden ook in de \engels{preamble} meegegeven.
+Enkele voorbeelden, gebruikt voor dit document:
+\begin{llt}
+\setlength{\parindent}{0cm}            % Niet inspringen bij eerste lijn paragraaf
+\renewcommand{\baselinestretch}{1.2}   % De interlinie afstand wat vergroten.
+\end{llt}
+Voor de uitleg over \lcommand{\\parindent} wordt verwezen naar sectie \ref{paragraaf}. Door \lcommand{\\baselinestretch} een andere waarde te geven, kan de interlinie afstand veranderd worden. Dit document werd opgemaakt met baselinestretch gelijk aan 1.2.
+
+\subsubsection{Commando's}\label{commandos}
+
+Met bepaalde commando's kan de tekst waarop het commando betrekking heeft, gewijzigd worden. Wanneer je bijvoorbeeld \lcommand{\\emph\{E. coli\}} in je brontekst hebt staan, wordt dit in het finale document weergegeven als: \emph{E. coli} (\lcommand{emph} komt van \engels{emphasis},\index{emph@\lcommand{\\emph}} om tekst te benadrukken; dat benadrukken gebeurt meestal door de tekst cursief te zetten als de omliggende tekst niet cursief is en omgekeerd).
+\npar
+De kracht van \latex laat zich pas ten volle kennen, als je gebruik maakt van de mogelijkheid om zelf commando's te definiëren.\index{commando} Nieuwe commando's worden meestal in de \engels{preamble} gedefinieerd, maar kunnen ook in de \engels{body} aangemaakt worden. Het maken van nieuwe commando's gebeurt als volgt:
+\begin{llt}
+\newcommand{\kort}{laaaaang}
+\newcommand{\vet}[1]{\textbf{#1}}
+\newcommand{\wissel}[2]{#2 #1}
+\newcommand{\bier}[2][leeg]{\textit{#1} \textbf{#2}}
+\newcommand{\naam_commando}[aantal_args][standaardwaarde eerste arg]{wat het doet}
+\end{llt}
+\newcommand{\kort}{laaaaang}
+\newcommand{\vet}[1]{\textbf{#1}}
+\newcommand{\wissel}[2]{#2#1}
+\newcommand{\bier}[2][leeg]{\textit{#1} \textbf{#2}}
+Dus zoals te zien, kan \lcommand{\\newcommand}\index{newcommand@\lcommand{\\newcommand}} tot vier argumenten slikken. Het eerste argument is verplicht (vandaar de accolades) en bevat de naam van het nieuwe commando (vergeet de \engels{backslash} niet!). Het tweede argument is optioneel (vandaar de vierkante haken) en bevat het aantal argumenten dat verwacht wordt door het nieuwe commando. Wanneer dit niet wordt meegegeven, gaat \latex ervan uit dat het nieuwe commando nul argumenten verwacht. Het derde argument van \lcommand{\\newcommand} is ook optioneel en bevat een standaardwaarde voor het eerste argument van het nieuwe commando. In het vierde argument van \lcommand{\\newcommand} staat tenslotte wat het nieuwe commando juist moet doen. Zoals te zien is aan de accolades, is dit argument verplicht. Met \lcommand{#1}, \lcommand{#2}~\ldots\ kunnen de verschillende argumenten van het nieuwe commando afgeprint worden.
+\npar
+Het eerste voorbeeld schrijft \kort\ wanneer je \lcommand{\\kort} typt. Het tweede voorbeeld verwacht een extra argument en zet dat in het vet: \lcommand{\\vet\{bol\}} geeft \vet{bol}. Het derde voorbeeld wisselt de twee argumenten om: \lcommand{\\wissel\{sterk\}\{ijzer\}} geeft \wissel{sterk}{ijzer}. We zien dat de twee argumenten van \lcommand{\\wissel} tussen accolades staan. In het vierde voorbeeld wordt het eerste argument \engels{italic} gezet en het tweede wordt in het vet geplaatst. We kunnen echter het eerste argument laten vallen. Standaard wordt dan `leeg' afgeprint: \lcommand{\\bier\{vat\}} geeft \bier{vat}\ terwijl \lcommand{\\bier\[vol\]\{vat\}} \bier[vol]{vat}\ geeft. Merk op dat \lcommand{vol} tussen vierkante haakjes staat en niet meer tussen accolades: het is namelijk een optioneel argument.
+\npar
+Er blijft echter een probleem: als we \lcommand{\\kort en goed} schrijven krijgen we `\kort en goed'. De `en' plakt vast aan de \kort. Om die `en' los te weken moeten we een harde spatie gebruiken: \lcommand{\\kort\\ en goed}, wat dan het gewenste `\kort\ en goed' geeft. Maar elke keer die \engels{backslash} achter een commando, dat is vervelend. Een oplossing zou kunnen zijn om die harde spatie in het commando zelf te steken:
+\renewcommand{\kort}{laaaaang\ }
+\lcommand{\\newcommand\{\\kort\}\{laaaaang\\ \}}. Maar wat dan met een leesteken: \lcommand{\\kort?} geeft `\kort?' Geen goede oplossing dus.
+\npar
+Wat we eigenlijk wensen te bekomen, is dat \latex zelf uitzoekt wanneer er een spatie nodig is en wanneer niet. Er bestaat hiervoor een pakket, \lcommandx{xspace}, dat dat doet. Om het te gebruiken moet ergens in de \engels{preamble} de volgende lijn voorkomen:
+\begin{llt}
+\usepackage{xspace}         % Magische spaties na een commando
+\end{llt}
+Op het einde van elke commandodefinitie geven we het commando \lcommand{\\xspace} waardoor onze zelfgemaakte commando's werken zoals we intuïtief zouden verwachten. Het korte voorbeeld van hierboven aanpassen tot \lcommand{\\newcommand\{\\kort\}\{laaaaang\\xspace\}}
+\renewcommand{\kort}{laaaaang\xspace}  en \lcommand{\\kort en goed \\kort!} geeft nu `\kort en goed \kort!' 
+\npar
+Wanneer we een bestaand commando willen herdefiniëren, moeten we gebruik maken van \lcommand{\\renewcommand}. \index{renewcommand@\lcommand{\\renewcommand}}De syntax is volledig gelijk aan die van \lcommand{\\newcommand}.
+\begin{MinderBelangrijk}
+\npar
+Wanneer we niet weten of een commando al gedefinieerd is, kunnen we niet weten of we \lcommand{\\renewcommand} of \lcommand{\\newcommand} moeten gebruiken. We kunnen dan gebruik maken van \lcommand{\\providecommand} die dezelfde syntax heeft als \lcommand{\\newcommand}. \index{providecommand@\lcommand{\\providecommand}} Wanneer het commando al bestaat, wordt de nieuwe definitie niet doorgevoerd en wordt de oude definitie behouden. Het omgekeerde effect (de huidige definitie overschrijven met de nieuwe) wordt bereikt door eerst \lcommand{\\providecommand} op te roepen en dan --- we zijn namelijk zeker dat het commando nu bestaat, maar we weten niet of het niet een oude versie is, daar \lcommand{\\providecommand} de oude versie nooit overschrijft --- \lcommand{\\renewcommand}.
+
+\subsubsection{Omgevingen}
+
+Door ergens een \lcommand{\\begin\{omgeving\}} te geven, ga je in een bepaalde omgeving, waar een aantal dingen `aan' staan. Bijvoorbeeld \lcommand{\\begin\{equation\}} gaat in \engels{math mode}, zodat je formules kan invoeren (zie hoofdstuk \ref{math-mode}). Met \lcommand{\\end\{omgeving\}} ga je weer weg uit je omgeving. Het is mogelijk om zelf omgevingen te definiëren in de \engels{preamble}. Dit gebeurt met het commando:
+\begin{llt}
+\newenvironment{naam_omgeving}[aantal_arg][standaardwaarde eerste arg]{beginacties}{eindacties}
+\end{llt}
+Hierbij is \lcommand{naam_omgeving} de naam van de nieuwe omgeving, \lcommand{aantal_arg} en \lcommand{standaardwaarde} \lcommand{eerste} \lcommand{arg} hebben juist dezelfde betekenis als bij het maken van een commando, \lcommand{beginacties} zijn commando's die moeten uitgevoerd worden in het begin en \lcommand{eindacties} zijn commando's die moeten uitgevoerd worden wanneer je de omgeving afsluit. Ook hier is er een \lcommand{\\renewenvironment} commando beschikbaar.
+\npar
+In dit document zijn er stukken tekst die kleiner gezet zijn dan andere. Het zou moeten opvallen dat die delen minder belangrijk zijn om de basis van \latex onder de knie te krijgen. Dit kleiner krijgen wordt verkregen door de tekst in de volgende omgeving te zetten: 
+\begin{llt}
+\newenvironment{MinderBelangrijk}{\small}{}
+\end{llt}
+Deze omgeving wordt gestart met \lcommand{\\begin\{MinderBelangrijk\}}. Bij de start wordt het commando \lcommand{\\small}. Hierdoor is de daarop volgende tekst kleiner. Bij het afsluiten van de omgeving met \lcommand{\\end\{MinderBelangrijk\}} moet er niets extra gebeuren.
+\end{MinderBelangrijk}
+
+\section{Body}
+
+Zoals vermeld op bladzijde \pageref{grenzen_body}, begint de body met een \lcommand{\\begin\{document\}} en eindigt ze met een \lcommand{\\end\{document\}}. Het is hier dat de eigenlijke tekst van het document komt. Deze manier om een tekst te omsluiten (namelijk tussen een \lcommand{\\begin\{iets\}} en een \lcommand{\\end\{iets\}} zetten), noemt men de tekst in een \begrip{omgeving} zetten. Dus alle tekst wordt geplaatst in de omgeving `document'. Je kan dat zien als een soort 'open de haakjes, sluit de haakjes'.
+\npar
+Commando's werken niet met omgevingen, zij werken met accolades: \lcommand{\\textit\{gekrulde} \lcommand{haakjes\}} zorgt ervoor dat alleen `\textit{gekrulde haakjes}' cursief (\engels{italic}) staat.
+\npar
+Wanneer je een groot document schrijft, zoals een thesis, is het gebruikelijk om niet alle tekst in hetzelfde bestand te steken. De inhoud van een ander bestand kan in een \latex document ingelezen worden met het commando:\index{input@\lcommand{\\input}}\index{inlezen}
+\begin{llt}
+\input{thesis-hfdstk01}
+\end{llt}
+Hierbij is \bestand{thesis-hfdstk01.tex} het \bestand{tex}-bestand dat zal ingevoegd worden in het hoofddocument. Het effect van het \lcommand{\\input} commando is hetzelfde als wanneer de inhoud van \bestand{thesis-hfdstk01.tex} getypt zou worden op de plaats waar het commando gegeven wordt. Het commando mag op gelijk welke plaats in het document voorkomen. Ook in de \engels{preamble}. Het mag genest worden: een bestand dat via \lcommand{\\input} ingelezen wordt, mag op zijn beurt een \lcommand{\\input} commando bevatten. Bijvoorbeeld al je hoofdstukken in aparte bestanden en in de hoofdstukken worden tabellen ingelezen die op hun beurt in aparte bestanden zitten. Op die manier hou je overzicht over je document.
+\begin{MinderBelangrijk}
+\npar
+Extra bestanden kunnen ook ingevoerd worden met het commando \lcommand{\\include\{thesis-hfstk01\}}. Dit commando zorgt ervoor dat ieder ge\"includeerd bestand apart door de latexcompiler wordt gecompileerd. Met het commando \lcommand{\\includeonly\{bestand1, bestand2, bestand4\}} in de \engels{preamble} kan geselecteerd worden welke include-bestanden daadwerkelijk ingevoegd moeten worden. Includecommando's mogen niet genest worden. Best is om met \lcommand{\\input} te werken. 
+\end{MinderBelangrijk}
+
+\section{Bladspiegel}
+
+\subsection{Koptekst en voettekst}\index{koptekst} \index{voettekst}
+
+Het basisformaat van de bladzijden wordt bepaald door de documentclass. Dit kan echter gewijzigd worden met behulp van het commando \lcommand{\\pagestyle\{stijl\}}, waarbij \lcommand{stijl} één van de volgende woorden is:\index{pagestyle@\lcommand{\\pagestyle}}
+\begin{description}
+\item[plain]\index{plain} De koptekst is leeg, en de paginanummers staan gecentreerd onderaan. Dit is standaard bij \lcommand{article} en \lcommand{report}.
+\item[empty]\index{empty} Noch koptekst, noch voettekst. Er worden geen paginanummers afgedrukt.
+\item[headings]\index{headings} De koptekst bevat de titel van het lopende hoofdstuk, samen met het paginanummer. Dit is de standaard bij \lcommand{book}.
+\item[myheadings]\index{myheadings} Hetzelfde als \lcommand{headings} maar de titels in de koptekst moeten handmatig ingegeven worden met behulp van de commando's:
+\begin{llt}
+\markright{Koptekst} 
+\markboth{Koptekst van links}{Koptekst van rechts}
+\end{llt}
+Hierbij wordt \lcommand{\\markright} gebruikt voor enkelzijdige documenten, of dubbelzijdige documenten waarbij we alleen een koptekst rechts wensen. Om rechts en links een verschillende koptekst te krijgen in een dubbelzijdig document, wordt \lcommand{\\markboth} gebruikt. Deze kopteksten blijven behouden totdat ze weer veranderd worden ergens in het document.
+\end{description}
+Het commando \lcommand{\\pagestyle} wordt meestal geplaatst in de \engels{preamble} (als het al gegeven wordt). De commando's (\lcommand{\\markright} en \lcommand{\\markboth} worden natuurlijk gegeven daar waar de koptekst moet veranderen). Om ergens één pagina midden in het document te veranderen, kan gebruik gemaakt worden van \lcommand{\\thispagestyle\{stijl\}}, bijvoorbeeld als de bladzijdenummering even niet wenselijk is, kan \lcommand{\\thispagestyle\{empty\}} gegeven worden.
+\npar
+Voor een boek ziet de koptekst er standaard als volgt uit:
+\npar
+\textit{\MakeUppercase{\chaptername\ \thechapter. Een voorbeeld}} \hfill \thepage
+\npar
+Alles wordt dus in hoofdletters gezet. Dit is niet altijd zeer handig wanneer je iets langere titels hebt: zij kunnen niet op één lijn en overschrijden de rechterkantlijn. Hier kan echter aan verholpen worden met het pakket \begrip{fancyhdr}. Dit pakket laat toe om de kop- en voetteksten volledig te personaliseren (onder andere op elke bladzijde een iets ander beeldje in de kop, zodat wanneer je zeer snel bladert, je een soort filmpje krijgt). We gaan hier echter geen volledige beschrijving geven van \lcommand{fancyhdr}, daar dit pakket een zeer goed help-bestand bevat: \bestand{fancyhdr.dvi}\footnote{Op een Debian systeem: \bestand{/usr/share/doc/texmf/latex/fancyhdr/fancyhdr.dvi.gz}}. We geven juist mee wat er moet gebeuren om een koptekst te verkrijgen zoals in dit document.
+\npar
+Vooreerst wordt het pakket geladen door in de \engels{preamble} de volgende lijn te zetten:
+\begin{llt}
+\usepackage{fancyhdr}                            % Voor fancy headers en footers.
+\end{llt}
+Om het pakket nu effectief te gebruiken, wordt het volgende in de \engels{preamble} opgenomen:
+\begin{llt}
+\pagestyle{fancy}                                % De bladzijdestijl
+\fancyhf{}                                       % Resetten fancy settings.
+\renewcommand{\headrulewidth}{0pt}               % Geen lijn onder de header. 
+\fancyhf[HL]{\nouppercase{\textit{\leftmark}}}   % Links in header het hoofdstuk,
+\fancyhf[HR]{\thepage}                           % Rechts het paginanummer.
+\end{llt}
+\begin{MinderBelangrijk}
+Voor diegenen die er het fijne van willen weten: in \lcommand{\\leftmark} wordt de koptekst die op linkerpagina's moet komen, bewaard. In het geval van een boek is dit het lopende hoofdstuk. In \lcommand{\\rightmark} wordt de koptekst die op rechterpagina's moet komen, bewaard. Voor een boek, is dit de lopende \engels{section}. Wij drukken enkelzijdig af, en willen op elke bladzijde in de koptekst het lopende hoofdstuk. Zodus maken we geen gebruik van \lcommand{\\rightmark}.
+\npar
+Met \lcommand{\\fancyhead\[HL\]\{\\nouppercase\{\\textit\{leftmark\}\}\}} wordt de hoofdstuktitel effectief links (vandaar die \lcommand{L}) in de koptekst (vandaar die \lcommand{H}) gezet waarbij \lcommand{\\nouppercase} ervoor zorgt dat niet alles in hoofdletters staat. Met \lcommand{\\textit} wordt alles cursief gezet. In \lcommand{\\thepage} zit het paginanummer van de huidige pagina.
+\npar
+Sommigen hebben liever het paginanummer onderaan gecentreerd. Om dit te bereiken moet in het hiervoor gegeven voorbeeld \lcommand{\\fancyhf\[HR\]\{\\thepage\}} vervangen worden door \lcommand{\\fancyhf\[FC\]\{\\thepage\}} (\lcommand{FC} staat voor \engels{Footer} en geCentreerd).
+\end{MinderBelangrijk}
+
+\subsection{Bladzijdenummering}
+
+De declaratie die de paginanummeringsstijl bepaalt is:\index{pagenumbering}
+\begin{llt}
+\pagenumbering{num-stijl}
+\end{llt}
+Hierbij is num-stijl één van de volgende mogelijkheden:\index{arabic}\index{roman}\index{Roman}\index{alph}\index{Alph}
+\npar
+\begin{tabular}{rl}\label{bladzijdenummering}
+\lcommandx{arabic}   & Voor Arabische cijfers (standaard).       \\
+\lcommandx{roman}    & Voor Romeinse cijfers (kleine letters).   \\
+\lcommandx{Roman}     & Voor Romeinse cijfers (hoofdletters).     \\
+\lcommandx{alph}     & Voor letternummering (kleine letters).    \\
+\lcommandx{Alph}      & Voor letternummering (hoofdletters).      
+\end{tabular}
+\npar
+Wanneer dit commando wordt gegeven, wordt het tellen van pagina's opnieuw begonnen (je kunt dus niet zomaar veranderen midden in je document, de telling begint dan namelijk terug vanaf 1). Dit commando wordt daarom best gegeven in de \engels{preamble}.
+\npar
+De bladzijdenummering kan begonnen worden op een andere waarde dan 1 met behulp van het commando \lcommand{\\setcounter\{page\}\{n\}}, waarbij \lcommand{n} het gewenste begingetal is.
+
+\section{Onderverdeling van een document}
+
+\subsection{Structuur van een boek}
+
+Er zijn enkele simpele commando's om een goede boekstructuur te creëren (alleen in de documentclass \lcommand{book}):
+\begin{llt}
+\frontmatter
+Hier komen dingen zoals het voorwoord en de inhoudsopgave.
+\mainmatter
+Het grootste deel van het document komt hier.
+\backmatter
+Bibliografie, index... komen hier.
+\end{llt}
+Het \lcommand{\\frontmatter} commando zorgt voor Romeinse paginanummering en ongenummerde hoofdstukken. Met \lcommand{\\mainmatter} wordt de paginanummering terug op 1 gezet en Arabisch. De hoofstuknummering wordt geactiveerd. Deze hoofdstuknummering wordt weer gedesactiveerd met \lcommand{\\backmatter}. Het is gebruikelijk om appendices nog in de \lcommand{\\mainmatter} op te nemen (zie sectie \ref{appendix}). Sommige faculteiten hebben ook de (rare) gewoonte om de bibliografie vòòr de appendices te steken, dus ook in de \lcommand{\\mainmatter}, na het laatste hoofdstuk.
+
+\subsection{Titelpagina}\label{titel}
+
+Een titelpagina kan op twee manieren aangemaakt worden. Een eerste manier is manueel:
+\begin{llt}
+\begin{titlepage}
+Titel tekst.
+\end{titlepage}
+\end{llt}
+Deze manier werd gebruikt voor dit document. Het is de meest soepele manier, maar vraagt werk van de auteur om alles goed te zetten.\index{title}\index{author}\index{date}
+\npar
+We kunnen het werk echter ook door \latex laten doen. Dat gebeurt met de volgende commando's:
+\begin{llt}
+\title{Titel van ons werk}
+\author{auteur1\\Adres1 \and auteur2\\adres2}
+\date{29 Februari 1998}
+\maketitle
+\end{llt}
+Op de plaats waar we \lcommand{\\maketitle} geven, bouwt de \latex compiler de titelpagina op met behulp van de gegevens die te vinden zijn in \lcommand{\\title}, \lcommand{\\author} en \lcommand{\\date}. In \lcommand{\\title} steken we de titel van ons werk, in \lcommand{\\date} de datum. Indien het commando \lcommand{\\date} niet wordt gegeven, verschijnt de datum waarop het document gecompileerd werd. In \lcommand{\\author} komen de namen en adressen van de auteurs. De verschillende auteursgegevens worden gescheiden door een \lcommand{\\and} (vergeet de backslash niet). Een nieuwe lijn beginnen, gebeurt met \lcommand{\\\\} (zie sectie \ref{paragraaf}).
+
+\subsection{Inhoudsopgave}\index{inhoudsopgave}\label{inhoudsopgave}
+
+De inhoudsopgave wordt geplaatst waar het volgende commando wordt gegeven:
+\begin{llt}
+\tableofcontents
+\end{llt}
+De inhoudsopgave wordt normaalgezien geplaatst na de titel, het woord vooraf en de samenvatting. 
+Als je een inhoudstafel wenst in het begin van het document, kan \latex onmogelijk weten wat daarin moet staan voordat het hele document verwerkt is. Maar dan is het te laat om die inhoudsopgave te plaatsen. Tijdens het compileren schrijft \latex echter de verschillende lijnen die in de inhoudsopgave moeten komen, weg in een bestand met de extensie \bestand{toc}. Wanneer ergens in het document naar de inhoudsopgave gevraagd wordt, leest \latex die in vanuit het \bestand{toc}-bestand. Vandaar dat het voor de finale versie nodig is om je thesis drie keer door de compiler te jagen: de eerste keer wordt een inhoudsopgave in het toc bestand aangemaakt. Deze eerste inhoudsopgave is niet correct omdat de bladzijdenummering niet klopt (de inhoudsopgave neemt immers ook bladzijden in en die zijn nog niet verrekend). De tweede keer wordt die foute inhoudsopgave in het pdf document ingebracht. Tegelijkertijd wordt een juiste inhoudsopgave naar het \bestand{toc}-bestand weggeschreven. De derde keer wordt de juiste inhoudsopgave in het \bestand{pdf}-bestand ingebracht.
+\npar
+\begin{MinderBelangrijk}
+Om te bepalen wat er in de inhoudsopgave moet komen, kan het volgende commando in de \engels{preamble} geplaatst worden:
+\begin{llt}
+\setcounter{tocdepth}{sectie-diepte}
+\end{llt}
+Hierbij is `sectie-diepte' 0 om alleen de \engels{chapters} in de inhoudsopgave op te nemen, 1 om ook de \engels{sections} op te nemen, 2 voor de \engels{subsections}, en 3 voor de \engels{subsubsections}. Standaard is dit voor een boek gelijk aan 2.
+\npar
+Het is mogelijk om eigenhandig lijnen aan de inhoudsopgave toe te voegen, bijvoorbeeld wanneer de stervorm van de \engels{chapter}, \engels{section}~\ldots gebruikt wordt (deze zet namelijk niets in de inhoudsopgave):
+\begin{llt}
+\section*{Een niet genummerde sectie}
+\addcontentsline{toc}{section}{Een niet genummerde sectie}
+\end{llt}
+In de inhoudsopgave verschijnt dan de lijn `Een niet genummerde sectie' opgemaakt en geïndenteerd als een \engels{section}. Analoog kan dit met \engels{chapter} of \engels{subsection}
+\end{MinderBelangrijk}
+
+\subsection{Abstract}\index{abstract}
+
+In de documentklassen \engels{report} en \engels{article} is er een \begrip{abstract} omgeving voorzien. Hierin komt normaalgezien een samenvatting van de tekst. Voor een boek is die omgeving niet aanwezig. De samenvatting wordt als gewone tekst beschouwd, en moet dus in een gewoon hoofdstuk geplaatst worden. Bij een thesis is het gebruikelijk om de samenvatting en/of abstract in de \lcommand{\\frontmatter} te plaatsen.
+
+\subsection{Secties}
+
+De volgende commando's zijn beschikbaar om de grove structuur van een document aan te duiden:\index{part@\lcommand{\\part}} \index{chapter@\lcommand{\\chapter}} \index{hoofdstuk} \index{deel}
+\begin{center}
+\begin{tabular}{l}
+\lcommand{\\part}           \\
+\lcommand{\\chapter}        \\
+\lcommand{\\section}        \\
+\lcommand{\\subsection}     \\ 
+\lcommand{\\subsubsection}  \\
+\lcommand{\\paragraph}      \\
+\lcommand{\\subparagraph}
+\end{tabular}
+\end{center}
+Het zijn deze commando's (met uitzondering van \lcommand{\\part}) die de nummering voor de titels vormen. Met interne tellers houdt \latex de nummering van elke sectie bij. In de documentklassen \engels{book} en \engels{report}, is het hoogste onderverdeelniveau \lcommand{\\chapter}. De hoofdstukken worden onderverdeeld in \engels{sections} die op hun beurt weer onderverdeeld worden in \engels{subsection} en zo voort. In de documentklasse \engels{article} bestaan er geen hoofdstukken en begint de hiërarchie vanaf \lcommand{\\section}. In de praktijk wordt \lcommand{\\paragraph} en \lcommand{\\subparagraph} nooit gebruikt.
+\npar
+Wanneer een nieuwe \lcommand{\\chapter} wordt begonnen, worden de tellers voor alle secties eronder (\lcommand{\\section}, \lcommand{\\subsection}~\ldots) terug op één gezet. 
+\npar
+Het commando \lcommand{\\part} wordt gebruikt om het werk onder te verdelen. De hoofdstuknummering loopt echter door. Een gebruik hiervan in de thesis kan bijvoorbeeld zijn dat in het eerste deel de literatuurstudie komt, die bestaat uit drie hoofdstukken. Het tweede deel bevat materiaal en methoden (hoofdstuk vier tot vijf), het derde deel bevat de resultaten (hoofdstuk 6 tot 8) en het vierde deel de conclusies (hoofdstuk 9). Op die manier is het mogelijk om de grote delen van de thesis naar voor te laten komen, zonder een nummeringsniveau te verliezen. Het is namelijk zo dat voor de duidelijkheid van de structuur, het niet aangewezen is om meer dan drie nummeringsniveau's diep te gaan. Iets als `3.9.5.8.A.3.b Fase 3 van de extractie' is uit den boze. Geen lezer die nog kan volgen waar in de hiërarchie deze titel zich bevindt. Het is om die reden dat \lcommand{\\subsubsection}-titels in boeken nooit genummerd worden.
+\npar
+De syntax van al deze commando's is (we nemen hier als voorbeeld \lcommand{\\section}):\index{section@\lcommand{\\section}} \index{subsection@\lcommand{\\subsection}} \index{subsubsection@\lcommand{\\subsubsection}}
+\begin{llt}
+\section{Titel}
+\section[Korte titel]{Lange titel}
+\section*{Titel}
+\end{llt}
+Twee varianten dus. De eerste wordt gebruikt wanneer de titel een nummering krijgt en in de inhoudsopgave wordt opgenomen. Soms zijn titels te lang om op te nemen in de inhoudsopgave, of bovenaan de bladzijde (in de paginakoppen of \engels{headers}). De mogelijkheid bestaat dan om optioneel, tussen vierkante haakjes (niet verplichte parameters voor een commando worden eerst gegeven en tussen vierkante haakjes, in plaats van tussen accolades) een kortere titel te geven, die gebruikt wordt in de inhoudsopgave en in de paginakoppen.
+\npar
+Bij gebruik van de sterretjesvorm wordt er geen nummering getoond (noch aangepast, dus de interne teller van die sectie wordt niet verhoogd) en wordt er niets in de inhoudsopgave gezet.
+
+\subsection{Appendix}\index{appendix}\label{appendix}
+
+Het deel van het document dat appendices bevat, wordt aangezet door de declaratie \lcommand{\\appendix} te geven. Dit commando zorgt ervoor dat de teller van de hoofdstukken (of secties voor een \lcommand{article}) opnieuw op 1 wordt gezet. Verder wordt vanaf dan de hoofdstuknummering in letters weergegeven en wordt het woord `Hoofdstuk' vervangen door `Appendix'.
+
+\section{Refereren naar andere delen} \index{refereren} \index{label@\command{\\label}} \index{ref@\lcommand{\\ref}} \label{label-ref}
+
+Soms wensen we in onze tekst te verwijzen naar een ander hoofdstuk, tabel, bladzijde, vergelijking of figuur. Natuurlijk typen we deze getallen niet rechtstreeks in. We hebben tenslotte toch de computer die voor ons de administratie kan bijhouden.
+\npar
+Op de plaats waar we naar willen refereren, zetten we het commando:
+\begin{llt}
+\label{labeltje}
+\end{llt}
+Hierbij is \lcommand{labeltje} een sleutelwoord dat uit letters, cijfers, en leestekens (het verbindingsstreepje en de \engels{underscore} zijn ook toegelaten) bestaat. Om het even waar in het document kunnen we dan de commando's
+\begin{llt}
+\ref{labeltje}
+\pageref{labeltje}
+\end{llt}
+geven. Het eerste print de nummer van de tabel, sectie, hoofdstuk (afhankelijk van waar het \lcommand{\\label} commando gegeven werd) af, terwijl het tweede altijd de juiste bladzijde geeft.
+\npar
+Voor diegenen die de perfectie nastreven,\footnote{Maar weet dat het betere de vijand is van het goede.} is er het pakket \lcommand{varioref}. Hiermee is het mogelijk om iets intelligenter te refereren: als er gerefereerd wordt naar een label op dezelfde bladzijde of de vorige/volgende bladzijde, verschijnt er iets als ``op deze/de vorige/volgende bladzijde''. We gaan hier echter niet in detail op in. Meer uitleg is te vinden in \bestand{varioref.dvi}\footnote{Op Debian in \bestand{/usr/share/doc/texmf/latex/tools/varioref.dvi.gz}}. \index{varioref}
+

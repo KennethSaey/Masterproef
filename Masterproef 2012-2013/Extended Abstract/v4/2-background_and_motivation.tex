@@ -1,0 +1,31 @@
+\subsection{Collectible Card Games}
+\label{CCGs}
+Collectible card games are a type of card game for two or more players. A players cards reside in the players hand or on a gameboard. The gameboard is divided into different zones, all of which have a different effect on the cards they contain. Game rules define how cards change zones. Cards in the game can have a type, properties and abilities, all of which influence parts of the gameplay. CCGs are challenging from a software engineering point of view, since they contain many levels of modularity and many rules that make temporary changes to the general gameplay.
+
+A first level of modularity are the different zones on the (virtual) gameboard in which cards can reside. These typically do not change in between different version of a game, but not every CCG has the same gameboard areas. Gameboard areas have an effect on the actions that can be executed with the cards on them.
+
+Different types of cards provide a second level of modularity. It is not uncommon for new card types to be added to the game. Some card types are prerequisits for playing other cards, while others modify properties, or even gameplay. Especially when adding cards that modify properties and gameplay, it is important not having to change to much source code to implement those cards effects.
+
+A third level of modularity is that many cards have properties called \textit{abilities} (or the like). Abilities change gameplay in a non-intrusive way, meaning that the effect of the ability usually only lasts as long as the card with that ability is in play and that the effect is limited to the card itself. A good example would be the ability \textit{Flying}: Cards with this ability can only be blocked by card which also have that ability.
+
+The goal is to design a DSL which makes it easy enough for people with almost no programming experience to change any and all of these different levels of modularity. This allows not only for one game to be updated more frequently, but also for multiple CCGs to be developed on top of the same code base.
+\subsection{Domain Specific Languages}
+\label{DSLs}
+A Domain Specific Language is a programming language, specifically designed for solving problems in a well-defined, closed off, problem domain. It differs from a general-purpose language (GPL) in that a GPL should be able to solve problems in any given domain (of course with variable efficiency). There are three types of DSLs.
+
+The most commonly known type of DSLs are the stand-alone DSLs. As the name says, a stand-alone DSL is a programming language, which has a dedicated compiler or interpreter to execute the code. Examples of stand-alone DSLs are HTML, for defining the structure of web pages and SQL, for writting queries for SQL-databases.
+
+A second type of DSLs are embedded within other applications. Those DSLs cannot be used outside of the host application, and typically solve problems tightly bound to the host application. The functions that Excel provides for use inside spreadsheet cells are an example of an application embedded DSL.
+
+The third and final type of DSLs are the Embedded Domain Specific Languages or EDSLs. They are embedded inside a host language and are usually created by cleverly using method names and syntactic sugar provided by the host language. When the host language provides enough syntactic sugar, the EDSL will be able to look a lot like a natural language, which is a useful feature when new code has to be added quickly and often to existing source code by someone other than the author of the code.
+\subsection{Scala}
+\label{Scala}
+Scala is a programming language built on top of the Java Virtual Machine. Scala is object-oriented, but at the same time integrates many functional programming paradigms. Scala has two features which make it especially fit for designing a DSL that greatly resembles natural (English) language. The first is that Scala puts no restrictions on method names. A method with the name \textit{+} is not uncommon, and allows for defining (mathematical) operators on custom classes. Secondly, Scala contains a lot of syntactic sugar for leaving out punctuation. E.g.:
+\begin{verbatim}
+10.+(2)
+\end{verbatim}
+calls the method \textit{+} on the object \textit{10} with argument \textit{2}, but, thanks to syntactic sugar all punctuation can be left out so that
+\begin{verbatim}
+10 + 2
+\end{verbatim}
+is completely equivalent.

@@ -1,0 +1,30 @@
+\BOOKMARK [0][-]{chapter.1}{Inleiding}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Achtergrond en motivatie}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Collectible Card Games}{chapter.2}% 3
+\BOOKMARK [2][-]{subsection.2.1.1}{Spelzones}{section.2.1}% 4
+\BOOKMARK [2][-]{subsection.2.1.2}{Kaarttypes}{section.2.1}% 5
+\BOOKMARK [2][-]{subsection.2.1.3}{Vaardigheden}{section.2.1}% 6
+\BOOKMARK [2][-]{subsection.2.1.4}{DSL en modulariteit}{section.2.1}% 7
+\BOOKMARK [1][-]{section.2.2}{Domein-specifieke talen}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.3}{Scala}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.3.1}{Integratie met Java}{section.2.3}% 10
+\BOOKMARK [2][-]{subsection.2.3.2}{Scala is object-geori\353nteerd}{section.2.3}% 11
+\BOOKMARK [2][-]{subsection.2.3.3}{Scala is een functionele programmeertaal}{section.2.3}% 12
+\BOOKMARK [2][-]{subsection.2.3.4}{Scala is statisch getypeerd}{section.2.3}% 13
+\BOOKMARK [2][-]{subsection.2.3.5}{Scala is uitbreidbaar}{section.2.3}% 14
+\BOOKMARK [0][-]{chapter.3}{Ontwikkeling van een DSL}{}% 15
+\BOOKMARK [1][-]{section.3.1}{Kaarten}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.2}{Creatures}{chapter.3}% 17
+\BOOKMARK [2][-]{subsection.3.2.1}{Aanmaak van Creatures}{section.3.2}% 18
+\BOOKMARK [2][-]{subsection.3.2.2}{Het probleem met implicits}{section.3.2}% 19
+\BOOKMARK [1][-]{section.3.3}{Vaardigheden}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.4}{Vaardigheden met parameters}{chapter.3}% 21
+\BOOKMARK [0][-]{chapter.4}{Evaluatie}{}% 22
+\BOOKMARK [1][-]{section.4.1}{Creatures en vaardigheden}{chapter.4}% 23
+\BOOKMARK [1][-]{section.4.2}{Vaardigheden met parameters}{chapter.4}% 24
+\BOOKMARK [1][-]{section.4.3}{Vaardigheden samenstellen}{chapter.4}% 25
+\BOOKMARK [0][-]{chapter.5}{Gerelateerd werk}{}% 26
+\BOOKMARK [1][-]{section.5.1}{SandScape}{chapter.5}% 27
+\BOOKMARK [1][-]{section.5.2}{Forge}{chapter.5}% 28
+\BOOKMARK [0][-]{chapter.6}{Conclusie}{}% 29
+\BOOKMARK [0][-]{appendix*.11}{Bibliografie}{}% 30

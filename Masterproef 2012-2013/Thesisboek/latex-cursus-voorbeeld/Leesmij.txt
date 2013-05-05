@@ -1,0 +1,47 @@
+
+De verschillende bestanden die voorkomen in deze directory zijn:
+
+
+Bestanden bruikbaar voor de thesis:
+
+
+bibliodutch.bst 
+Het configuratiebestand voor bibtex. Zorgt ervoor dat er geen `and' verschijnt tussen de namen van de auteurs.
+
+lc-latex-cursus.tex 
+Het hoofdbestand van de cursus, kan gebruikt worden als hoofdbestand voor de thesis. Is ongeveer het nuttigste bestand. 
+
+copyright-thesis.tex 
+Een typisch copyright voor in een thesis.
+
+lc-bibliografie.bib 
+Kan gebruikt worden als template voor de bibliografische databank van de thesis.
+
+lc-titels.tex Een typisch titelblad voor een thesis.
+
+figuren 
+Directory met de figuren. Hierin is onder andere het logo van de Universiteit Gent te vinden.
+
+Makefile 
+Voor de mensen die onder GNU/Linux werken, een typische makefile. Moet wel aangepast worden, daar een thesis geen index bevat.
+
+
+
+Bestanden minder bruikbaar voor de thesis:
+
+bibliodutch.dbj 
+De broncode van de voor het aanmaken van het bibliodutch.bst stijlbestand.
+
+lc-introductie.tex lc-hs1-documentstructuur.tex lc-hs2-tekst.tex lc-hs3-tabellen.tex lc-hs4-biblio.tex lc-hs5-wiskunde.tex lc-besluit.tex lc-bijlage-mathsymbols.tex 
+De verschillende hoofdstukken van de cursus.
+
+lc-woordvooraf.tex Het woord vooraf van de cursus.
+
+lc-copyleft.tex Het copyright van de cursus.
+
+lc-latex-cursus.pdf Het pdf-bestand van de cursus.
+
+.vimrc Een configuratiebestand voor de beste editor: vim.
+
+
+

@@ -1,0 +1,31 @@
+\select@language {dutch}
+\contentsline {chapter}{\numberline {1}Inleiding}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Achtergrond en motivatie}{2}{chapter.2}
+\contentsline {section}{\numberline {2.1}Collectible Card Games}{2}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Spelzones}{2}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Kaarttypes}{3}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Vaardigheden}{6}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}DSL en modulariteit}{6}{subsection.2.1.4}
+\contentsline {section}{\numberline {2.2}Domein-specifieke talen}{7}{section.2.2}
+\contentsline {section}{\numberline {2.3}Scala}{7}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Integratie met Java}{7}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Scala is object-geori\"enteerd}{10}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Scala is een functionele programmeertaal}{11}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}Scala is statisch getypeerd}{11}{subsection.2.3.4}
+\contentsline {subsection}{\numberline {2.3.5}Scala is uitbreidbaar}{11}{subsection.2.3.5}
+\contentsline {chapter}{\numberline {3}Ontwikkeling van een DSL}{14}{chapter.3}
+\contentsline {section}{\numberline {3.1}Kaarten}{14}{section.3.1}
+\contentsline {section}{\numberline {3.2}Creatures}{16}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Aanmaak van Creatures}{16}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Het probleem met implicits}{17}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Vaardigheden}{18}{section.3.3}
+\contentsline {section}{\numberline {3.4}Vaardigheden met parameters}{19}{section.3.4}
+\contentsline {chapter}{\numberline {4}Evaluatie}{21}{chapter.4}
+\contentsline {section}{\numberline {4.1}Creatures en vaardigheden}{21}{section.4.1}
+\contentsline {section}{\numberline {4.2}Vaardigheden met parameters}{21}{section.4.2}
+\contentsline {section}{\numberline {4.3}Vaardigheden samenstellen}{22}{section.4.3}
+\contentsline {chapter}{\numberline {5}Gerelateerd werk}{23}{chapter.5}
+\contentsline {section}{\numberline {5.1}SandScape}{23}{section.5.1}
+\contentsline {section}{\numberline {5.2}Forge}{23}{section.5.2}
+\contentsline {chapter}{\numberline {6}Conclusie}{25}{chapter.6}
+\contentsline {chapter}{Bibliografie}{26}{appendix*.11}

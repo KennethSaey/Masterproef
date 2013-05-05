@@ -1,0 +1,319 @@
+\chapter{Ontwikkeling van een DSL}
+Het ontwikkelen van een domein-specifieke taal voor \engels{collectible card games} is een proces dat best ondernomen wordt in verschillende stappen. In elke stap wordt de DSL uitgebreid met syntax die het mogelijk maakt om nieuwe functionaliteit te beschrijven, enkel gebruik makend van de DSL.
+\npar
+Het aspect van CCGs dat het meest onderhevig is aan verandering zijn de kaarten. Bij de meerderheid van CCGs is het zo dat er frequent uitbreidingen komen in de vorm van nieuwe sets kaarten. Deze nieuwe kaarten voegen niet zozeer nieuwe functionaliteit toe aan het spel, maar bestaan wel uit al dan niet unieke combinaties van reeds bestaande eigenschappen. Het doel van deze DSL is dan ook om nieuwe kaarten op een zo eenvoudig mogelijke manier te kunnen construeren en toe te voegen aan het spel.
+\npar
+In de secties die volgen wordt de DSL stap voor stap uitgebreid, tot we uiteindelijk in staat zijn om verschillende types van kaarten met een hele reeks eigenschappen te genereren aan de hand van eenvoudige DSL-constructies. Beginnen doen we met het basisconcept van een kaart: een object met een naam. Vervolgens splitsen we kaarten op in twee verschillende types: \textit{Landen} en \engels{Creatures}. Daarna verleggen we de focus tijdelijk naar \engels{Creatures} door onze DSL uit te breiden met vaardigheden om vervolgens terug te keren naar een nieuw type van kaarten, namelijk \engels{Sorceries}, met bijhorende acties (\engels{Actions}) en doelwitten (\engels{targets}).
+%%%%%%%%%%%%%%%%%%%%%
+% Sectie 1: Kaarten %
+%%%%%%%%%%%%%%%%%%%%%
+\section{Kaarten}
+% Subsectie 1.1: De basisklasse %
+\subsection{De basisklasse}
+De basis van een CCG zijn uiteraard de kaarten, dus het is een logische eerste stap om kaarten te modelleren. Gemeenschappelijk aan alle kaarten is dat ze een naam hebben. Een minimale klassedefinitie voor een kaart met een naam ziet er in Scala uit zoals in Codefragment \ref{Card-klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{Card-klasse}{2}{4}
+De toevoeging van kaarten is de meest frequente verandering aan een CCG, dus moet het in onze DSL heel eenvoudig zijn om het aanmaken van een nieuwe kaart uit te drukken. Indien we iemand (in het Engels) zouden vragen om een nieuwe kaart met de naam \engels{Black Lotus} aan te maken, dan zou dit waarschijnlijk klinken als \engels{"`Create a new card called Black Lotus"'}, waarbij we veronderstellen dat er een nieuw object van de klasse \textit{Card} aangemaakt wordt met een naam-eigenschap die de waarde \engels{Black Lotus} heeft. Indien we uit die zin de eerste twee woorden weg laten verliezen we geen informatie, aangezien het sleutelwoord \textit{new} in object-geöriënteerde programmeertalen (zoals Scala) duidt op de instantie (en dus creatie) van een nieuw object. In onze DSL willen we dus de zin \engels{"`new card called Black Lotus"'} als statement voor de creatie van een nieuwe kaart kunnen gebruiken. Lettend op stijlconventies en het gebruik van letterlijke tekst versoepelen we deze wens tot: \engels{new Card called "'Black Lotus"'}, waarbij de klasse \textit{Card} een hoofdletter mee krijgt en letterlijke tekst tussen aanhalingstekens wordt geplaatst.
+
+% Subsectie 1.2: Toevoeging van een DSL sleutelwoord %
+\subsection{Toevoeging van een DSL sleutelwoord}
+Vertrekkend van de \textit{Card}-klasse uit Codefragment \ref{Card klasse} kunnen we een methode met de naam \textit{called} toevoegen, die een naam als argument neemt (zie Codefragment \ref{Called-methode}). Deze methode laat ons toe om de naam-eigenschap van de \textit{Card}-klasse in te vullen.
+\codepart{code/Code-hoofdstuk-3.scala}{Called-methode}{6}{11}
+Twee features van Scala zorgen ervoor dat we met de huidige klasse een eerste stuk van onze DSL ontwikkeld hebben: Indien een constructor geen argumenten bevat dan laat Scala toe om de haakjes weg te laten. Daarnaast is de \textit{called}-methode een methode met slechts \'e\'en argument, waardoor Scala ons toe laat om de methode als infix-operator te gebruiken en bijgevolg alle interpunctie weg te laten. Zonder gebruik te maken van deze twee features zou het aanmaken van een instantie van de klasse \textit{Card} gevolgd door het oproepen van de \textit{called}-methode er uit zien zoals in Codefragment \ref{Kaart creatie}. Met de twee features kunnen we dit herleiden tot Codefragment \ref{Kaart creatie in DSL}.
+\codepart{code/Code-hoofdstuk-3.scala}{Kaart creatie}{13}{13}
+\codepart{code/Code-hoofdstuk-3.scala}{Kaart creatie in DSL}{15}{15}
+
+% Subsectie 1.3: Een eerste sleutelwoord %
+\subsection{Een eerste sleutelwoord}
+Er is echter nog \'e\'en probleem met Codefragment \ref{Kaart creatie in DSL}. Na de oproep van de \textit{called}-methode krijgen we geen instantie van de \textit{Card}-klasse terug, maar wel een object van het type \textit{Unit}, het Scala-equivalent van het \textit{void}-return type in Java. Indien we de DSL in zijn huidige staat zouden gebruiken, dan zouden we in staat zijn om een nieuwe kaart met een naam te creëren, maar aangezien we nergens de referentie naar die instantie bewaren zou de kaart meteen weer verloren gaan. Om aan dit probleem tegemoet te komen moeten we ervoor zorgen dat de \textit{called}-methode de instantie terug geeft waarop ze opgeroepen werd. Dit kunnen we doen door de definitie van de methode aan te passen zoals in Codefragment \ref{Called-methode met method chaining}. Door de instantie zelf terug te geven als resultaat van de methode zorgen we ervoor dat ze in \engels{method chaining}, het aaneenschakelen van methodes, kan gebruikt worden.
+\codepart{code/Code-hoofdstuk-3.scala}{Called-methode met method chaining}{17}{23}
+Indien we nu het statement in Codefragment \ref{Kaart creatie in DSL} opnieuw gebruiken, dan zal het resultaat een instantie van de klasse \textit{Card} zijn met een correcte naam. Op deze manier is het woord \textbf{\textit{called}} het eerste echte sleutelwoord van onze DSL.
+
+% Subsectie 1.4: Nog een stap verder %
+\subsection{Nog een stap verder}\label{Section 1.4}
+Binnen het domein van CCGs is een eenvoudige kaart volledige bepaald door haar naam. De eerste drie woorden uit het statement in Codefragment \ref{Kaart creatie in DSL} zijn dus strikt genomen overbodig om een nieuwe kaart volledig te definiëren. Scala bevat een \engels{feature}, namelijk impliciete conversies, die we kunnen gebruiken om aan de hand van enkel een string een instantie van de klasse \textit{Card} terug te krijgen. Het is mogelijk om in Scala methoden te schrijven bij een klasse die vergezeld worden van het sleutelwoord \textit{implicit}. Indien Scala tijdens de uitvoering van het programma een statement tegen komt waarbij de types niet in orde zijn, dan zal Scala eerst proberen om die impliciete methoden toe te passen om zo het correcte type te verkrijgen. Pas indien ook al deze methoden een incorrect type opleveren zal er een typefout opgegooid worden.
+\npar
+Concreet willen we een instantie van de klasse \textit{String} converteren naar een instantie van de klasse \textit{Card}. Hiervoor schrijven we een methode \textit{String2Card} en plaasten deze in een object genaamd \textit{CardImplicits}, zie Codefragment \ref {Impliciete String naar Card conversie}. Overal in de code waar we nu willen dat deze impliciete conversie beschikbaar is horen we nu een statische import te doen van het \textit{CardImplicits}-object (\coderef{Statisch importeren van impliciete methodes}).
+\codepart{code/Code-hoofdstuk-3.scala}{Impliciete String naar Card conversie}{25}{29}
+\codepart{code/Code-hoofdstuk-3.scala}{Statisch importeren van impliciete methodes}{31}{31}
+Nieuwe kaarten kunnen nu eenvoudigweg aangemaakt worden zoals in \coderef{Kaart creatie met gebruik van implicits}.
+\codepart{code/Code-hoofdstuk-3.scala}{Kaart creatie met gebruik van implicits}{33}{33}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 2: Creatures %
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Creatures}
+% Subsectie 2.1: Aanmaak van Creatures %
+\subsection{Aanmaak van Creatures}
+Kaarten met enkel een naam vormen natuurlijk nog geen interessant spel. Er is ook nood aan kaarten die vooruitgang in het spel brengen. In CCGs is de meest voorkomende manier om het spel te laten vooruitgaan een aanval doen met wezens (\engels{Creatures}). \engels{Creatures} zijn een specifiek type van kaarten en elk CCG bezit dit concept, hoewel de naam ervan niet altijd dezelfde is. In \textit{Pok\'eMon} bijvoorbeeld, een CCG voor jongeren, heten de wezens, toepasselijk, Pok\'eMon.
+
+De belangrijkste eigenschappen van een \engels{Creature} zijn de concepten van aanvalskracht en levenspunten. Aanvalskracht geeft aan hoeveel schade een \engels{Creature} kan doen, terwijl levenspunten aangeven hoeveel schade een \engels{Creature} kan oplopen vooralleer het dood gaat. Aan de hand van deze definitie van een \engels{Creature} kunnen we een subklasse van \textit{Card} schrijven met twee extra variabelen om een \engels{Creature} in code te modelleren. De implementatie hiervan is te zien in Codefragment \ref{Creature klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{Creature klasse}{35}{38}
+Om onze DSL uit te breiden zodat we volwaardige \engels{creatures} kunnen aanmaken voegen we aan die klasse nog twee methodes toe, gelijkaardig aan de \textit{called}-methode van de klasse \textit{Card}. Zie Codefragment \ref{with_damage- en with_health-methodes} voor de twee methodes en Codefragment \ref{DSL creature creatie} voor de aanmaak van een \textit{Creature} met onze DSL.
+\lstinputlisting[caption=with\_damage- en with\_health-methodes,label=with_damage- en with_health-methodes,firstline=40,lastline=51]{code/Code-hoofdstuk-3.scala}
+\codepart{code/Code-hoofdstuk-3.scala}{DSL creature creatie}{53}{53}
+Op deze manier hebben we twee nieuwe sleutelwoorden, \textbf{\textit{with\_damage}} en \textbf{\textit{with\_health}} toegevoegd aan onze DSL. Om de leesbaarheid van de DSL te bevorderen bestaan de sleutelwoorden uit twee engelstalige woorden, samengevoegd met een underscore. Esthetisch had het mooier geweest om een spatie te kunnen gebruiken tussen te twee woorden, maar dat zou resulteren in een ongeldige methodenaam.
+Op deze manier hebben we twee nieuwe sleutelwoorden, \textbf{\textit{with\_damage}} en \textbf{\textit{with\_health}} toegevoegd aan onze DSL. Om de leesbaarheid van de DSL te bevorderen bestaan de sleutelwoorden uit twee engelstalige woorden, samengevoegd met een underscore. Esthetisch had het mooier geweest om een spatie te kunnen gebruiken tussen te twee woorden, maar dat zou resulteren in een ongeldige methodenaam.
+
+Een tweede optie is om wel een spatie te gebruiken en de volledige methodenaam tussen backticks te plaatsen (\textit{`with damage`}), maar om verwarring met letterlijke tekst te vermijden is de eerste optie de beste keuze.
+
+% Subsectie 2.2: Impliciete methodes %
+\subsection{Impliciete methodes}
+Analoog aan sectie \ref{Section 1.4} kunnen we ook voor de klasse \textit{Creature} een impliciete conversie vanuit een String-instantie schrijven (\coderef{Impliciete String naar Creature conversie}) en gebruiken zoals in \coderef{Creature creatie met implicits}.
+\codepart{code/Code-hoofdstuk-3.scala}{Impliciete String naar Creature conversie}{55}{59}
+\codepart{code/Code-hoofdstuk-3.scala}{Creature creatie met implicits}{61}{63}
+
+% Subsectie 2.3: Het probleem met implicits %
+\subsection{Het probleem met implicits}
+Er duikt nu echter een probleem op indien we instantie van de klasse \textit{Card} en de klasse \textit{Creature} door elkaar willen aanmaken met onze DSL. Zowel het object \textit{CardImplicits} als het object \textit{CreatureImplicits} moeten dan geïmporteerd worden. Indien we een instantie van de klasse \textit{Card} willen aanmaken zoals in \coderef{Kaart creatie met gebruik van implicits} heeft Scala twee mogelijke impliciete conversies om uit te kiezen, aangezien \textit{Creature} een subklasse is van \textit{Card}. Aangezien Scala geen willekeurige keuze kan maken tussen te twee zal dit stuk code niet langer uitvoerbaar zijn.
+\npar
+Dat we geen kaarten van de klasse \textit{Card} kunnen aanmaken is op zich geen ramp, in een spel zullen er namelijk enkel subklassen gebruikt worden. Het is echter niet ondenkbaar dat er ook subklassen van de klasse \textit{Creature} toegevoegd zullen worden waardoor, volgens het zelfde principe, geen instanties van de klasse \textit{Creature} meer aangemaakt zouden kunnen worden met implicits. Hierdoor wordt onze DSL inconsequent op het gebied van impliciete conversies, dus is het een beter idee om voor dit doeleinde het gebruik van implicits compleet te laten vallen.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 3: Vaardigheden %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vaardigheden}
+En spel wordt interessanter naarmate het meer mogelijkheden biedt en indien de standaard spelregels met verschillende variaties doorbroken kunnen worden. Bij CCGs wordt het standaard gedrag van \textit{creatures} aangepast door de toevoeging van vaardigheden (\engels{abilities}). Vaardigheden hebben een invloed op de acties, zoals aanvallen en verdedigen, die een \engels{creature} kan ondernemen. Vaardigheden kunnen tijdens het spel toegevoegd worden aan of verwijderd worden van een \textit{creature}.
+
+% Subsectie 3.1: Vaardigheden als subklasse %
+\subsection{Vaardigheden als subklasse}
+De eerste reflex om vaardigheden te implementeren was als subklassen van de \textit{Creature}-klasse. Op die manier kan een vaardigheidsklasse nog steeds als \engels{creature} gebruikt worden en kan ze de nodige methodes van de \textit{Creature}-klasse overschrijven om de effecten van de vaardigheid te implementeren. Een concreet voorbeeld maakt duidelijk hoe dit werkt.
+\npar
+Aan ons standaard \textit{creature} kunnen we een methode \textit{canbeBlockedBy}, met een tweede \textit{creature} als argument, toevoegen die controleert of het tweede \textit{creature} het eerste kan blokkeren bij een aanval. In de standaard implementatie, zie \coderef{Creature met de canBeBlockedBy-methode}, is het antwoord op deze vraag "`waar"' (\textit{true}).
+\codepart{code/Code-hoofdstuk-3.scala}{Creature met de canBeBlockedBy-methode}{65}{70}
+De vaardigheid \engels{Flying} zouden we als volgt kunnen definiëren: "`Een \textit{creature} met de vaardigheid \textit{Flying} kan enkel geblokkeerd worden door andere \textit{creature} met de vaardigheid \textit{Flying}"'. Indien we deze definitie gebruiken om een klasse \textit{FlyingCreature} te maken als subklasse van \textit{Creature}, dan zou de implementatie er uit zien zoals in \coderef{FlyingCreature als subklasse van Creature}.
+\codepart{code/Code-hoofdstuk-3.scala}{FlyingCreature als subklasse van Creature}{72}{76}
+
+% Subsectie 3.2: Problemen met vaardigheden als subklassen %
+\subsection{Problemen met vaardigheden als subklassen}
+Een groot nadeel van deze aanpak is dat subklassen niet dynamisch (tijdens runtime) toegevoegd kunnen worden aan, of verwijderd worden van, bestaande instanties van \textit{creatures}. Om aan een instantie van de klasse \textit{Creature} de vaardigheid \textit{Flying} toe te voegen moet er een nieuwe instantie van de klasse \textit{FlyingCreature} aangemaakt worden met exact dezelfde eigenschappen als de huidige toestand van het \textit{Creature}. Dit is niet praktisch in gebruik maar maar vormt nog geen onoverbrugbaar probleem.
+\npar
+Een tweede probleem duikt echter op wanneer we meer dan \'e\'en vaardigheid willen toekennen aan een \textit{creature}. Om meerder vaardigheden te bezitten zou een \textit{Creature} een instantie van meerdere vaardigheidsklassen tegelijk moeten zijn. Net zoals Java ondersteunt Scala echter geen meervoudige overerving aan de hand van het \textit{extends}-sleutelwoord. In tegenstelling tot Java ondersteunt Scala wel een vorm van meervoudige overerving via het gebruik van \textit{traits}. Traits worden op dezelfde manier geïmplementeerd als klassen, met als enige verschil dat ze het sleutelwoord \textit{trait} gebruiken in plaats van \textit{class}. \textit{Traits} kunnen aan klassen toegevoegd worden door middel van het sleutelwoord \textit{with}, analoog aan het sleutelwoord \textit{extends} voor het toevoegen van een superklasse. Meerdere \textit{traits} kunnen aan eenzelfde klasse toegevoegd worden.
+
+% Traits dynamisch aan instanties toevoegen: http://stackoverflow.com/questions/3893274/scala-and-traits-on-object-instances %
+In het voorbeeld van de \textit{Flying}-vaardigheid zou een implementatie met \textit{traits} er uitzien zoals in \coderef{Creature met Flying trait}.
+\codepart{code/Code-hoofdstuk-3.scala}{Creature met Flying trait}{78}{84}
+Als we nu meerdere vaardigheden aan een \textit{creature} willen toevoegen kunnen we een subklasse van \textit{Creature} schrijven die meerdere traits gebruikt. Voor elke combinatie van vaardigheden die we willen gebruiken hebben we echter een nieuwe klasse nodig en traits kunnen nog steeds niet dynamisch aan instanties toegevoegd worden, dus hiermee zijn onze twee problemen, namelijk \textit{creatures} met meerdere vaardigheden en het dynamisch toevoegen en verwijderen van vaardigheden, nog steeds niet van de baan.
+
+% Subsectie 3.3: Vaardigheden als decorators %
+\subsection{Vaardigheden als decorators}
+Subklassen en traits voldoen niet aan onze wensen wanneer we vaardigheden willen implementeren. We willen dat vaardigheden dynamisch aan bestaande instanties toegevoegd kunnen worden en dat we meerdere vaardigheden tegelijkertijd aan \'e\'en \textit{creature} kunnen koppelen. Beide vereisten kunnen geadresseerd worden door gebruik te maken van het \textit{decorator} ontwerppatroon. Een decorator voor een basisklasse is een klasse die dezelfde interface als de basisklasse aanbiedt en bovendien een referentie naar een instantie van de basisklasse bijhoudt. Een decorator wordt gebruikt om de implementatie van een methode uit de basisklasse dynamisch aan te passen. Een voorbeeld van dit principe wordt getoond in \coderef{Het decorator ontwerppatroon}. Regels 1-4 definiëren een basisklasse met twee methoden. Regels 5-8 definiëren een decorator met de zelfde interface als de basisklasse die de methode \textit{a} niet overschrijft (de oproep wordt gewoon doorgegeven aan de instantie van de basisklasse) en die de methode \textit{b} wel overschrijft met een eigen implementatie. Regels 12-14 tonen tenslotte hoe een decorator "`rond"' een basisklasse gewikkeld kan worden en vervolgens gebruikt.
+\codepart{code/Code-hoofdstuk-3.scala}{Het decorator ontwerppatroon}{86}{99}
+Om het decorator patroon nu concreet toe te passen voor vaardigheden implementeren we eerste een algemene decorator, \textit{AbilityCreature}, die de complete \textit{creature}-interface van een basisimplementatie voorziet. De implementatie ziet er uit zoals in \coderef{AbilityCreature klasse}. De vier methoden die al aanwezig waren in de \textit{Creature}- en \textit{Card}-klasse geven de controle door aan de gelijknamige methode van de gedecoreerde instantie \textit{creature} van de \textit{Creature}-klasse. Uiteraard zijn er voor de goede werking van het spel nog meer methodes nodig dan hier vermeld, maar deze vier (de drie DSL-sleutelwoorden en de methode \textit{canBeBlockedBy}) geven de algemene vorm van de implementatie weer.
+\codepart{code/Code-hoofdstuk-3.scala}{AbilityCreature klasse}{101}{112}
+De klasse \textit{AbilityCreature} kan nu dienen als superklasse voor specifieke implementatie van vaardigheden. \coderef{FlyingCreature klasse} toont hoe de specifieke implementatie voor de vaardigheid \textit{Flying} er uit ziet. Merk op dat enkel de methode \textit{canBeBlockedBy}, de enige methode waar \textit{Flying} een effect op heeft, overschreven hoeft te worden.
+\codepart{code/Code-hoofdstuk-3.scala}{FlyingCreature klasse}{114}{120}
+Zowel het de vereiste van meerdere vaardigheden voor \'e\'en \textit{creature} en het dynamisch toevoegen en verwijderen van vaardigheden is nu opgelost, zoals \coderef{Gebruik van vaardigheden} aantoont. Op regel 1-4 wordt een eenvoudig \textit{Creature} aangemaakt. Op regel 5 wordt de vaardigheid \textit{Flying} toegevoegd, gevolgd door de vaardigheid \textit{Unblockable} op regel 6. Ten slotte worden beide vaardigheden opnieuw verwijderd op regels 7 en 8.
+\codepart{code/Code-hoofdstuk-3.scala}{Gebruik van vaardigheden}{122}{129}
+
+% Subsectie 3.4: Vaardigheden in de DSL %
+\subsection{Vaardigheden in de DSL}
+Het toevoegen van een vaardigheid aan een \engels{creature} willen we natuurlijk ook voorzien in onze DSL. Hiervoor zullen we een extra methode in de \textit{Creature}-klasse moeten schrijven die als sleutelwoord in onze DSL gebruikt kan worden. De methode, die we \textbf{\textit{has\_ability}} zullen noemen en die opgeroepen dient te worden op een bestaande instantie van de klasse \textit{Creature} zal een parameter moeten hebben die aangeeft over welke vaardigheid het gaat. Verder moet de methode als resultaat een instantie van de juiste vaardigheidsklasse terug geven die rond het originele \engels{creature} gewikkeld zit. Gelukkige schiet de functionele kant van Scala ons hier te hulp.
+\npar
+Functies zijn in Scala ook instanties van een klasse, namelijk van de klasse \textit{FunctionX}, waarbij \textit{X} het aantal parameters voorstelt. Als we nu een functie schrijven die een \textit{Creature}-instantie als parameter heeft en een instantie van de juiste vaardigheidsklasse terug heeft, dan hebben we een geschikte parameter gevonden voor de methode \textit{has\_ability}. Een voorbeeld van dergelijke functie voor de vaardigheid \textit{Flying} vinden we terug in Codefragment \ref{Flying vaardigheidsfunctie}. De implementatie van de methode \textit{has\_ability} is terug te vinden op regels 12 tot en met 15 van Codefragment \ref{has_ability-methode}.
+\codepart{code/Code-hoofdstuk-3.scala}{Flying vaardigheidsfunctie}{131}{133}
+\lstinputlisting[caption=has\_ability-methode,label=has_ability-methode,firstline=135,lastline=150]{code/Code-hoofdstuk-3.scala}
+Aangezien we de vaardigheidsfunctie een eenvoudige naam meegegeven hebben, namelijk \textit{Flying}, kunnen we in onze DSL een vaardigheid toevoegen aan een \engels{creature} zoals in Codefragment \ref{Vaardgiheid toevoegen in de DSL}.
+\codepart{code/Code-hoofdstuk-3.scala}{Vaardgiheid toevoegen in de DSL}{152}{152}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 4: Vaardigheden met parameters %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vaardigheden met parameters}
+Naast de eenvoudige vaardigheden zoals \textit{Flying} zijn er ook vaardigheden die zelf \'e\'en of meerdere parameters bezitten. Een voorbeeld hiervan is de vaardigheid \textit{Absorb X}. Een \engels{creature} met deze vaardigheid kan \textit{X} schade absorberen vooralleer zijn levenspunten verminderd worden. De implementatie van bijhorende vaardigheidsklasse verschilt enkel van de standaard vaardigheidsklasse in dat ze een extra parameter meekrijgt (zie Codefragment \ref{AbsorbCreature klasse}).
+\codepart{code/Code-hoofdstuk-3.scala}{AbsorbCreature klasse}{154}{156}
+
+Ook de definitie van de bijhorende vaardigheidsfunctie kent een gelijkaardige uitbreiding, zoals te zien in Codefragment \ref{Absorb vaardigheidsfunctie}.
+\codepart{code/Code-hoofdstuk-3.scala}{Absorb vaardigheidsfunctie}{158}{160}
+
+In onze DSL kan de \textit{Absorb}-vaardigheid gebruikt worden zoals in Codefragment \ref{Vaardigheid met parameter toevoegen in DSL}.
+\codepart{code/Code-hoofdstuk-3.scala}{Vaardigheid met parameter toevoegen in DSL}{162}{162}
+
+Opgemerkt moet worden dat de \textit{Absorb}-vaardigheid  de waarde van \textit{X} meekrijgt tussen haakjes. Hier zijn twee dingen aan de hand. Ten eerste zien we hier een voorbeeld van \textit{currying}, een principe waarbij een functie slechts op een deel van de parameters wordt toegepast en een functie teruggeeft die de resterende parameters (in dit geval een \textit{Creature}-instantie) als parameters neemt. Het resultaat hiervan is dat de \textit{has\_ability}-methode inderdaad een instantie van de klasse \textit{Function1[Creature, AbilityCreature]} meekrijgt.
+
+De tweede opmerking is dat de haakjes rond de parameter niet weggelaten kunnen worden. De reden hiervoor is dan \textit{FunctionX}-objecten een \textit{apply}-methode gebruiken om hun functionaliteit toe te passen en dat Scala geen \engels{syntactic sugar} voorziet voor het weglaten van ronde haakjes bij de \textit{apply}-methode.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 5: Een nieuw type kaarten: Landen %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Een nieuw type kaarten: Landen}
+Naast kaarten die het \textit{Creature}-concept implementeren bevatten CCGs vaak nog andere types van kaarten. Sommige types van kaarten stellen benodigheden voor die beschikbaar moeten zijn om andere kaarten te kunnen spelen. \textit{Magic: The Gathering} bevat een kaarttype \textit{Land}. Er bestaan vijf verschillende types landen (\textit{Forests}, \textit{Islands}, \textit{Mountains}, \textit{Plains} en \textit{Swamps}) zoals te zien in Figuur \ref{lands.pdf}. Alle andere types kaarten in \textit{Magic: The Gathering} vereisen dat er \'e\'en of meerdere landkaarten, al dan niet van specifieke types, op het eigen battlefield aanwezig zijn voordat ze gespeeld kunnen worden. In \textit{Pok\'eMon} krijgt hetzelfde concept de naam \engels{Energy} en het CCG \textit{Shadow Era} voorziet geen nieuw type kaarten, maar gebruikt gewoon een welbepaald aantal willekeurige kaarten als vereiste voor het spelen van andere kaarten.
+\mijnfiguur[H]{width=\textwidth}{lands.pdf}{Magic: The Gathering - Landtypes}
+\npar
+Om deze functionaliteit te voorzien, zowel in ons spel als in onze DSL, moet er voldaan zijn aan volgende eigenschappen. Er moet een nieuw type kaart (\textit{Land}) aangemaakt worden dat onderverdeeld is in vijf subtypes, zoals hierboven vermeld. Daarnaast moeten instanties van de landkaarten eenvoudig aan te maken zijn. Ten slotte moet het mogelijk zijn om bij andere types van kaarten het aantal landkaarten dat vereist is om de kaart te spelen, op te geven.
+\npar
+
+% Subsectie 5.1: De landkaarten %
+\subsection{De landkaarten}
+Landkaarten hebben zelf geen functionaliteit. De enige vereiste die ze stellen is dat ze onderscheiden kunnen worden van andere types kaarten en dat verschillende landtypes onderling van elkaar onderscheiden kunnen worden. In een object-geöriënteerde omgeving is het eenvoudig om in te zien dat een subklasse \textit{Land} van de klasse \textit{Card}, die zelf vijf subklasses bezit, aan deze vereisten kan voldoen. De implementaties zien er bijgevolg uit zoals in \coderef{Landkaarten}.
+\codepart{code/Code-hoofdstuk-3.scala}{Landkaarten}{164}{170}
+Het aanmaken van instanties van deze landtypes kan via de constructor (\coderef{Landcreatie}). Het aanroepen van deze constructor is eenvoudig genoeg zodat we deze meteen kunnen opnemen in onze DSL.
+\codepart{code/Code-hoofdstuk-3.scala}{Landcreatie}{172}{172}
+
+% Subsectie 5.2: Landkaarten als vereisten voor andere kaarten %
+\subsection{Landkaarten als vereisten voor andere kaarten}
+\textit{Magic: The Gathering} gebruikt landkaarten als vereisten voor andere kaarten. De kaart \textit{Bloodlord of Vaasgoth} heeft als vereiste bijvoorbeeld twee \textit{Swamps} en drie landen van een willekeurig type, zoals te zien aan de symbolen in de rechterbovenhoek van Figuur \ref{bloodlord-of-vaasgoth.pdf}. Meer algemeen zal de vereiste steeds een aantal (of nul) vaste landkaarten bevatten en een aantal (of nul) willekeurige landkaarten.
+\mijnfiguur[H]{width=0.4\textwidth}{bloodlord-of-vaasgoth.pdf}{Magic: The Gathering - Landen als vereiste voor andere kaarten}
+Het modelleren van vereisten doen we in twee stappen. Ten eerste implementeren we een klasse \textit{Requirement}, de conceptuele voorstelling van een welbepaald aantal kaarten van een specifiek landtype, bijvoorbeeld "`2 \textit{Swamps}"'. Uit de beschrijving valt af te leiden dat de klasse twee eigenschappen bevat: een aantal (\textit{times}) en een landtype (\textit{land}). Dit leidt tot de implementatie in \coderef{Requirement-klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{Requirement-klasse}{174}{177}
+Om een \textit{Requirement} aan te maken in onze DSL moeten we extra code voorzien. In het engels zouden we een \textit{Requirement} benoemen met een zin van de vorm "`2 Swamps"'. Aangezien deze zin geen sleutelwoord bevat zullen we die exacte vorm niet in de DSL kunnen verkrijgen. Als sleutelwoord kiezen we dit keer de vermenigvuldigingsoperator \textit{*}. Het tussenvoegen van deze operator leidt tot de zin "`2 * Swamps"', wat nog steeds vrij natuurlijk overkomt en bijgevolg eenvoudig in gebruik is. De implementatie van de \textit{*}-operator wordt toegevoegd aan de \textit{Requirement}-klasse in \coderef{Requirement-klasse met *-operator}.
+\codepart{code/Code-hoofdstuk-3.scala}{Requirement-klasse met *-operator}{179}{185}
+Merk op dat de methode opnieuw het \textit{this}-object terug geeft, een vereiste voor de aaneenschakeling van methodes in onze DSL. Het argument van de operator is een instantie van (een subklasse van) de klasse \textit{Land}. Indien we echter "`Swamp"' of "`Swamps"' willen schrijven als argument dan kunnen we, net zoals bij de naamgeving van vaardigheden (\coderef{Flying vaardigheidsfunctie}) van een set waarden gebruik maken, zie \coderef{Set namen voor land-instanties}
+\codepart{code/Code-hoofdstuk-3.scala}{Set namen voor land-instanties}{187}{201}
+\npar
+Het gebruik van deze \textit{*}-operator vereist wel dat het linkse term een instantie van de klasse \textit{Requirement} is. Het getal 2 is dit duidelijk niet. We kunnen echter terug keren naar een eerder besproken feature van Scala, namelijk impliciete methoden, om het getal 2 naar een instantie van de klasse \textit{Requirement} te converteren net voor de \textit{*}-operator toegepast wordt. De implementatie van de impliciete conversie is te zien in \coderef{Impliciete Integer naar Requirement conversie}. Deze conversie vereist een \textit{requirement}-constructor die een getal als parameter neemt. Deze constructor werd stilzwijgend al in \coderef{Requirement-klasse met *-operator} toegevoegd.
+\codepart{code/Code-hoofdstuk-3.scala}{Impliciete Integer naar Requirement conversie}{203}{207}
+De vereisten voor het spelen van een kaart bevatten meestal meer dan \'e\'en type land. Dit kunnen we modelleren door een lijst van instanties van de klasse \textit{Requirement} bij te houden. We doen dit in een speciaal hiervoor ontworpen klasse \textit{Requirement\textbf{s}}. We voegen meteen ook een \textit{and}-operator toe om meerdere instanties van de klasse \textit{Requirement} toe te voegen aan de \textit{Requirements} en een object met een impliciete methode om \'e\'en \textit{Requirement} naar een instantie van de klasse \textit{Requirements} te converteren. De resulterende code is te raadplegen in \coderef{Requirements-klasse}
+\codepart{code/Code-hoofdstuk-3.scala}{Requirements-klasse}{209}{224}
+We kunnen in onze DSL nu een volledige set requirements beschrijven met een vrij leesbare syntax, zie \coderef{Requirements in de DSL}.
+\codepart{code/Code-hoofdstuk-3.scala}{Requirements in de DSL}{226}{226}
+\npar
+Het laatste wat we in onze DSL moeten voorzien is een sleutelwoord om de vereisten toe te voegen aan een kaart. De kaart moet natuurlijk een eigenschap hebben waarin de vereisten toegevoegd kunnen worden, daarom breiden we de klasse \textit{Card} uit zoals in \coderef{Card-klasse met Requirements}. Er werd ook een methode \textit{requires} toegevoegd, die als sleutelwoord in onze DSL zal dienen.
+\codepart{code/Code-hoofdstuk-3.scala}{Card-klasse met Requirements}{228}{235}
+In de DSL kunnen er nu vereisten toegevoegd worden aan kaarten zoals in \coderef{Gebruik van Requirements in de DSL}
+\codepart{code/Code-hoofdstuk-3.scala}{Gebruik van Requirements in de DSL}{237}{239}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 6: Uitvoerbare kaarten: Sorceries %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Uitvoerbare kaarten: Sorceries}
+Tot nu toe hebben we al twee verschillende types van kaarten besproken, landkaarten en \textit{creatures}. De functionaliteit van deze types is duidelijk verschillende van elkaar. Landkaarten bezitten, behalve hun specifieke type, geen eigenschappen en nemen enkel passief aan het spel deel, als vereisten voor andere types van kaarten. \textit{Creatures} daarentegen beschikken wel over een eigen set eigenschappen, zoals aanvalskracht en levenspunten, en kunnen de standaard spelregels beïnvloeden door de vaardigheden die eraan gekoppeld zijn.
+
+Een derde type kaarten met een duidelijk verschillende functionaliteit zijn kaarten die eenmalige acties uitvoeren wanneer ze gespeeld worden. \textit{Magic: The Gathering} bevat dit type van kaarten onder de vorm van \engels{Sorceries} en \engels{Instants}. Beide verschillen in het tijdstip waarop ze gespeeld kunnen worden. \textit{Shadow Era} bevat \engels{Ability}-kaarten met een soortgelijke functionaliteit en in \textit{Pok\'eMon} heten kaarten met dergelijke functionaliteit \engels{Trainers}.
+\npar
+In dit spel zullen we kaarten met dergelijke functionaliteit \textit{Sorceries} noemen, naar \textit{Magic: The Gathering}. We gebruiken \textit{Doom Blade} (Figuur \ref{doom-blade.pdf}), een kaart uit \textit{Magic: The Gathering} als voorbeeld om te achterhalen hoe we \textit{Sorceries} kunnen modelleren. Als we de kaart bekijken, dan zien we dat ze bestaat uit twee delen: Een actie, "`Destroy"', en een doelwit, "`nonblack creature"'. Om de ontwikkeling van nieuwe kaarten vlot te laten verlopen vereisen we dat we in onze DSL \textit{Sorceries} kunnen aanmaken en de actie en het doelwit meteen kunnen meegeven. Beide zullen dus gemodelleerd moeten worden. We beginnen bij de doelwitten.
+\mijnfiguur[H]{width=0.4\textwidth}{doom-blade.pdf}{Magic: The Gathering - Doom Blade}
+
+% Subsectie 6.1: Doelwitten %
+\subsection{Doelwitten}
+Mogelijke doelwitten voor \textit{Sorceries} kunnen sterk van elkaar verschillen. Soms zijn \textit{creatures} het doelwit, maar ook de spelers zelf kunnen het onderwerp van de acties vormen. Om naar doelwitten te kunnen refereren ontwerpen we bijgevolg een abstracte klasse \textit{Target} (\coderef{Target-klasse}) die een referentie naar het eigenlijke doelwit, een instantie van de klasse \textit{Any}, bijhoudt.
+\codepart{code/Code-hoofdstuk-3.scala}{Target-klasse}{241}{244}
+Subklassen van \textit{Target} kunnen daarna geïmplementeerd worden om deelverzamelingen van mogelijke doelwitten te definiëren. Dit doen ze door een invulling te voorzien voor de abstracte methode \textit{targetable}, die van een argument teruggeeft of het een geldig doelwit is. De klasse \textit{CreatureTarget} (\coderef{CreatureTarget-klasse}) accepteert enkel instanties van de klasse \textit{Creature} als geldige doelwitten, terwijl \textit{PlayerTarget} (\coderef{PlayerTarget-klasse}) hetzelfde doet voor instanties van de klasse \textit{Player}.
+\codepart{code/Code-hoofdstuk-3.scala}{CreatureTarget-klasse}{246}{250}
+\codepart{code/Code-hoofdstuk-3.scala}{PlayerTarget-klasse}{252}{256}
+Door de methode \textit{targetable} een geschikte invulling te geven kunnen alle nodige doelwitten ontworpen worden. Om deze doelwitten beschikbaar te maken in onze DSL via een eenvoudige syntax voorzien we een \textit{Targets}-object (zie \coderef{Targets-object}) dat namen voorziet voor alle geïmplementeerde doelwitten en statisch geïmporteerd kan worden waar doelwitten nodig zijn.
+\codepart{code/Code-hoofdstuk-3.scala}{Targets-object}{258}{261}
+
+% Subsectie 6.2: Samengestelde doelwitten %
+\subsection{Samengestelde doelwitten}
+Naast eenvoudige doelwitten zoals \textit{creatures} en spelers kunnen \textit{Sorceries} ook ingewikkeldere doelwitten hebben. Een voorbeeld hiervan is de kaart \engels{Deathmark} uit \textit{Magic: The Gathering}, te zien in Figuur \ref{deathmark.pdf}. De tekst op de kaart, \textit{"`Destroy target green or white creature"'}, duidt erop dat het doelwit van de \textit{Sorcery} ofwel groene \textit{creatures} ofwel witte \textit{creatures} zijn. We zouden een klasse \textit{GreenOrWhiteCreatureTarget} kunnen ontwerpen om naar dergelijk doelwit te refereren maar dat zou betekenen dat we voor alle mogelijke combinaties van basisdoelwitten zoals "`\textit{Creature}"', "`\textit{Green}"' en "`\textit{White}"' nieuwe klassen zouden moeten ontwerpen. Het is duidelijk dat deze manier van werken zeer gebruiksonvriendelijk is.
+\mijnfiguur[H]{width=0.4\textwidth}{deathmark.pdf}{Magic: The Gathering - Deathmark}
+Om dergelijke doelwitten te modelleren zou het beter zijn indien we de basisdoelwitten at runtime kunnen samenstellen tot complexere doelwitten. Dit kan door een klasse \textit{CompoundTarget} te voorzien die een lijst van (al dan niet zelf samengestelde) doelwitten bijhoudt, zie \coderef{CompoundTarget-klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{CompoundTarget-klasse}{263}{266}
+Deze klasse bepaald echter nog niet op welke manier doelwitten samengesteld worden. Dit kan op twee manieren. Enerzijds door conjunctie, bijvoorbeeld "`green (and) creature"', anderzijds door disjunctie, zoals "`green or white"'. Deze manieren worden gemodelleerd door de respectievelijke klassen \textit{ConjunctTarget} (\coderef{ConjunctTarget-klasse}) en \textit{DisjunctTarget} (\coderef{DisjunctTarget-klasse}). Beide klassen bieden een invulling voor de methode \textit{targetable}. De conjunctie gebruikt de methode \textit{forall} om het resultaat voor de conjunctie van de elementen van de doelwitlijst te bepalen. De disjunctie gebruikt de \textit{exists}-methode.
+\codepart{code/Code-hoofdstuk-3.scala}{ConjunctTarget-klasse}{268}{272}
+\codepart{code/Code-hoofdstuk-3.scala}{DisjunctTarget-klasse}{274}{278}
+Aangezien samengestelde doelwitten gebruikt zullen worden bij de aanmaak van \textit{Sorceries} moeten we voorzieningen treffen om dit in onze DSL vlot te laten verlopen. Dit kan opnieuw door toevoeging van impliciete conversies en methoden die als sleutelwoorden gebruikt kunnen worden. De keuze voor sleutelwoorden is logischerwijs \textbf{\textit{and}} voor conjunties en \textbf{\textit{or}} voor disjuncties. Indien we beide klassen updaten zoals in \coderef{ConjunctTarget-klasse met DSL voorzieningen} en \coderef{DisjunctTarget-klasse met DSL voorzieningen} dan kunnen we samengestelde doelwitten in onze DSL aanmaken zoals in \coderef{Creatie van samengestelde doelwitten in de DSL}.
+\codepart{code/Code-hoofdstuk-3.scala}{ConjunctTarget-klasse met DSL voorzieningen}{280}{296}
+\codepart{code/Code-hoofdstuk-3.scala}{DisjunctTarget-klasse met DSL voorzieningen}{298}{314}
+\codepart{code/Code-hoofdstuk-3.scala}{Creatie van samengestelde doelwitten in de DSL}{316}{316}
+
+% Subsectie 6.3: Acties %
+\subsection{Acties}
+Nu we doelwitten op een eenvoudige manier kunnen beschrijven en aanmaken resten ons nog de acties om de \textit{Sorceries} te vervolledigen. Een algemene actie vereist slechts \'e\'en zaak, namelijk dat er een manier aanwezig is om ze uit te voeren. Bijgevolg kunnen we een abstracte klasse \textit{Action} implementeren die een zeer beperkte interface heeft, zie \coderef{Action-klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{Action-klasse}{318}{320}
+Subklassen van deze klasse kunnen specifieke acties implementeren door de methode \textit{execute} een zinvolle invulling te geven. Aangezien de meeste acties echter een doelwit verwachten ontwerpen we een tweede abstracte klasse, \textit{TargetAction} (\coderef{TargetAction-klasse}) die deze deze functionaliteit implementeert door een doelwit bij te houden.
+\codepart{code/Code-hoofdstuk-3.scala}{TargetAction-klasse}{322}{324}
+Een actie zoals \textit{Destroy} kunnen we nu implementeren in een klasse \textit{DestroyAction} die overerft van \textit{TargetAction}, zie \coderef{DestroyAction-klasse}. Om in onze DSL op een eenvoudige manier naar de acties te kunnen verwijzen voegen we opnieuw een object toe dat namen geeft aan de acties (\coderef{Actions-object}).
+\codepart{code/Code-hoofdstuk-3.scala}{DestroyAction-klasse}{326}{330}
+\codepart{code/Code-hoofdstuk-3.scala}{Actions-object}{332}{337}
+
+% Subsectie 6.4: Acties en doelwitten toekenen aan kaarten %
+\subsection{Acties en doelwitten toekenen aan kaarten}
+De laatste stap die ons nog rest om volwaardige \textit{Sorceries} te kunnen ontwerpen is het toekennen van een actie en doelwitten aan een kaart. Hiervoor implementeren we een nieuwe klasse, \textit{Sorcery}, die overerft van de klasse \textit{Card} aangezien het een kaart is. Deze klasse bevat twee eigenschappen: \textit{\_action} en \textit{\_target} die respectievelijk de actie en de doelwitten bijhoudt. Om \textit{Sorceries} in onze DSL eenvoudig te kunnen aanmaken voorzien we bovendien twee methoden \textbf{\textit{defined\_as}} en \textbf{\textit{target}} die gebruikt kunnen worden als sleutelwoorden in de DSL. De implementatie van deze klasse is te zien in \coderef{Sorcery-klasse} en het aanmaken van een \textit{Sorcery} met behulp van de DSL in \coderef{Creatie van een Sorcery in de DSL}.
+\codepart{code/Code-hoofdstuk-3.scala}{Sorcery-klasse}{339}{350}
+\codepart{code/Code-hoofdstuk-3.scala}{Creatie van een Sorcery in de DSL}{352}{353}
+Op deze manier is ook het laatste grote type kaarten eenvoudig toe te voegen aan de hand van de DSL.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 7: Overzicht van de DSL %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Overzicht van de DSL}
+Tot slot geven we nog een overzicht van de sleutelwoorden die de DSL bevat en hun doel in Tabel \ref{tab:sleutelwoorden-dsl}, de beschikbare operatoren voor het aanmaken van \textit{Requirements} en doelwitten in Tabel \ref{tab:operatoren-dsl}, en namen die gedefinieerd werden voor instanties van landen, vaardigheden, acties en doelwitten in Tabel \ref{tab:namen-dsl}.
+
+% Tabel met sleutelwoorden %
+\begin{table}[H]
+	\centering
+	\begin{tabular}[H]{|l|p{0.75\textwidth}|}
+		\hline
+		\textbf{Sleutelwoord} & \textbf{Doel} \\
+		\hline
+		\hline
+		new Creature & Aanmaak van een kaart van het type \textit{Creature} \\
+		\hline
+		new Sorcery & Aanmaak van een kaart van het type \textit{Sorcery} \\
+		\hline
+		new Forest & Aanmaak van een kaart van het type \textit{Forest} \\
+		\hline
+		new Island & Aanmaak van een kaart van het type \textit{Island} \\
+		\hline
+		new Mountain & Aanmaak van een kaart van het type \textit{Mountain} \\
+		\hline
+		new Plains & Aanmaak van een kaart van het type \textit{Plains} \\
+		\hline
+		new Swamp & Aanmaak van een kaart van het type \textit{Swamp} \\
+		\hline
+		called & Geven van een naam aan een kaart \\
+		\hline
+		with\_damage & Toekennen van een aanvalskracht aan een kaart van het type \textit{Creature} \\
+		\hline
+		with\_health & Toekennen van een aantal levenspunten aan een kaart van het type \textit{Creature} \\
+		\hline
+		has\_ability & Toekennen van een vaardigheid aan een kaart van het type \textit{Creature} \\
+		\hline
+		requires & Toekennen van een reeks vereisten voor het spelen van een kaart van het type \textit{Creature} \\
+		\hline
+		defined\_as & Toekennen van een actie aan een kaart van het type \textit{Sorcery} \\
+		\hline
+		target & Toekennen van een doelwit aan een kaart van het type \textit{Sorcery} \\
+		\hline
+	\end{tabular}
+	\caption{Sleutelwoorden in de DSL}
+	\label{tab:sleutelwoorden-dsl}
+\end{table}
+
+% Tabel met operatoren %
+\begin{table}[H]
+	\centering
+	\begin{tabular}[H]{|l|p{0.75\textwidth}|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{\textit{Requirements}}} \\
+		\hline
+		\textbf{Operator} & \textbf{Doel} \\
+		\hline
+		\hline
+		* & Samenstellen van een aantal een een landtype \\
+		\hline
+		and & Samenstellen van verschillende \textit{Requirements} \\
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Doelwitten}} \\
+		\hline
+		\textbf{Operator} & \textbf{Doel} \\
+		\hline
+		\hline
+		and & Conjunctie van doelwitten \\
+		\hline
+		or & Disjunctie van doelwitten \\
+		\hline
+	\end{tabular}
+	\caption{Operatoren in de DSL}
+	\label{tab:operatoren-dsl}
+\end{table}
+
+% Tabel met namen %
+\begin{table}[H]
+	\centering
+	\begin{tabular}[H]{|l|p{0.75\textwidth}|}
+		\hline
+		\textbf{Acties} & Destroy, Discard(X) \\
+		\hline
+		\textbf{Doelwitten} & Creature, Player \\
+		\hline
+		\textbf{Vaardigheden} & Absorb(X), Amplify, Battlecry, Bushido(X), Deathtouch, Defender, Exalted, Flanking, Flying, Frenzy(X), Graft(X), Horsemanship, Indestructible, Lifelink, Modular(X), Persist, Poisonous(X), Rampage(X), Reach, Shadow, Trample, Unblockable, Vanishing(X), Wither \\
+		\hline
+	\end{tabular}
+	\caption{Namen in de DSL}
+	\label{tab:namen-dsl}
+\end{table}
+
+
+

@@ -1,0 +1,22 @@
+\select@language {dutch}
+\contentsline {chapter}{\numberline {1}Inleiding}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Achtergrond en motivatie}{2}{chapter.2}
+\contentsline {section}{\numberline {2.1}Collectible Card Games}{2}{section.2.1}
+\contentsline {section}{\numberline {2.2}Domein-specifieke talen}{3}{section.2.2}
+\contentsline {section}{\numberline {2.3}Scala}{4}{section.2.3}
+\contentsline {chapter}{\numberline {3}Ontwikkeling van een DSL}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}Kaarten}{5}{section.3.1}
+\contentsline {section}{\numberline {3.2}Creatures}{7}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Aanmaak van Creatures}{7}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Het probleem met implicits}{8}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Vaardigheden}{9}{section.3.3}
+\contentsline {section}{\numberline {3.4}Vaardigheden met parameters}{10}{section.3.4}
+\contentsline {chapter}{\numberline {4}Evaluatie}{12}{chapter.4}
+\contentsline {section}{\numberline {4.1}Creatures en vaardigheden}{12}{section.4.1}
+\contentsline {section}{\numberline {4.2}Vaardigheden met parameters}{12}{section.4.2}
+\contentsline {section}{\numberline {4.3}Vaardigheden samenstellen}{13}{section.4.3}
+\contentsline {chapter}{\numberline {5}Gerelateerd werk}{14}{chapter.5}
+\contentsline {section}{\numberline {5.1}SandScape}{14}{section.5.1}
+\contentsline {section}{\numberline {5.2}Forge}{14}{section.5.2}
+\contentsline {chapter}{\numberline {6}Conclusie}{16}{chapter.6}
+\contentsline {chapter}{Bibliografie}{17}{appendix*.4}

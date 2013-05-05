@@ -1,0 +1,134 @@
+
+\chapter{Inleiding}
+
+\section{Hoe het begon}
+
+\subsection{\TeX}
+
+\TeX\ (uitspraak ``Tech'' als in techneut, kan ook als `TeX' geschreven
+worden) is een computer-progamma van Donald E.~\citet{texbook}.  Het
+is speciaal ontworpen voor het zetten en drukken van wiskundige teksten
+en formules. Een belangrijk kenmerk van \TeX\ is dat je er zelf nieuwe functies in kan programmeren (zogenaamde macro's). Het pakket is dus uitbreidbaar. Vele mensen die uitbreidingen geschreven hebben, maken die publiek beschikbaar. Het is dus aangewezen om eerst te kijken wat er al bestaat, vooraleer zelf iets te implementeren.
+
+\subsection{\LaTeX}
+
+\LaTeX\  (uitspraak ``Lah-tech'',
+kan ook als `LaTeX' geschreven worden)
+is een zogenaamd macro-pakket dat door Leslie \cite{lamport94} werd
+geschreven en gebruik maakt van \TeX.
+Het stelt de auteur in staat zijn publicaties op eenvoudige wijze en met
+gebruik van een op voorhand opgegeven structuur, met boekdrukkwaliteit te
+zetten en af te drukken.
+\npar
+Om die speciale zes \LaTeX\ letters te krijgen, moet je het commando \lcommand{\\LaTeX\\} gebruiken. \TeX\ verkrijg je met het commando \lcommand{\\TeX\\}.
+
+\section{Het verwerken van tekst}
+
+Het maken van printbare documenten kan op verschillende manieren gebeuren. Enerzijds heb je de wuziwuk\footnote{Wat U Ziet Is Wat U Krijgt} tekstverwerkers, waar het merendeel van de mensen mee vertrouwd is, en anderzijds heb je de zogenaamde \engels{markup} tekstprocessing programma's, zoals \latex.
+\npar
+De wuziwuk tekstverwerkers zijn initieel gemakkelijk in gebruik. Je typt en er verschijnt juist hetzelfde als hetgeen op papier zal komen.\footnote{Althans, dit is de theorie. In de praktijk durft dit wel eens lelijk tegen te vallen.} Voor korte documenten is dit zeer gemakkelijk. Maar voor lange documenten werkt dit niet meer zo goed: die drie enters die je op het einde van een bladzijde had gezet om de daarop volgende titel op een nieuw blad te krijgen (omdat dat mooi was) blijken na het doorvoeren van een verbetering plots in het midden van een blad te staan. Of de figuren die zo mooi geschikt waren, beginnen rond te zweven, of nog erger: worden vervangen door een rood kruis. Zelfs als dat je bespaard wordt, blijft er nog altijd het probleem van consistentie: bij de ene figuur heeft het bijschrift lettergrootte 10, bij de andere 11.
+\npar
+Vandaar de andere manier: \latex. De opmaak wordt gescheiden van de inhoud. De auteur geeft de structuur aan en de computer maakt aan de hand van de gestructureerde tekst een prettig leesbaar document. Dit kan een printbaar bestand zijn (met \command{latex}) of een webpagina (met \command{latex2html}). Met één commando kan je je thesis publiceren op het www!
+\npar
+De tekst wordt getypt in een gewone editor. In een editor kun je alleen tekst typen: geen knopjes om vet of cursief te zetten, geen animaties, geen figuren invoegen. Enkel tekst, platte tekst. Dit lijkt archaïsch, omdat de meeste mensen alleen \engels{wordpad} als editor kennen, maar er bestaan veel betere: \commandx{vim} is er één van, \commandx{emacs} is een andere. Beiden zijn vrij verkrijgbaar op het net. Onder Windows bestaat er zoiets als \engels{winedit} (te betalen) maar ook \command{vim} kan daar geïnstalleerd worden. Dé \latex-editor onder Windows is echter TeXnicCenter.\footnote{\url{www.texniccenter.org}}
+\npar
+Platte tekst. Da's niet veel. Hoe krijg je dan titeltjes, paginanummering, opmaak? Wel, er bestaan van die regels om goede teksten te maken. Die kun je vanbuiten leren en dan toepassen in een wuziwuk programma. Maar die regeltjes toepassen kan je ook laten doen door de computer. In \latex zeg je: dit is een hoofdstuk, dit een titel, dit is een belangrijk woord, dit is letterlijke tekst, in de buurt van deze paragraaf moet deze figuur komen, dit is een Latijnse naam voor een bacterie. Allemaal in de teksteditor (hoe je dat doet, zien we later). Je tekstbestand geef je dan te eten aan \latex. Op basis van het tekstdocument dat je gemaakt hebt, maakt \latex een mooi printbaar document. Waar je zegt: dit is de titel van een nieuw hoofdstuk, gaat \latex een nieuwe bladzijde beginnen, ``Hoofdstuk x"\ schrijven (waarbij x het juiste nummer van het hoofdstuk is), op een nieuwe lijn gaan staan en dan je hoofdstuk titel in een gepast lettertype plaatsen.   
+\npar
+Hoe geef je je wensen te kennen aan \latex? Via speciale tekstsequenties natuurlijk. Aanduiden dat een nieuw hoofdstuk begint, gaat als volgt:
+\begin{llt}
+\chapter{Een nieuw hoofdstuk}
+\end{llt}
+Die \engels{backslash} maakt de \latex compiler duidelijk dat wat volgt geen gewone tekst is, maar een commando dat betrekking heeft op hetgeen tussen de accolades staat.
+
+\subsection*{Iets over opmaakontwerk}
+
+Typografisch ontwerpen is een vak, dat men moet (kan) leren.
+Ongeoefende auteurs maken vaak zware typografische fouten.
+Vele leken denken ten onrechte
+dat typografie alleen maar een kwestie van smaak
+is; wanneer een document er mooi uitziet, is het ook goed ontworpen.
+Daar documenten echter gelezen dienen te worden, zijn leesbaarheid en
+begrijpbaarheid belangrijker dan het uiterlijk.
+\npar
+Voorbeelden:
+De lettergrootte en nummering van titels van hoofdstukken en paragrafen
+moet zo gekozen worden, dat
+de structuur van hoofdstukken en alinea's duidelijk herkenbaar is. De
+regellengte dient zo gekozen te worden, dat vermoeiende oogbewegingen voor de
+lezer voorkomen worden en niet zo, dat het papier zo mooi mogelijk `gevuld'
+wordt met letters.
+\npar
+Met wuziwuk-pakketten maken auteurs soms mooie, maar slecht
+leesbare documenten. Een veel gemaakte fout is bijvoorbeeld het gebruiken
+van te veel verschillende lettertypes of het onderlijnen van titeltjes --- een typografische ramp.
+\latex
+voorkomt typografische fouten, omdat het de auteur dwingt de logische structuur
+van een tekst aan te geven. \latex gebruikt dan automatisch de meest geschikte
+opmaak.
+
+\section{Voor- en nadelen}
+
+\LaTeX\ heeft, vergeleken met andere tekstverwerkingspakketten, de volgende
+voordelen:
+\begin{itemize}
+\item De gebruiker hoeft maar een paar, gemakkelijk te begrijpen,
+  commando's te leren.  Deze commando's betreffen alleen de logische
+  structuur van het document, de gebruiker hoeft zich nauwelijks bezig te
+  houden met de technische details.
+\item Complexe structuren zoals voetnoten, literatuuropgaven,
+  inhoudsopgaven, tabellen, formules etc. en zelfs eenvoudige tekeningen, kunnen
+  zonder al te veel moeilijkheden gemaakt worden. Het zetten van complexe wiskundige formules is bijzonder gemakkelijk in \latex.
+\item Het geproduceerde document is consistent: alle titels zien er gelijkaardig uit (zelfde lettertype, zelfde letterstijl), de bijschriften bij tabellen en figuren hebben allemaal dezelfde opmaak en het citeren gebeurt altijd op dezelfde manier (inderdaad, wie houdt er zich in deze tijd van krachtige computers
+%\footnote{Ja, we beseffen dat deze uitspraak binnen 5 jaar belachelijk zal overkomen\ldots}
+nog bezig met het handmatig opstellen van een referentielijst?).
+\item Het is beschikbaar voor bijna alle computersystemen, en gratis.
+\item \latex is zeer stabiel. Crashes of corrupte bestanden zijn ongekend. \latex bronbestanden bevatten eigenlijk gewone tekst. Zij nemen dan ook weinig plaats in en kunnen gemakkelijk gebackupt worden op diskette.
+\item Vele mensen gebruiken \latex. Er bestaan dus een hele hoop pakketten (extensies) voor \latex die zeer gespecialiseerde dingen doen. Op \url{www.ctan.org}\footnote{Comprehensive \TeX\ Archive Network} zijn alle mogelijke pakketten verzameld. De meesten hiervan zijn waarschijnlijk echter al op je systeem ge\"installeerd.
+\end{itemize}
+\LaTeX\ heeft natuurlijk ook nadelen:
+\begin{itemize}
+\item Binnen de door \latex ondersteunde opmaakstijlen kunnen weliswaar enige
+  parameters gevari\"eerd worden, maar ingrijpende afwijkingen van de
+  gebruikte opmaakstijl kunnen slechts met veel moeite tot stand
+  gebracht worden.
+\item Het intypen van \latex commando's is ingewikkelder
+  dan het aanbrengen van opmaak met moderne
+  tekstverwerkers, zeker als die voorzien zijn van een menu-besturing. Ook
+  al omdat het resultaat van de commando's niet direct zichtbaar is.
+\end{itemize}
+
+Kort gezegd zijn voor kleine documenten (brieven, posters, memo's)
+tekstverwerkers meestal in het voordeel, terwijl voor grote, complexe
+documenten \LaTeX\ vaak betere resultaten en uiteindelijk minder werk
+oplevert.
+
+\section{Het \latex compileerproces}\label{compileren}
+
+\latex leest dus een tekstbestand in, en aan de hand daarvan worden een aantal bestanden gegenereerd waarvan vooral één bestand ons interesseert, namelijk het printbaar document. Het verwerken van een \latex bronbestand door de \latex compiler gebeurt met het commando \command{latex thesis.tex}, waarbij \bestand{thesis.tex} het \latex bestand is dat we willen compileren.
+\npar
+Oorspronkelijk was het document dat uit de latex-compiler kwam, een \begrip{dvi}-bestand (van \engels{DeVice Independent}). Dit bestand is onafhankelijk van een printer. Om het naar een printer te kunnen sturen, moet het met een zogenaamde \engels{printer driver} worden omgezet naar een bestand geschikt voor die bepaalde printer. Een veel gebruikt printerformaat is het \begrip{ps} of PostScript formaat. Het nieuwere formaat om printklare bestanden op te slaan en door te geven is \begrip{pdf} (\engels{Portable Document Format}).
+\npar
+Het \command{latex} commando genereert een \bestand{dvi} bestand. Dit kan worden omgezet naar een ps bestand met het commando \command{dvips thesis.dvi -o thesis.ps} (of korter: \command{dvips thesis -o}). Voor het omzetten van een dvi bestand naar een \bestand{pdf}-bestand bestaan er twee conversieprogramma's: \command{dvipdf} en \command{dvipdfm}. De syntax is iets anders dan bij \command{dvips}, namelijk: \command{dvipdf thesis.dvi} en er wordt een \bestand{thesis.pdf} aangemaakt.
+\npar
+Maar het is beter om rechtstreeks met pdf te werken. Met \command{pdflatex} maak je rechtstreeks een \bestand{pdf}-bestand aan. De syntax is dezelfde als voor \command{latex}:
+\begin{lt}
+pdflatex thesis.tex
+\end{lt}
+Dit document werd gecompileerd met pdflatex. We zullen verder ook alles uitleggen voor pdflatex. Dus wanneer gesproken wordt over het laten compileren door de latex compiler, bedoelen we eigenlijk de pdflatex compiler. 
+\npar
+Naast een dvi of pdf bestand, genereert \latex nog twee (of soms meer) andere bestanden: een \begrip{aux} en een \begrip{log}-bestand.\label{logbestand} In het \bestand{log}-bestand komen alle commentaren, die je op het scherm ziet voorbij rollen. Het \bestand{aux}-bestand is een help-bestand voor \latex zelf. Als je bijvoorbeeld in hoofdstuk~1 verwijst (verwijzingen worden behandeld in sectie \ref{label-ref}) naar een bladzijde in hoofdstuk~2, kan \latex tijdens het verwerken van hoofdstuk~1 niet weten welke bladzijde dit is. Wanneer echter hoofdstuk~2 wordt verwerkt, gaat \latex in de aux-file de juiste bladzijde bijhouden en de volgende keer dat je de latex-compiler loslaat op je document, zal de juiste bladzijde ingevoerd worden. Zie sectie \ref{label-ref} op bladzijde \pageref{label-ref} voor meer uitleg. Het is om die reden dat een document finaal minstens twee keer door de latex-compiler moet gejaagd worden (maar we zullen in de loop van deze cursus zien dat het tot vier keer nodig kan zijn).\label{aux-file}
+\npar
+Voor de mensen die met Windows werken en bang zijn van een \engels{command line}: geen nood. TeXnicCenter, een goede editor voor \latex onder Windows, beschikt over een aantal knopjes waar je kan op klikken en die dan al deze zaken voor jou uitvoeren.
+
+\section{\latex installatie en gebruik onder Windows}\label{latexinstallatie}
+
+Onder GNU/Linux wordt \latex bij de meeste distributies standaard meegeleverd (het zogenaamde texlive pakket). Onder Windows is het iets moeilijker.
+
+\begin{itemize}
+\item Dé \latex distributie voor Windows is MikTex.\footnote{\url{www.miktex.org}} Op deze website staat uitgelegd wat we moeten doen om \latex te installeren op onze computer. Na de installatie hebben we `slechts' een \latex compiler, geen teksteditor, noch een handig knopje waarop we kunnen klikken om ons \bestand{tex}-bestand om te zetten naar een \bestand{pdf}-bestand. Slechts de DOS \engels{command line} is beschikbaar en \engels{notepad} voor het bewerken van onze \bestand{tex}-bestanden.
+\item Om het resultaat te bekijken, moeten we (althans voor pdflatex), een pdf-lezer installeren. De beste hiervoor is Acrobat Reader van Adobe.\footnote{\url{www.adobe.com}} Meestal is die echter al geïnstalleerd.
+\item Om plezanter te werken, installeren we TeXnicCenter.\footnote{\url{www.texniccenter.org}} Dit is een geïntegreerde omgeving voor het maken van \latex documenten. Je hebt van die handige menutjes waarin je kan kiezen uit verschillende commando's, zodat je ze niet allemaal moet onthouden. Het is best om eerst Acrobat Reader te installeren, zodat TeXnicCenter hiermee kan linken tijdens de installatie.
+\end{itemize}
+
+Omdat \latex gebaseerd is op redelijk oude computercode, kan de latexcompiler moeilijk of niet omgaan met spaties (en andere rare tekens) in bestandsnamen of directories. Installeer MikTex dus niet in \bestand{C:\\Program Files\\} maar bijvoorbeeld wel in \bestand{C:\\miktex\\}. Gebruik ook nooit spaties in je \bestand{tex}-bestandsnamen. Dus \textsc{niet} opslaan in \bestand{C:\\Mijn Documenten\\} maar wel in \bestand{C:\\latexbestanden\\} of iets dergelijks.  Dit zal veel kopzorgen vermijden.
+

@@ -1,0 +1,590 @@
+
+\chapter{Wiskundige formules}\label{math-mode}
+
+Wiskundige formules in een tekst inbrengen was voor het \TeX\ tijdperk tijdrovend en dus duur. Dit is één van de hoofdredenen waarom Donald Knuth \TeX\ ontwikkelde. Dit is ook de reden waarom wiskundige formules tussen dollartekens staan (niet altijd echter, zie verder).
+\npar
+De mathematische mogelijkheden van \latex worden sterk uitgebreid door gebruik te maken van het \lcommandx{amsmath} pakket (\engels{American Mathematical Society}):
+\begin{llt}
+\usepackage{amsmath}     % Uitgebreide wiskundige mogelijkheden
+\end{llt}
+In dit hoofdstuk zullen we ervan uitgaan dat dit standaard gebruikt wordt. Sommige voorbeelden zullen anders niet werken. Verder leggen we hier niet alles uit, verre van. Voor meer exotische dingen kan onder andere de help bij het \lcommand{amsmath} pakket gebruikt worden.\footnote{Op een Debian systeem: \bestand{/usr/share/doc/texmf/latex/amsmath/amsldoc.dvi.gz}}
+
+\section{Wiskundige omgeving}
+
+Wiskundige formules kunnen op twee manieren ingebracht worden. Enerzijds in de tekst, zoals $E = mc^2$ en anderzijds op een aparte lijn, zoals:
+\begin{equation}
+    F(x) = \frac{1}{\sigma \sqrt{2\pi}}  e^{\frac{-(x-\mu)^2}{2\sigma^2}}
+    \label{gauss}
+\end{equation}
+Wiskunde inbrengen in de tekst, gebeurt door de formule tussen dollartekens te zetten: \lcommand{$E = mc^2$}.\footnote{Ook \lcommand{\\begin\{math\} E = mc^2 \\end\{math\}} en \lcommand{\\(E = mc^2\\)} mogen gebruikt worden.} Om de formules op een aparte lijn te krijgen:
+\begin{llt}
+\begin{equation}
+    F(x) = \frac{1}{\sigma \sqrt{2\pi}}  e^{\frac{-(x-\mu)^2}{2\sigma^2}}
+    \label{gauss} % Om te kunnen refereren naar deze vergelijking
+\end{equation}
+\end{llt}
+In plaats van \lcommandx{equation} mag ook \lcommand{equation*}\footnote{Of \lcommand{\\begin\{displaymath\} formule \\end\{displaymath\}} of \lcommand{$$ formule $$} of \lcommand{\\\[ formule \\\]}.} gebruikt worden. Deze laatste vorm vermijdt dat de vergelijkingen genummerd worden. In dit geval is het onzinnig om een label mee te geven. In een \lcommand{equation} omgeving, wordt met het labelcommando het nummer van de vergelijking in een label gezet. Bijgevolg produceert \lcommand{\\ref\{gauss\}} het nummer van vergelijking \ref{gauss}.
+
+\subsection{Lange formules: \lcommand{multline}}
+
+In de \lcommand{equation} omgeving, worden lijnen nooit afgebroken. \latex kan en wil niet op eigen houtje beslissen op welke plaats een formule moet gesplitst worden. Er bestaat echter een speciale omgeving in dewelke je een formule over verschillende lijnen kan uitsmeren. Dit is de \lcommandx{multline} omgeving (en dus niet \lcommand{multIline}!):
+\begin{llt}
+\begin{multline}
+    (x+y+z)^4 = z^4 + 4 y z^3 + 4 x z^3 + 6 y^2 z^2 + 12 x y z^2 + \\
+        6 x^2 z^2 + 4 y^3 z + 12 x y^2 z + 12 x^2 y z + 4 x^3 z +  \\
+        y^4 + 4 x y^3 + 6 x^2 y^2 + 4 x^3 y + x^4
+\end{multline}
+\end{llt}
+\begin{multline}
+    (x+y+z)^4 = z^4 + 4 y z^3 + 4 x z^3 + 6 y^2 z^2 + 12 x y z^2 + \\
+        6 x^2 z^2 + 4 y^3 z + 12 x y^2 z + 12 x^2 y z + 4 x^3 z +  \\
+        y^4 + 4 x y^3 + 6 x^2 y^2 + 4 x^3 y + x^4
+\end{multline}
+Een nieuwe lijn beginnen gebeurt met \lcommand{\\\\}. De eerste lijn wordt links uitgelijnd, de volgende lijnen worden gecentreerd en de laatste lijn wordt rechts uitgelijnd. Het vergelijkingsnummer wordt rechts tegen de laatste lijn geplaatst. Indien geen vergelijkingsnummer gewenst is, kan \lcommand{multline*} gebruikt worden.
+
+\begin{MinderBelangrijk}
+
+\subsection{Meerdere formules tegelijkertijd: \lcommand{gather}, \lcommand{align}, \lcommand{eqnarray}, \lcommand{array}}
+
+Meerdere deelvergelijkingen in één vergelijking kan bekomen worden met de \lcommandx{gather} omgeving:
+\begin{llt}
+\begin{gather}
+    (a + b)^2 = a^2 + 2 a b + b^2               \label{gather1}  \\
+    (a + b)^3 = a^3 + 3 a^2 b + 3 a b^2 + b^3   \nonumber        \\
+    (a + b)(a - b) = a^2 - b^2                  \label{gather2}
+\end{gather}
+\end{llt}
+\begin{gather}
+(a + b)^2 = a^2 + 2 a b + b^2               \label{gather1}  \\
+(a + b)^3 = a^3 + 3 a^2 b + 3 a b^2 + b^3   \nonumber        \\
+(a + b)(a - b) = a^2 - b^2                  \label{gather2}
+\end{gather}
+De verschillende lijnen worden gecentreerd en elke lijn krijgt een vergelijkingsnummer. Er kan dus een label toegekend worden aan elke lijn. Wanneer het niet gewenst is om aan een bepaalde lijn een vergelijkingsnummer toe te kennen, kan het commando \lcommand{\\nonumber} gegeven worden.\index{nonumber@\lcommand{\\nonumber}} Dit is hetgeen gebeurde tussen vergelijking \ref{gather1} en \ref{gather2}.
+\npar
+Het hierboven gegeven voorbeeld zou mooier zijn, moesten de verschillende gelijkheidstekens onder elkaar staan. Hiervoor is de \lcommandx{align} omgeving zeer geschikt. Het gebruik is analoog aan een \lcommand{tabular} omgeving (bladzijde \pageref{tabular}), alleen hoeft de uitlijningsformattering van de kolommen niet meegegeven te worden: de eerste kolom wordt rechts uitgelijnd, de tweede kolom links, de derde opnieuw rechts, de vierde weer links, enzovoort. Elke rij moet hetzelfde aantal kolommen bevatten. Het wordt gebruikt om verschillende kleine vergelijkingen naast elkaar te plaatsen.
+\begin{llt}
+\begin{align}
+    1+0 & = 1   & 1+1   & = 2   & 2+1   & = 3   & 3+1   & = 4   \label{pascal2} \\
+    1+0 & = 1   & 1+2   & = 3   & 3+3   & = 6   & 6+4   & = 10  \nonumber       \\
+    1+0 & = 1   & 1+3   & = 4   & 4+6   & = 10  & 10+10 & = 20  \label{pascal4}
+\end{align}
+\end{llt}
+\begin{align}
+    1+0 & = 1   & 1+1   & = 2   & 2+1   & = 3   & 3+1   & = 4   \label{pascal2} \\
+    1+0 & = 1   & 1+2   & = 3   & 3+3   & = 6   & 6+4   & = 10  \nonumber       \\
+    1+0 & = 1   & 1+3   & = 4   & 4+6   & = 10  & 10+10 & = 20  \label{pascal4}
+\end{align}
+Door het commando \lcommand{\\nonumber} te geven op het einde van een lijn, wordt die lijn niet genummerd. Wanneer we geen enkele lijn wensen te nummeren, kunnen we \lcommand{align*} gebruiken. 
+\npar
+De \lcommand{align} omgeving doet veel moeite om de verschillende kolommenparen mooi te spatieren. Met \lcommand{alignat}, kunnen we die spatiëring teniet doen. Alle kolommen worden dan tegen elkaar geplakt. De syntax is \lcommand{\\begin\{alignat\}\{N\}} waarbij \lcommand{N} het aantal kolomkoppels is. Met de \lcommand{flalign} omgeving worden de kolomkoppels zo ver mogelijk uit elkaar gezet, zodat heel de breedte van de bladzijde gevuld is.
+\npar
+Om een bepaald symbool in een vergelijking telkens op dezelfde plaats te krijgen, kan de \lcommandx{eqnarray} omgeving gebruikt worden. In die omgeving bestaat elke lijn uit drie delen: het eerste deel wordt rechts uitgelijnd, het tweede deel wordt gecentreerd en het derde deel wordt links uitgelijnd. Elke lijn krijgt een vergelijkingsnummer, tenzij het commando \lcommand{\\nonumber} wordt gegeven.
+\begin{llt}
+\begin{eqnarray}
+(a + b)^2       & = &  a^2 + 2 a b + b^2               \label{eqnarray1}  \\
+(a + b)^3       & = &  a^3 + 3 a^2 b + 3 a b^2 + b^3   \nonumber          \\
+(a + b)(a - b)  & = &  a^2 - b^2                       \label{eqnarray2}  \\
+                & = &  - b^2 + a^2                     \label{eqnarray3}
+\end{eqnarray}
+\end{llt}
+\begin{eqnarray}
+(a + b)^2       & = &  a^2 + 2 a b + b^2               \label{eqnarray1}  \\
+(a + b)^3       & = &  a^3 + 3 a^2 b + 3 a b^2 + b^3   \nonumber          \\
+(a + b)(a - b)  & = &  a^2 - b^2                       \label{eqnarray2}  \\
+                & = &  - b^2 + a^2                     \label{eqnarray3}
+\end{eqnarray}
+Merk op dat het, zoals in de \lcommand{tabular} omgeving, ook hier mogelijk is om cellen leeg te laten, wat gebeurde in vergelijking \ref{eqnarray3}.
+
+\subsection{Subnummering van vergelijkingen}
+
+Om vergelijkingen die bij elkaar horen hetzelfde hoofdnummer te geven, maar verschillende subnummers, kan gebruik gemaakt worden van de \lcommandx{subequations} omgeving. Deze omgeving is eigenlijk een superomgeving, die rond alle andere wiskundige omgevingen kan geplaatst worden. Alle vergelijkingen die binnen die superomgeving worden ingegeven, krijgen hetzelfde hoofdnummer, maar verschillen in het subnummer. Het \lcommand{\\label} commando juist na \lcommand{\\begin\{subequations\}} geeft een label met alleen de hoofdnummering. De subnummering in labels steken, gebeurt door het \lcommand{\\label} commando te geven in de verschillende vergelijkingen.
+\begin{llt}
+\begin{subequations}
+    \label{subvgl}
+    \begin{equation}
+        (a + b)^2      =   a^2 + 2 a b + b^2             \label{subvgl1}
+    \end{equation}
+    Tussen de verschillende vergelijkingen mag tekst geplaatst worden. 
+    \begin{gather}
+        (a + b)^3      =   a^3 + 3 a^2 b + 3 a b^2 + b^3 \label{subvgl2}   \\
+        (a + b)(a - b) = a^2 - b^2                       \label{subvgl3}
+    \end{gather}
+\end{subequations}
+\end{llt}
+\begin{subequations}
+    \label{subvgl}
+    \begin{equation}
+        (a + b)^2      =   a^2 + 2 a b + b^2             \label{subvgl1}
+    \end{equation}
+    Tussen de verschillende vergelijkingen mag tekst geplaatst worden. 
+    \begin{gather}
+        (a + b)^3      =   a^3 + 3 a^2 b + 3 a b^2 + b^3 \label{subvgl2}   \\
+        (a + b)(a - b) = a^2 - b^2                       \label{subvgl3}
+    \end{gather}
+\end{subequations}
+Het algemene nummer van de drie bovenstaande vergelijkingen is \ref{subvgl}, verkregen met het commando \lcommand{\\ref\{subvgl\}}. De individuele vergelijkingen zijn \ref{subvgl1}, \ref{subvgl2} en \ref{subvgl3}. Dit wordt verkregen met \lcommand{\\ref\{subvgl1\}}, \lcommand{\\ref\{subvgl2\}} en \lcommand{\\ref\{subvgl3\}}.
+
+\subsection{Omgevingen binnen de \lcommand{equation} omgeving}
+
+Om ingewikkelde constructies te maken binnen wiskundige omgevingen, kunnen subomgevingen gebruikt worden. Er zijn er vijf: \lcommandx{aligned}, \lcommandx{gathered}, \lcommand{split}, \lcommand{array} en \lcommand{cases}. Zij nummeren de vergelijking niet. Dat nummeren gebeurt door de buitenste wiskundige omgeving (in het voorbeeld hieronder \lcommand{equation}). 
+\npar
+De eerste twee hebben de volgende syntax:
+\begin{llt}
+\begin{aligned}[positie] vgl-lijnen \end{aligned}
+\begin{gathered}[positie] vgl-lijnen \end{gathered}
+\end{llt}
+Hierbij is \lcommand{positie} een optioneel positioneringsargument dat \lcommand{b} (\engels{bottom}), \lcommand{t} (\engels{top}) of \lcommand{c} (\engels{center}, standaard) is. Het gebruik is analoog als bij \lcommand{align} en \lcommand{gather}:
+\begin{llt}
+\begin{equation}
+    \begin{aligned}[c]
+        a     &= b+c   \\   a-b   &= c   \\   a-b-c &= 0   \\
+    \end{aligned}
+        \quad \leftarrow\text{center---top}\rightarrow \quad
+    \begin{gathered}[t]
+        a      = b+c   \\   a-b    = c   \\   a-b-c  = 0   \\
+    \end{gathered}
+        \quad \leftarrow\text{top---bottom}\rightarrow \quad
+    \begin{aligned}[b]
+        a      = b+c   \\   a-b    = c   \\   a-b-c  = 0   \\
+    \end{aligned}
+\end{equation}
+\end{llt}
+\begin{equation}
+    \begin{aligned}[c]
+        a     &= b+c   \\   a-b   &= c   \\   a-b-c &= 0   \\
+    \end{aligned}
+        \quad \leftarrow\text{center---top}\rightarrow \quad
+    \begin{gathered}[t]
+        a      = b+c   \\   a-b    = c   \\   a-b-c  = 0   \\
+    \end{gathered}
+        \quad \leftarrow\text{top---bottom}\rightarrow \quad
+    \begin{aligned}[b]
+        a      = b+c   \\   a-b    = c   \\   a-b-c  = 0   \\
+    \end{aligned}
+\end{equation}
+De \lcommandx{split} omgeving moet ook binnen een wiskundige omgeving voorkomen en wordt gebruikt om vergelijkingen te splitsen. Het verschil met de \lcommand{multline} omgeving is dat er in elke lijn een uitlijningsteken voorkomt \lcommand{&} zodat de schrijver meer controle heeft over hoe de vergelijkingen eruit zien.
+\begin{llt}
+\begin{equation}
+    \begin{split}
+        (x+y+z)^4 = & z^4 + 4 y z^3 + 4 x z^3 + 6 y^2 z^2 + 12 x y z^2 +     \\
+                & 6 x^2 z^2 + 4 y^3 z + 12 x y^2 z + 12 x^2 y z + 4 x^3 z +  \\
+                & y^4 + 4 x y^3 + 6 x^2 y^2 + 4 x^3 y + x^4
+    \end{split}
+\end{equation}
+\end{llt}
+\begin{equation}
+    \begin{split}
+        (x+y+z)^4 = & z^4 + 4 y z^3 + 4 x z^3 + 6 y^2 z^2 + 12 x y z^2 +     \\
+                & 6 x^2 z^2 + 4 y^3 z + 12 x y^2 z + 12 x^2 y z + 4 x^3 z +  \\
+                & y^4 + 4 x y^3 + 6 x^2 y^2 + 4 x^3 y + x^4
+    \end{split}
+\end{equation}
+Merk op dat analoge resultaten kunnen verkregen worden met \lcommand{align}, \lcommand{aligned} en \lcommand{array} omgeving. 
+\npar
+Wanneer slechts één nummer gewenst is voor heel de set vergelijkingen, kan gebruik gemaakt worden van de meer algemene \lcommandx{array} omgeving. Het gebruik van die omgeving is zoals bij de \lcommand{tabular} omgeving. De \lcommand{array} omgeving mag enkel geplaatst worden in wiskundige modus. Het is eigenlijk een tabelomgeving voor wiskunde:
+\begin{llt}
+\begin{equation}
+    \label{array}
+    \begin{array}{rcl}
+        (a + b)^2       & = &  a^2 + 2 a b + b^2                \\
+        (a + b)^3       & = &  a^3 + 3 a^2 b + 3 a b^2 + b^3    
+    \end{array}
+\end{equation}
+\end{llt}
+\begin{equation}
+    \label{array}
+    \begin{array}{rcl}
+        (a + b)^2       & = &  a^2 + 2 a b + b^2                \\
+        (a + b)^3       & = &  a^3 + 3 a^2 b + 3 a b^2 + b^3    
+    \end{array}
+\end{equation}
+\npar
+Een structuur zoals
+\begin{equation}
+    \label{cases}
+    P = \begin{cases}
+            A : &          x  \ge  12   \\
+            B : & 10  \le  x  <    12   \\
+            C : &          x  <    10
+        \end{cases}
+\end{equation}
+komt dikwijls voor in de wiskunde. Dit kan gemakkelijk aangemaakt worden met de \lcommandx{cases} omgeving. Het voorbeeld hierboven werd als volgt verkregen: 
+\begin{llt}
+\begin{equation}
+    P = \begin{cases}
+            A : &          x  \ge  12   \\
+            B : & 10  \le  x  <    12   \\
+            C : &          x  <    10
+        \end{cases}
+\end{equation}
+\end{llt}
+Er mag slechts één ampersand voorkomen in elke rij.
+\end{MinderBelangrijk}
+
+\section{De wiskundetaal}
+
+\subsection{Exponenten en indices --- superscript en subscript}\index{exponent}\index{index}\index{\^@\lcommand{^}}\index{_@\lcommand{_}}
+
+Om iets te verheffen (superscript), wordt het \lcommand{^} symbool gebruikt. Iets beneden krijgen (subscript) gebeurt met \lcommand{_} symbool. Deze commando's hebben slechts betrekking op de daaropvolgende letter. Wil je meer in de exponent of index, gebruik dan accolades. Beiden mogen gecombineerd worden om tezelfdertijd een exponent en een index te hebben. Ze kunnen ook genest worden.
+\begin{equation*}
+A^2b + A_{2b} + A_2^b + A^{B^C} \quad\longrightarrow\quad \text{\lcommand{A^2b + A_\{2b\} + A_2^b + A^\{B^C\}}}
+\end{equation*}
+
+\subsection{Breuken}\index{breuken}
+
+Breuken worden gemaakt met het commando
+\begin{llt}
+\frac{teller}{noemer}
+\end{llt}
+Breuken kunnen genest worden. Hierbij wordt de geneste breuk kleiner afgeprint:
+
+\begin{minipage}{0.4\textwidth}
+\begin{equation*}
+    \frac{ \frac{x+y}{x-y} + 1 }{x+y}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+\begin{llt}
+\begin{equation*}
+    \frac{ \frac{x+y}{x-y} + 1 }{x+y}
+\end{equation*}
+\end{llt}
+\end{minipage}
+
+Om dit te vermijden, kan \lcommand{\\dfrac} gebruikt worden:
+
+\begin{minipage}{0.4\textwidth}
+\begin{equation*}
+    \frac{ \dfrac{x+y}{x-y} + 1 }{x+y}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+\begin{llt}
+\begin{equation*}
+    \frac{ \dfrac{x+y}{x-y} + 1 }{x+y}
+\end{equation*}
+\end{llt}
+\end{minipage}
+Ook in andere situaties waarin met \lcommand{\\frac} de breuk kleiner wordt afgebeeld dan normaal, kan \lcommand{\\dfrac} gebruikt worden.
+
+\subsection{Binomiaalcoëfficiënten}\index{binom@\lcommand{\\binom}}
+
+Binomiaalcoëfficiënten kunnen eigenlijk gezien worden als breuken zonder breukstrepen en met haken rond. Zij worden verkregen met het commando \lcommand{\\binom\{boven\}\{onder\}}:
+\begin{equation*}
+\binom{n+1}{k} = \binom{n}{k} + \binom{n}{k-1} \quad\longrightarrow\quad \text{\lcommand{\\binom\{n+1\}\{k\} = \\binom\{n\}\{k\} + \\binom\{n\}\{k-1\}}}
+\end{equation*}
+
+\subsection{Wortels}\index{wortels}\index{vierkantswortel}
+
+Wortels worden met het commando \lcommand{\\sqrt\[n\]\{onder-wortel\}} gegenereerd. Hierbij is \lcommand{n} gelijk aan de gewenste machtswortel. Voor de tweede machtswortel kunnen we dit optionele argument weglaten.
+\begin{equation*}
+\sqrt{A+B} + \sqrt[3]{\frac{A-B}{A+B}} \quad\longrightarrow\quad \text{\lcommand{\\sqrt\{A+B\} + \\sqrt\[3\]\{\\frac\{A-B\}\{A+B\}\}}}
+\end{equation*}
+
+\subsection{Sommen en integralen}\index{som}\index{integraal}
+
+Sommen worden geproduceerd met het commando \lcommand{\\sum}, integralen met \lcommand{\\int}
+\begin{align*}
+\sum a_i \; \sum_{i=1}^{n} b_i &\quad\longrightarrow\quad \text{\lcommand{\\sum a_i \\; \\sum_\{i=1\}^\{n\} b_i}}\\
+\int a \, \mathrm{d}x \;\; \int_m^n x \, \mathrm{d}x &\quad\longrightarrow\quad \text{\lcommand{\\int a \\, \\mathrm\{d\}x \\; \\int_m^n x \\, \\mathrm\{d\}x}}\\
+\end{align*}
+In \engels{math mode} wordt geen rekening gehouden met de spaties in het \bestand{latex}-bestand. Alles wordt aan elkaar geplakt. Wanneer we ergens witte ruimte willen zetten, moeten we dit expliciet aangeven. Het commando \lcommand{\\,} zorgt voor een kleine spatie; \lcommand{\\;} geeft wat meer ruimte. Verder zien we het gebruik van \lcommand{\\mathrm} (van \engels{math roman}) om een recht lettertype te selecteren. Het symbool voor een afgeleide is namelijk geen variabele en mag dus niet cursief staan.
+\npar
+Sommigen hebben liever de limieten van de integraal boven en onder de integraal, in plaats van ernaast. Met \lcommand{\\limits} kan dit verkregen worden:
+\begin{equation*}
+\int\limits_m^n \mathrm{d}x \quad\longrightarrow\quad \text{\lcommand{\\int\\limits_m^n \\mathrm\{d\}x}}
+\end{equation*}
+\npar
+Meerdere integralen na elkaar produceer je met \lcommand{\\iint}, \lcommand{\\iiint}, \lcommand{\\iiiint} en \lcommand{\\idotsint}: $\iint$, $\iiint$, $\iiiint$ en $\idotsint$. Met \lcommand{\\oint} wordt een kringintegraal $\oint$.\index{kringintegraal}
+
+\subsection{Ellipsis}\index{ellipsis}
+
+Doordat \latex de spaties tussen punten negeert, kunnen we niet gewoon \lcommand{...}(resultaat: ...) gebruiken. In \engels{math mode} bestaan er verschillende soorten ellipsis:
+\begin{center}
+\begin{tabular}{lcl@{\quad\quad\quad}lcl}
+\lcommand{\\ldots}  & $\ldots$  & \engels{Low dots}     & \lcommand{\\cdots}    & $\cdots$  & \engels{Center dots} \\
+\lcommand{\\vdots}  & $\vdots$  & \engels{Vertical dots}& \lcommand{\\ddots}    & $\ddots$  & \engels{Diagonal dots}
+\end{tabular}
+\end{center}
+Het verschil tussen \lcommand{\\ldots} (\engels{lower}) en \lcommand{\\cdots} (\engels{center}) is dat het ene gebruikt wordt bij het opsommen van lijsten, zoals in $x_1,\ldots,x_n$ (gemaakt met \lcommand{x_1,\\ldots,x_n}) en het andere bij het sommeren van lijsten, zoals in $x_1+\cdots+x_n$ (gemaakt met \lcommand{x_1+\\cdots+x_n}).
+
+\subsection{Operatornamen}
+
+In de wiskunde is het gebruikelijk om de namen van variabelen cursief te zetten. Constanten en namen van operatoren moeten echter recht staan. In \engels{math mode} wordt alles cursief gezet (behalve getallen). Ook wordt er geen plaats gelaten tussen de letters onderling. Bijgevolg geeft \lcommand{sin x} $sin x$ terwijl we graag $\sin x$ zouden zien. Om dit te bereiken moet de operatornaam vooraf gegaan worden door een \engels{backslash}: \lcommand{\\sin x}. Dit lukt alleen maar met de meest gebruikelijke operatoren (zoals \lcommand{\\cos}, \lcommand{\\tan}, \lcommand{\\lim}~\ldots); \lcommand{\\mijnoperator x} zal een foutmelding geven. Om van \lcommand{mijnoperator} een operator te maken die door \latex herkend wordt, moet het volgende commando gegeven worden in de \engels{preamble}:
+\begin{llt}
+\DeclareMathOperator{\mijnoperator}{mijnoperator}
+\end{llt}
+De naam (\lcommand{\\mijnoperator}) van de operator moet niet dezelfde zijn als hetgeen verschijnt in het finale document:
+\begin{llt}
+\DeclareMathOperator{\integ}{Integraal}
+\end{llt}
+zorgt ervoor dat telkens we \lcommand{\\integ x} schrijven (in \engels{math mode} natuurlijk!) er `$\integ x$' verschijnt.
+\npar
+Sommige operatoren plaatsen het subscript of superscript onderaan of bovenaan. Om dit tegen te gaan, kan juist na de operator het commando \lcommand{\\nolimits} gegeven worden:
+\begin{equation*}
+\lim_{x\rightarrow\infty} \lim\nolimits_{x\rightarrow\infty}\;\longrightarrow\; \text{\lcommand{\\lim_\{x\\rightarrow\\infty\} \\lim\\nolimits_\{x\\rightarrow\\infty\}}}
+\end{equation*}
+
+\subsection{Accenten}
+
+De volgende accenten zijn beschikbaar in \engels{math mode}:
+\begin{center}
+\begin{tabular}{r@{\;\;}lr@{\;}lr@{\;}lr@{\;}l}
+$\hat{x}   $&\lcommand{\\hat\{x\}}    &$\breve{x}   $&\lcommand{\\breve\{x\}}    &$\grave{x}    $&\lcommand{\\grave\{x\}}    
+                                      &$\bar{x}     $&\lcommand{\\bar\{x\}} \\
+$\check{x} $&\lcommand{\\check\{x\}}  &$\acute{x}   $&\lcommand{\\acute\{x\}}    &$\tilde{x}    $&\lcommand{\\tilde\{x\}}
+                                      &$\vec{x}     $&\lcommand{\\vec\{x\}} \\
+$\dot{x}   $&\lcommand{\\dot\{x\}}    &$\ddot{x}    $&\lcommand{\\ddot\{x\}}     &$\mathring{x} $&\lcommand{\\mathring\{x\}} &&
+\end{tabular}
+\end{center}
+De letters $i$ en $j$ moeten gebruikt worden zonder punt wanneer er een accent opgezet wordt. Gebruik hiertoe \lcommand{\\imath} en \lcommand{jmath}. Dit geeft $\hat{\imath}$ voor \lcommand{$\\hat\{\\imath\}$} en $\bar{\jmath}$ voor \lcommand{$\\bar\{\\jmath\}$}.
+\npar
+Er bestaan versies van \lcommand{\\hat} en \lcommand{\\tilde} die over meer dan één karakter kunnen gespreid worden: \lcommand{\\widehat} en \lcommand{\\widetilde}:
+\begin{equation*}
+\widehat{A_3^{\frac{\widetilde{b+c}}{m}}} \quad\longrightarrow\quad \text{\lcommand{\\widehat\{A_3^\{\\frac\{\\widetilde\{b+c\}\}\{m\}\}\}}}
+\end{equation*}
+Met \lcommand{\\overline\{uitdrukking\}} overstrepen we \lcommand{uitdrukking}; \lcommand{\\underline\{uitdrukking\}} kan gebruikt worden om te onderstrepen. Analoog bestaat er ook \lcommand{\\overbrace} en \lcommand{\\underbrace}. Deze laatste twee zorgen voor accolades. Door er een superscript, respectievelijk een subscript aan toe te voegen, kunnen we iets schrijven aan die accolades.\index{accolade}
+\begin{llt}
+\begin{equation*}
+\underbrace{\ldots,-3,-2,-1,\overbrace{0,1,2,3,\ldots}^{\mathbb{N}}}_{\mathbb{Z}}
+\end{equation*}
+\end{llt}
+\begin{equation*}
+\underbrace{\ldots,-3,-2,-1,\overbrace{0,1,2,3,\ldots}^{\mathbb{N}}}_{\mathbb{Z}}
+\end{equation*}
+Het op elkaar stapelen van karakters kan gebeuren met \lcommand{\\stackrel\{boven\}\{onder\}}. Dit commando centreert het bovenste symbool op het onderste: \lcommand{\\stackrel\{<\}\{=\}} geeft $\stackrel{<}{=}$.\index{stackrel@\lcommand{\\stackrel}}
+
+\subsection{Symbolen}
+
+Er bestaan een heleboel symbolen om wiskundige begrippen voor te stellen. In bijlage \ref{wisksymb} zijn enkele tabellen terug te vinden met de meest gangbare symbolen.
+\npar
+De Griekse letters worden verkregen door de naam van de letter te laten voorafgaan door een \engels{backslash}: \lcommand{$\\alpha,\\beta$} geeft $\alpha,\beta$. De hoofdletters bekomt men door met een hoofdletter te beginnen: \lcommand{$A,\\Gamma$} geeft $A,\Gamma$. Als de hoofdletter dezelfde is in het Latijns alfabet, bestaat er geen Griekse variant.
+\npar
+Om een schuine streep te trekken doorheen een symbool, laat je het voorafgaan door \lcommand{\\not}. Bijgevolg geeft \lcommand{$\\not\\subset$} $\not\subset$, en resulteert \lcommand{$\\not\\in$} in $\not\in$.
+\npar
+Een symbool dat verschrikkelijk lastig kan zijn om terug te vinden, is het partieel afgeleide symbool. Het is nochtans niet moeilijk: \lcommand{\\partial} geeft $\partial$, maar je moet het weten.\index{afgeleide}\index{partial@\lcommand{\\partial}}
+
+\subsection{Gewone tekst in \engels{math mode}}\index{text@\lcommand{\\text}}
+
+Met het commando \lcommand{\\text\{tekst\}} kunnen we gewone tekst invoegen tussen de vergelijkingen:
+\begin{equation*}
+A+A+A \quad\text{is ook}\quad 3A \quad\longrightarrow\quad \text{\lcommand{A+A+A \\quad\\text\{is ook\}\\quad 3A}}
+\end{equation*}
+\begin{MinderBelangrijk}
+In de omgevingen waarbij vergelijkingen over verschillende lijnen kunnen uitgesmeerd worden, is het soms interessant om een lijn tekst tussen te voegen zonder dat de aliniëring verandert. Dit kan bereikt worden met het commando \lcommand{\\intertext\{tekst\}} dat alleen mag voorkomen juist na een \lcommand{\\\\}.
+\begin{llt}
+\begin{align}
+  E &= m \times a^2 \quad\text{Nee, slecht}                   \label{einstein1}\\
+  E &= m \times b^2 \quad\text{Bah, ziet er nog niet goed uit}\label{einstein2}\\
+  \intertext{Eureka!}
+  E &= m \times c^2                                           \label{einstein3}
+\end{align}
+\end{llt}
+\begin{align}
+E &= m \times a^2 \quad\text{Nee, slecht}                   \label{einstein1}\\
+E &= m \times b^2 \quad\text{Bah, ziet er nog niet goed uit}\label{einstein2}\\
+\intertext{Eureka!}
+E &= m \times c^2                                           \label{einstein3}
+\end{align}
+Merk op hoe vergelijking \ref{einstein3} niet gecentreerd staat, opdat het gelijkheidsteken juist onder dat van vergelijking \ref{einstein2} en \ref{einstein1} zou komen.
+\end{MinderBelangrijk}
+
+\subsection{Haakjes}\index{left@\lcommand{\\left}}\index{right@\lcommand{\\right}}
+
+De gewone haakjes kunnen gebruikt worden in vergelijkingen (accolades moeten echter voorafgegaan worden door een \engels{backslash}). Maar wanneer de vergelijking te hoog wordt, schalen de haakjes niet mee. Om de haakjes wel mee te laten schalen, kunnen de commando's \lcommand{\\left(} en \lcommand{\\right)} gebruikt worden, hier gedemonstreerd voor ronde haakjes. Maar ook \lcommand{\\left[}, \lcommand{\\left\{} en \lcommand{\\left\|} zijn mogelijk. Zij mogen echter niet uitgespreid worden over verschillende lijnen: in elke lijn waar een \lcommand{\\left} voorkomt, moet ook een \lcommand{\\right} voorkomen. Verder moet eerst een \lcommand{\\left} geplaatst worden en pas dan een \lcommand{\\right}. Wanneer je wilt beginnen met een sluitend haakje, geef dan een \lcommand{\\left)} aangezien die twee commando's eigenlijk moeten geïnterpreteerd worden als `beginnend haakje' en `eindigend haakje'. Soms wil je slechts één haakje (bijvoorbeeld wanneer je de haakjes opent op de eerste lijn en wilt sluiten op de tweede): \lcommand{\\left.} en \lcommand{\\right.} zorgen voor een onzichtbaar haakje.
+\begin{llt}
+\begin{gather}
+\left( \frac{a}{b} \right]  \quad\text{en}\quad
+\left| \frac{a}{b} \right\{                                                     \\
+\left[ \int_{\frac{y}{5}}^{\frac{z}{5}}             
+    \left( x^1 + x^2 + x^3 + x^4 + x^5 + x^6 + \right. \right.   \nonumber      \\
+    \left. \left. x^7 + x^8 + x^9 + \frac{x}{yz} \right) \right] \label{haakjes2}
+\end{gather}
+\end{llt}
+\begin{gather}
+\left( \frac{a}{b} \right]  \quad\text{en}\quad
+\left| \frac{a}{b} \right\{                         \\
+\left[ \int_{\frac{y}{5}}^{\frac{z}{5}}             
+    \left( x^1 + x^2 + x^3 + x^4 + x^5 + x^6 + \right. \right. \nonumber \\
+    \left. \left. x^7 + x^8 + x^9 + \frac{x}{yz} \right) \right] \label{haakjes2}
+\end{gather}
+Merk op dat vergelijking \ref{haakjes2} er eigenlijk niet zo mooi uitziet. Het linker ronde haakje is kleiner dan het rechter. \latex gaat namelijk na wat er tussen een \lcommand{\\left} en een \lcommand{right} zit en bepaalt op basis daarvan de grootte van de haken. Doordat we de eerste \lcommand{\\left} moeten sluiten na de eerste lijn, zit de breuk van de tweede lijn niet in de \lcommand{\\left(}--\lcommand{\\right.} van de eerste lijn. Het resultaat is dat het ronde haakje van de eerste lijn te klein uitvalt.
+\npar
+Om die reden kan het handig zijn om manueel de grootte van de haken te kiezen. De volgende mogelijkheden zijn beschikbaar (opnieuw kan men kiezen tussen de \lcommand{(}, \lcommand{[}, \lcommand{|} of \lcommand{\\\}} vorm):
+\begin{center}
+\begin{tabular}{clcccc}
+\lcommand{(}    &\lcommand{\\left}   &\lcommand{\\bigl}  &\lcommand{\\Bigl}  &\lcommand{\\biggl}   &\lcommand{\\Biggl}   \\
+\lcommand{)}    &\lcommand{\\right}  &\lcommand{\\bigr}  &\lcommand{\\Bigr}  &\lcommand{\\biggr}   &\lcommand{\\Biggr}   \\
+ $(a]|\dfrac{b}{c}\}$
+&$\left(a\right]\left|\dfrac{b}{c}\right\}$
+&$\bigl(a\bigr]\bigl|\dfrac{b}{c}\bigr\}$
+&$\Bigl(a\Bigr]\Bigl|\dfrac{b}{c}\Bigr\}$
+&$\biggl(a\biggr]\biggl|\dfrac{b}{c}\biggr\}$
+&$\Biggl(a\Biggr]\Biggl|\dfrac{b}{c}\Biggr\}$
+\end{tabular}
+\end{center}
+\begin{MinderBelangrijk}
+In tabel \ref{haakjestabel} staat beschreven hoe je pijlen kunt gebruiken als haakjes. Die kun je met de hierboven beschreven commando's echter niet vergroten. Om die te vergroten, moet je ze laten voorafgaan door \lcommand{\\big}, \lcommand{\\Big}, \lcommand{\\bigg} of \lcommand{\\Bigg}, waarbij de betekenis analoog is aan de hiervoor beschreven haakjes.
+\begin{equation}
+\rceil=\text{\lcommand{\\rceil}}\; \big\Downarrow=\text{\lcommand{\\big\\Downarrow}}\; \Big\rangle=\text{\lcommand{\\Big\\rangle}}\; \bigg\}=\text{\lcommand{\\bigg\\\}}}\; \Bigg\Updownarrow=\text{\lcommand{\\Bigg\\Updownarrow}}
+\end{equation}
+\end{MinderBelangrijk}
+
+\subsection{Matrices}\index{matrix}
+
+Matrices zouden eventueel kunnen ingevoerd worden door een \lcommand{split} omgeving tussen haakjes te zetten, maar dit is nogal omslachtig. Er bestaan specifieke omgevingen om matrices in te voeren: \lcommand{matrix} (zonder haakjes, kan gebruikt worden als vervanging van de \lcommand{array} omgeving), \lcommand{pmatrix} (geeft ronde haken: $(m)$), \lcommand{bmatrix} (vierkante haken: $[m]$), \lcommand{Bmatrix} (geeft accolades: $\{m\}$), \lcommand{vmatrix} (geeft verticale strepen: $|m|$) en \lcommand{Vmatrix} (geeft dubbele verticale strepen: $||m||$).
+\npar
+Deze matrixomgevingen kunnen enkel binnen een andere wiskundige omgeving gebruikt worden. 
+\npar
+Er moet niet worden ingegeven hoeveel kolommen de matrix telt. Het aantal kolommen moet wel in elke rij gelijk zijn. Elementen in een rij worden gesplitst door een ampersand (\&); verschillende rijen door een dubbele \engels{backslash}.
+\begin{llt}
+\begin{equation}
+    A = 
+    \begin{bmatrix}
+        a & b \\ c & d
+    \end{bmatrix}
+\end{equation}
+\end{llt}
+\begin{equation}
+    A = 
+    \begin{bmatrix}
+        a & b \\ c & d
+    \end{bmatrix}
+\end{equation}
+Het aantal kolommen is beperkt tot tien. Indien we matrices willen invoeren die meer dan tien kolommen bevatten, moeten we het volgende commando in de \engels{preamble} plaatsen:
+\begin{llt}
+\setcounter{MaxMatrixCols}{20}    % Max 20 kolommen in een matrix
+\end{llt}
+Dit zorgt ervoor dat we tot twintig kolommen in een matrix kunnen steken.
+
+\subsection{Witte ruimte}
+
+Doordat in \engels{math mode} alle spaties worden genegeerd, is het daar zeker belangrijk om harde spaties in te voeren. (Ook regelovergangen worden genegeerd. Je mag dus een formule over verschillende regels uitsmeren; blanco regels zijn echter niet toegelaten in \engels{math mode}). Er bestaan hiervoor verschillende commando's. Tabel \ref{spatiestabel} geeft een overzicht van deze commando's. Deze commando's mogen ook gebruikt worden buiten een wiskundige omgeving.
+\begin{table}[hbt]
+\begin{center}
+\caption{Verschillende commando's om horizontale witte ruimte in te voeren.\label{spatiestabel}\index{spaties}}
+\vspace{1ex}
+\begin{tabular}{lll|ll}
+\hline\hline
+Afkorting           &Commando                   &Voorbeeld  &Afkorting      &Commando                   \\
+\hline
+\lcommand{\\,}      &\lcommand{\\thinspace}     &$|\,|$     &\lcommand{\\!} &\lcommand{\\negthinspace}  \\
+\lcommand{\\:}      &\lcommand{\\medspace}      &$|\:|$     &               &\lcommand{\\negmedspace}   \\
+\lcommand{\\;}      &\lcommand{\\thickspace}    &$|\;|$     &               &\lcommand{\\negthickspace} \\
+                    &\lcommand{\\quad}          &$|\quad|$  &               &                           \\
+                    &\lcommand{\\qquad}         &$|\qquad|$ &               &                           \\
+\hline\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\section{Lettertypes}
+
+\subsection{Vette letters}\index{vet}
+
+Vette letters worden in \engels{math mode} verkregen met \lcommand{\\mathbf\{vet\}}. Dit werkt alleen voor gewone letters en Griekse hoofdletters. De andere symbolen worden niet beïnvloed door dit commando. Om die in het vet te krijgen, kan het commando \lcommand{\\boldsymbol\{\\alpha\}} gebruikt worden. Sommige symbolen hebben geen vette variant. Om ze er wel vet te laten uitzien, moeten ze verschillende keren op elkaar geprint worden, met telkens een lichte verschuiving. Dit kan geforceerd worden met het commando \lcommand{\\pmb\{\\sum\}} (van \engels{Poor Man's Bold}).
+\begin{llt}
+\begin{equation}
+                \alpha \Omega \sum   \quad
+        \mathbf{\alpha \Omega \sum}  \quad 
+    \boldsymbol{\alpha \Omega \sum}  \quad 
+           \pmb{\alpha \Omega \sum}
+\end{equation}
+\end{llt}
+\begin{equation}
+                \alpha \Omega \sum   \quad
+        \mathbf{\alpha \Omega \sum}  \quad 
+    \boldsymbol{\alpha \Omega \sum}  \quad 
+           \pmb{\alpha \Omega \sum}
+\end{equation}
+Slechts in het uiterste geval mag gebruik gemaakt worden van het \lcommand{\\pmb} commando. Want ook de letters die er normaalgezien goed uitzien in het vet, worden met \lcommand{\\pmb} op een armzaligere manier afgedrukt.
+
+\subsection{Rechte letters}
+
+Om het cursief zijn van de letters in \engels{math mode} tegen te gaan, kunnen ze in het \lcommand{\\mathrm\{recht\}} commando gezet worden (van \engels{Math RoMan}). 
+\begin{equation}
+C_2HO_2 \quad \mathrm{C_2HO_2} \quad\longrightarrow\quad \text{\lcommand{C_2HO_2  \\mathrm\{C_2HO_2\}}}
+\end{equation}
+\npar
+Een ander soort rechte letter in \engels{math mode} is \engels{sans serif}, te verkrijgen met \lcommand{\\mathsf\{formule\}}. Dit lettertype wordt gebruikt voor matrices (zie sectie \ref{matvect}).
+
+\subsection{Andere letters}
+
+Door gebruik te maken van het pakket \lcommand{amssymb}, kunnen de zogenaamde \engels{blackboard}, \engels{Gothic} of \engels{Fraktur} en \engels{script} letters gebruikt worden. 
+\begin{llt}
+\usepackage{amssymb}
+\end{llt}
+Hierna kunnen de volgende commando's gebruikt worden.
+Met \lcommand{$\\mathbb\{A B C ...\}$} wordt het volgende verkregen:
+\begin{eqnarray*}
+\mathbb{A\; B\; C\; D\; E\; F\; G\; H\; I\; J\; K\; L\; M\; N\; O\; P\; Q\; R\; S\; T\; U\; V\; W\; X\; Y\; Z} 
+%\mathbb{a\; b\; c\; d\; e\; f\; g\; h\; i\; j\; k\; l\; m\; n\; o\; p\; q\; r\; s\; t\; u\; v\; w\; x\; y\; z}
+\end{eqnarray*}
+Met \lcommand{$\\mathcal\{A B C ...\}$} wordt het volgende verkregen:
+\begin{eqnarray*}
+\mathcal{A\; B\; C\; D\; E\; F\; G\; H\; I\; J\; K\; L\; M\; N\; O\; P\; Q\; R\; S\; T\; U\; V\; W\; X\; Y\; Z} 
+%\mathcal{a\; b\; c\; d\; e\; f\; g\; h\; i\; j\; k\; l\; m\; n\; o\; p\; q\; r\; s\; t\; u\; v\; w\; x\; y\; z}
+\end{eqnarray*}
+Met \lcommand{$\\mathfrak\{A B C ...\\\\ a b c ...\}$} wordt het volgende verkregen:
+\begin{gather*}
+\mathfrak{A\; B\; C\; D\; E\; F\; G\; H\; I\; J\; K\; L\; M\; N\; O\; P\; Q\; R\; S\; T\; U\; V\; W\; X\; Y\; Z} \\
+\mathfrak{a\; b\; c\; d\; e\; f\; g\; h\; i\; j\; k\; l\; m\; n\; o\; p\; q\; r\; s\; t\; u\; v\; w\; x\; y\; z}
+\end{gather*}
+
+\section{Commando's in wiskundige modus}\index{ensuremath@\lcommand{\\ensuremath}}
+
+Wanneer je commando's definieert in de \engels{preamble}, weet je niet zeker of ze in \engels{math mode} zullen gebruikt worden. Je zou dollars kunnen plaatsen, maar dit geeft dan weer problemen wanneer het commando wel in \engels{math mode} wordt gebruikt. Vandaar het commando \lcommand{\\ensuremath\{wiskunde\}} dat ervoor zorgt dat het argument altijd in \engels{math mode} staat. 
+\begin{llt}
+\newcommand{\diff}{\ensuremath{\mathrm{d}}}
+\end{llt}
+In dit voorbeeld is de \lcommand{\\ensuremath} een beetje overbodig. De differentiaal operator ga je altijd gebruiken in \engels{math mode}. Het volgende voorbeeld maakt een eigen commando aan voor subscript en superscript. In gewone tekst is dit namelijk moeilijk te bereiken.
+\begin{llt}
+\newcommand{\supsc}[1]{\ensuremath{^{\text{#1}}}}   % Superscript in tekst
+\newcommand{\subsc}[1]{\ensuremath{_{\text{#1}}}}   % Subscript in tekst
+\end{llt}
+Met \lcommand{\\supsc\{tekst\}}\supsc{krijgen we dit} en met \lcommand{\\subsc\{tekst\}}\subsc{krijgen we dat}.
+
+\section{Conventies voor matrices en vectoren}\label{matvect}\index{matrix}\index{vector}
+
+Het is algemeen aangenomen in de wiskunde om vectoren vet en cursief te zetten (ja, het \lcommand{\\vec} commando zet een pijl bovenop de vector, wat dus fout is) en matrices in \engels{sans serif} letters. Het is handig om hiervoor enkele nieuwe commando's te definiëren.
+\begin{llt}
+\newcommand{\vt}[1]{\ensuremath{\boldsymbol{#1}}} % vector in juiste lettertype
+\newcommand{\mx}[1]{\ensuremath{\mathsf{#1}}}	  % matrix in juiste lettertype
+\end{llt}
+Met \lcommand{\\vt\{a\}} krijgen we \vt{a} en met \lcommand{\\mx\{A\}} krijgen we \mx{A}. Deze commando's kunnen wegens \lcommand{\\ensuremath} ook in gewone tekst gebruikt worden.
+
+\section{Chemische formules}\index{scheikunde}\index{chemie}
+
+Chemische formules worden conventioneel in een recht lettertype gezet. Met \lcommand{mathrm} zouden we al die subscripten kunnen zetten. Er bestaat echter een pakket dat ons het leven veel gemakkelijker maakt, namelijk \lcommand{mhchem}, in te laden met\footnote{Die \lcommand{[version=3]} moet erbij omdat dan de nieuwste snufjes van het pakket gebruikt worden.}:
+\begin{llt}
+\usepackage[version=3]{mhchem}          % Voor elegante scheikundige formules
+\end{llt}
+Nu kunnen we zeer eenvoudig in onze tekst scheikundige formules zetten door ze als argument van het commando \lcommand{\\ce\{ChemischeFormule\}} mee te geven:
+\begin{center}
+\begin{tabular}{l@{\quad\ensuremath{\longrightarrow}\quad}l}
+\lcommand{\\ce\{H2SO4\}}                           &\ce{H2SO4}\\
+\lcommand{\\ce\{1/2H2O\}}                          &\ce{1/2H2O}\\
+\lcommand{\\ce\{^\{227\}_\{90\}Th+\}}              &\ce{^{227}_{90}Th+}\\
+\lcommand{\\ce\{H2O <=> H+ + OH-\}}                &\ce{H2O <=> H+ + OH-}\\
+\lcommand{\\ce\{H2O <<=> H+ + OH-\}}               &\ce{H2O <<=> H+ + OH-}
+\end{tabular}
+\end{center}
+Dit mag ook in \engels{math mode}, zoals te zien in vergelijking \ref{mathchem}. Op die manier kunnen we chemische formules nummeren en kunnen we ernaar verwijzen in de tekst:
+
+\begin{minipage}{0.43\textwidth}
+\begin{llt}
+\begin{equation}
+  \ce{CO2 + 6H2O -> C6H12O6 + 6O2}
+  \label{mathchem}
+\end{equation}
+\end{llt}
+\end{minipage}
+\begin{minipage}{0.57\textwidth}
+\begin{equation}
+  \ce{CO2 + 6H2O -> C6H12O6 + 6O2}
+  \label{mathchem}
+\end{equation}
+\end{minipage}
+
+In de handleiding van \lcommand{mhchem} staat ter voorbeeld hoe een nieuwe scheikundige \engels{equation} omgeving kan gemaakt worden.
+

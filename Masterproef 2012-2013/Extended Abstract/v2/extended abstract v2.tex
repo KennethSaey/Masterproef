@@ -1,0 +1,180 @@
+\documentclass[twocolumn]{phdsymp}
+\usepackage[english]{babel}
+\usepackage{graphicx}					% Om figuren te kunnen verwerken
+\usepackage{graphics}					% Om figuren te verwerken.
+\graphicspath{{figuren/}}     % De plaats waar latex zijn figuren gaat halen.
+\usepackage{times}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+\lstset{
+	backgroundcolor=\color{lightgray},
+	captionpos=b,
+	frame=single,
+	title=\lstname
+}
+
+\begin{document}
+
+\title{A Domain Specific Language in Scala for Collectible Card Games} %!PN
+
+\author{Kenneth Saey}
+
+\supervisor{Tom Schrijvers, Benoit Desouter}
+
+\maketitle
+
+\begin{abstract}
+Collectible card games are a type of game with frequently changing game rules and new additions to gameplay. To make changes to the rules, authors have only to update the rulebook. In digital versions of collectible card games however, an update to the game rules is more than just changing english text, it also requires an update of the game code. This is impossible for the average game author. This article describes a programming language for coding game additions in an almost natural language.
+\end{abstract}
+
+\begin{keywords}
+Domain specific language, Scala, collectible card games, runtime gameflow modification
+\end{keywords}
+
+\section{Introduction}
+Collectible Card Games (CCG), also known as Trading Card Games (TCG), like \textit{Magic: The Gathering}, \textit{Shadow Era} and pre-teen versions like \textit{Pok\'eMon} are fast evolving games, with new cards and game rules coming out multiple times a year. Since the late 1990s, CCGs have been turned into computer games. New versions of those computer games however, are released on a less regular basis. One of the reasons for this is that for every new card or game rule, new source code has to be written.
+
+In an ideal world where computers are able to completely understand natural language, new cards could be added to the computer game on the fly by the author of the cards, only using the instructions printed on the cards. A solution right in the middle between writting actual source code an parsing and interpreting natural language is a Domain Specific Language (DSL). A DSL is a programming language designed to solve problems within one well-defined set of problems. This article explains how a DSL is be used to counter the fast evolving game mechanics of collectible card games.
+
+Section \ref{CCGs} describes CCGs, their digital versions and why they are in need of an easy way to implement frequent changes. Section \ref{DSLs} explains the concept of DSLs and Section \ref{Scala} is a short description of the programming language used to embed the DSL in: Scala.
+Our solution is explained in detail in Section \ref{Solution} and evaluated in Section \ref{Evaluation} against different types of possible changes in game mechanics.
+
+\section{Background and Motivation}
+\label{Background and Motivation}
+\subsection{Collectible Card Games}
+\label{CCGs}
+Collectible card games are a type of card game for two or more players. A players cards reside in the players hand or on a gameboard. The gameboard is divided into different zones, all of which have a different effect on the cards they contain. Game rules define how cards change zones. Cards in the game can have a type, properties and abilities, all of which influence parts of the gameplay. CCGs are challenging from a software engineering point of view, since they contain many levels of modularity and many rules that make temporary changes to the general gameplay.
+
+A first level of modularity are the different zones on the (virtual) gameboard in which cards can reside. These typically do not change in between different version of a game, but not every CCG has the same gameboard areas. Gameboard areas have an effect on the actions that can be executed with the cards on them.
+
+Different types of cards provide a second level of modularity. It is not uncommon for new card types to be added to the game. Some card types are prerequisits for playing other cards, while others modify properties, or even gameplay. Especially when adding cards that modify properties and gameplay, it is important not having to change to much source code to implement those cards effects.
+
+A third level of modularity is that many cards have properties called ``abilities'' (or the like). Abilities change gameplay in a non-intrusive way, meaning that the effect of the ability usually only lasts as long as the card with that ability is in play and that the effect is limited to the card itself. A good example would be the ability ``Flying'': Cards with this ability can only be blocked by card which also have that ability.
+
+The goal is to design a DSL which makes it easy enough for people with almost no programming experience to change any and all of these different levels of modularity. This allows not only for one game to be updated more frequently, but also for multiple CCGs to be developed on top of the same code base.
+\subsection{Domain Specific Languages}
+\label{DSLs}
+A Domain Specific Language is a programming language, specifically designed for solving problems in a well-defined, closed off, problem domain. It differs from a general-purpose language (GPL) in that a GPL should be able to solve problems in any given domain (of course with variable efficiency). There are three types of DSLs.
+
+The most commonly known type of DSLs are the stand-alone DSLs. As the name says, a stand-alone DSL is a programming language, which has a dedicated compiler or interpreter to execute the code. Examples of stand-alone DSLs are HTML, for defining the structure of web pages and SQL, for writting queries for SQL-databases.
+
+A second type of DSLs are embedded within other applications. Those DSLs cannot be used outside of the host application, and typically solve problems tightly bound to the host application. The functions that Excel provides for use inside spreadsheet cells are an example of an application embedded DSL.
+
+The third and final type of DSLs are the Embedded Domain Specific Languages or EDSLs. They are embedded inside a host language and are usually created by cleverly using method names and syntactic sugar provided by the host language. When the host language provides enough syntactic sugar, the EDSL will be able to look a lot like a natural language, which is a useful feature when new code has to be added quickly and often to existing source code by someone other than the author of the code.
+\subsection{Scala}
+\label{Scala}
+Scala is a programming language built on top of the Java Virtual Machine. Scala is object-oriented, but at the same time integrates many functional programming paradigms. Scala has two features which make it especially fit for designing a DSL that greatly resembles natural (English) language. The first is that Scala puts no restrictions on method names. A method with the name ``+'' is not uncommon, and allows for class operators. Secondly, Scala contains a lot of syntactic sugar for leaving out language specific punctuation. E.g.:
+\begin{verbatim}
+10.+(2)
+\end{verbatim}
+calls the method ``+'' on the object ``10'' with argument ``2'', but, thanks to syntactic sugar all punctuation can be left out so that
+\begin{verbatim}
+10 + 2
+\end{verbatim}
+is completely equivalent.
+
+\section{Solution}
+\label{Solution}
+Designing a domain specific language for collectible card games was done in incremental steps. Each step containing more game functionalities and the accompanying parts of the DSL.
+\subsection*{Step 1: Creatures and Abilities}
+The basis of every collectible card game is the concept of ``Creatures''. Creatures are a type of card uses to directly influence the opponents health-counter. When an opponents health is reduced to zero, the player wins the game. A creature has a health-counter and an attack strength and, optionally, one or more abilities that influence the (game)actions available to that creature. Abilities can be added or removed during gameplay. This is reflected in the code by the use of the ``decorator pattern'' in the super class of all abilities: ``AbilityCreature''. See code listing \ref{AbilityCreature}.
+\begin{figure*}[H]
+\label{AbilityCreature}
+\lstinputlisting[caption=Ability Creature]{code.scala}
+\end{figure*}
+
+All abilities inherit from this class, which means they only have to override methods on which the ability has effect.
+\begin{figure}[H]
+\label{Code Listing 2}
+\begin{verbatim}
+class Flying(val parent: Creature) extends AbilityCreature(parent) {
+    override def canBeBlockedBy(creature: Creature): Boolean = {
+        if(creature.hasAbility(classOf[Flying])){
+            parent.canBeBlockedBy(creature)
+        } else {
+            false
+        }
+    }
+}
+\end{verbatim}
+\end{figure}
+To create the actual DSL for creatures with abilities a number of convenient methods where added tot the Creature class.
+\begin{figure}[H]
+\label{Code Listing 3}
+\begin{verbatim}
+class Creature {
+    var _name: String = ""
+    var _health: Int = 0
+    var _damage: Int = 0
+
+    def called(name: String): this.type = {
+        this._name = name
+        this
+    }
+    def with_health(health: Int): this.type = {
+        this._health = health
+        this
+    }
+    def with_damage(damage: Int): this.type = {
+        this._damage = damage
+        this
+    }
+    def has_ability(function: Creature => AbilityCreature): AbilityCreature = {
+        function(this)
+    }
+}
+\end{verbatim}
+\end{figure}
+To add abilities to creatures, the method ``has\_ability'' can be used. This method has a method as argument that turns the Creature into an instance of an AbilityCreature. This method will have to be defined for every ability, as seen in code listing \ref{Code Listing 4}
+\begin{figure}[H]
+\label{Code Listing 4}
+\begin{verbatim}
+object Flying extends (Creature => Flying) {
+    def apply(creature: Creature): Flying = new Flying(creature)
+}
+\end{verbatim}
+\end{figure}
+When putting these four pieces of code together, and using Scalas syntactic sugar, a new creature can be created with the statement:
+\begin{figure}[H]
+\label{Code Listing 5}
+\begin{verbatim}
+new Creature called "name" with_damage 4 with_health 5 has_ability Flying
+\end{verbatim}
+\end{figure}
+A lot is going on here. First of all, syntactic sugar was used to leave out punctuation. With punctuation, the above is equivalent with:
+\begin{figure}[H]
+\label{Code Listing 6}
+\begin{verbatim}
+(new Creature).called("name").with_damage(4).with_health(5).has_ability(Flying())
+\end{verbatim}
+\end{figure}
+These methods can be chained together, because each of them returns the modified object ``this''. The has\_ability methods uses an other Scala feature, called the apply-method. Each Scala class or companion object can have an apply method. This method is called when an instance of the class, or the companion object is followed by a pair of brackets. Using this feature the statement is translated to:
+\begin{figure}[H]
+\label{Code Listing 7}
+\begin{verbatim}
+(new Creature).called("name").with_damage(4).with_health(5).has_ability(Flying.apply())
+\end{verbatim}
+\end{figure}
+This is where code listing \ref{Code Listing 4} comes into play. The apply method turns the current Creature into a Creature with the ability Flying. Because the companion object Flying extends a one-argument function itself, the braces of the apply method can be left out.
+
+\section{Evalutation}
+\label{Evaluation}
+\subsection*{Step 1: Creatures and Abilities}
+Five abilities where used while designing the code base and DSL for creatures with abilities. These where ``Flying'', ``Reach'', ``Trample'', ``Unblockable'' and ``Shadow''. From a list of 46 other abilities used in the game ``Magic: The Gathering'' \cite{List of abilities}, six relate only to creatures and abilities, the already implemented features. Of those six, only one could not directly be implemented in the same way, because the ability needed an argument.
+
+\section{Related Work}
+\label{Related Work}
+\subsection{DSLs}
+\textit{Something about domain specific languages in general}
+
+\subsection{Open Source Collectible Card Game}
+\textit{How others do it, http://wtactics.org/?, http://librecardgame.sourceforge.net/dokuwiki/doku.php?}
+
+\section{Conclusion}
+\label{Conclusion}
+\textit{To soon for a conclusion}
+
+\end{document}

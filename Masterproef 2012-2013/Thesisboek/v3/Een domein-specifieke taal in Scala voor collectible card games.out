@@ -1,0 +1,48 @@
+\BOOKMARK [0][-]{chapter.1}{Inleiding}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Achtergrond en motivatie}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Collectible Card Games}{chapter.2}% 3
+\BOOKMARK [2][-]{subsection.2.1.1}{Spelzones}{section.2.1}% 4
+\BOOKMARK [2][-]{subsection.2.1.2}{Kaarttypes}{section.2.1}% 5
+\BOOKMARK [2][-]{subsection.2.1.3}{Vaardigheden}{section.2.1}% 6
+\BOOKMARK [2][-]{subsection.2.1.4}{DSL en modulariteit}{section.2.1}% 7
+\BOOKMARK [1][-]{section.2.2}{Domein-specifieke talen}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.3}{Scala}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.3.1}{Integratie met Java}{section.2.3}% 10
+\BOOKMARK [2][-]{subsection.2.3.2}{Scala is object-geori\353nteerd}{section.2.3}% 11
+\BOOKMARK [2][-]{subsection.2.3.3}{Scala is een functionele programmeertaal}{section.2.3}% 12
+\BOOKMARK [2][-]{subsection.2.3.4}{Scala is statisch getypeerd}{section.2.3}% 13
+\BOOKMARK [2][-]{subsection.2.3.5}{Scala is uitbreidbaar}{section.2.3}% 14
+\BOOKMARK [0][-]{chapter.3}{Ontwikkeling van een DSL}{}% 15
+\BOOKMARK [1][-]{section.3.1}{Kaarten}{chapter.3}% 16
+\BOOKMARK [2][-]{subsection.3.1.1}{De basisklasse}{section.3.1}% 17
+\BOOKMARK [2][-]{subsection.3.1.2}{Toevoeging van een DSL sleutelwoord}{section.3.1}% 18
+\BOOKMARK [2][-]{subsection.3.1.3}{Een eerste sleutelwoord}{section.3.1}% 19
+\BOOKMARK [2][-]{subsection.3.1.4}{Nog een stap verder}{section.3.1}% 20
+\BOOKMARK [1][-]{section.3.2}{Creatures}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.2.1}{Aanmaak van Creatures}{section.3.2}% 22
+\BOOKMARK [2][-]{subsection.3.2.2}{Impliciete methodes}{section.3.2}% 23
+\BOOKMARK [2][-]{subsection.3.2.3}{Het probleem met implicits}{section.3.2}% 24
+\BOOKMARK [1][-]{section.3.3}{Vaardigheden}{chapter.3}% 25
+\BOOKMARK [2][-]{subsection.3.3.1}{Vaardigheden als subklasse}{section.3.3}% 26
+\BOOKMARK [2][-]{subsection.3.3.2}{Problemen met vaardigheden als subklassen}{section.3.3}% 27
+\BOOKMARK [2][-]{subsection.3.3.3}{Vaardigheden als decorators}{section.3.3}% 28
+\BOOKMARK [2][-]{subsection.3.3.4}{Vaardigheden in de DSL}{section.3.3}% 29
+\BOOKMARK [1][-]{section.3.4}{Vaardigheden met parameters}{chapter.3}% 30
+\BOOKMARK [1][-]{section.3.5}{Een nieuw type kaarten: Landen}{chapter.3}% 31
+\BOOKMARK [2][-]{subsection.3.5.1}{De landkaarten}{section.3.5}% 32
+\BOOKMARK [2][-]{subsection.3.5.2}{Landkaarten als vereisten voor andere kaarten}{section.3.5}% 33
+\BOOKMARK [1][-]{section.3.6}{Uitvoerbare kaarten: Sorceries}{chapter.3}% 34
+\BOOKMARK [2][-]{subsection.3.6.1}{Doelwitten}{section.3.6}% 35
+\BOOKMARK [2][-]{subsection.3.6.2}{Samengestelde doelwitten}{section.3.6}% 36
+\BOOKMARK [2][-]{subsection.3.6.3}{Acties}{section.3.6}% 37
+\BOOKMARK [2][-]{subsection.3.6.4}{Acties en doelwitten toekenen aan kaarten}{section.3.6}% 38
+\BOOKMARK [1][-]{section.3.7}{Overzicht van de DSL}{chapter.3}% 39
+\BOOKMARK [0][-]{chapter.4}{Evaluatie}{}% 40
+\BOOKMARK [1][-]{section.4.1}{Creatures en vaardigheden}{chapter.4}% 41
+\BOOKMARK [1][-]{section.4.2}{Vaardigheden met parameters}{chapter.4}% 42
+\BOOKMARK [1][-]{section.4.3}{Vaardigheden samenstellen}{chapter.4}% 43
+\BOOKMARK [0][-]{chapter.5}{Gerelateerd werk}{}% 44
+\BOOKMARK [1][-]{section.5.1}{SandScape}{chapter.5}% 45
+\BOOKMARK [1][-]{section.5.2}{Forge}{chapter.5}% 46
+\BOOKMARK [0][-]{chapter.6}{Conclusie}{}% 47
+\BOOKMARK [0][-]{appendix*.18}{Bibliografie}{}% 48

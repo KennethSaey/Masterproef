@@ -1,0 +1,33 @@
+\chapter{Evaluatie}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 1: Creatures en vaardigheden %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Creatures en vaardigheden}
+Tijdens de ontwikkeling van de codebasis en DSL voor \engels{creatures} met vaardigheden werden vijf verschillende vaardigheden ge\"implementeerd (zie Tabel \ref{table:Vaardigheden}). Uit een lijst van $46$ andere vaardigheden die gebruikt worden in \textit{Magic: The Gathering} \cite{magic-abilities} waren er zes die enkel betrekking hadden op \engels{creatures} en vaardigheden, de reeds ge\"implementeerde features. Van die zes kon er slechts \'e\'en niet onmiddellijk ge\"implementeerd worden omdat de vaardigheid een extra argument nodig had.
+\begin{table}[h]
+\caption{Initi\"ele vaardigheden}
+\label{table:Vaardigheden}
+\begin{tabular}{|l|p{0.80\textwidth}|}
+\hline
+Vaardigheid & Beschrijving \\ \hline
+Flying & Creatures met Flying kunnen enkel geblokeerd worden door creatures met de vaardigheid Flying of Reach. \\
+Reach & Creatures met Reach kunnen creatures met Flying blokkeren. \\
+Shadow & Creatures met deze vaardigheid kunnen enkel creatures met Shadow blokkeren en enkel door heb geblokkeerd worden. \\
+Trample & Creatures met Trample doen alle schade die na het blokkeren overschiet rechtstreeks aan de verdedigende speler. \\
+Unblockable & Creatures met Unblockable kunnen niet geblokkeerd worden. \\
+\hline
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 2: Vaardigheden met parameters %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vaardigheden met parameters}
+TODO (wat hier in de extended abstract stond is niet meer geldig).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 3: Vaardigheden samenstellen %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vaardigheden samenstellen}
+Het idee van het combineren van vaardigheden in een nieuwe vaardigheidsklasse kan met de huidige codebasis moeilijk gedaan worden. Het is eenvoudig om een functie (de compositie-operator) te schrijven die twee vaardigheden als argument neemt en de respectievelijke constructors na elkaar toepast, maar eens dit gedaan is bestaat er geen eenvoudige manier om te weten te komen of het huidige \engels{creature} opgebouwd werd met de compositie-operator of eenvoudigweg door toevoeging van twee vaardigheden. Dit is echter een belangrijk verschil wanneer we vereisen dat vaardigheden van een \engels{creature} weggehaald kunnen worden.

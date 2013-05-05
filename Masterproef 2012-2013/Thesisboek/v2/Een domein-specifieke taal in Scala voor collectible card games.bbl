@@ -1,0 +1,59 @@
+\begin{thebibliography}{9}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Friarsol(2010)}]{forge-api}
+Friarsol (2010).
+\newblock Forge api.
+\newblock \url{http://www.slightlymagic.net/wiki/Forge_API}.
+\newblock Accessed: 05/03/2013.
+
+\bibitem[{Garfield(1993)}]{magic-the-gathering}
+R.~Garfield (1993).
+\newblock Magic: The gathering.
+\newblock Introduced by: Wizards of the Coast.
+
+\bibitem[{H.(2009)}]{forge}
+C.~H. (2009).
+\newblock Forge.
+\newblock \url{http://www.slightlymagic.net/wiki/Forge}.
+\newblock Accessed: 05/03/2013.
+
+\bibitem[{Knitter(2011)}]{sandscape}
+Knitter (2011).
+\newblock Sandscape.
+\newblock \url{http://sourceforge.net/projects/sandscape/}.
+\newblock Accessed: 05/03/2013.
+
+\bibitem[{Odersky(2008)}]{closure-construction}
+M.~Odersky (2008).
+\newblock A tour of scala: Automatic type-dependent closure construction.
+\newblock \url{http://www.scala-lang.org/node/138}.
+\newblock Accessed: 26/04/2013.
+
+\bibitem[{Odersky(2010)}]{scala-website}
+M.~Odersky (2010).
+\newblock The scala programming language.
+\newblock \url{http://www.scala-lang.org/node/25}.
+\newblock Accessed: 26/04/2013.
+
+\bibitem[{Snowdrop(2011)}]{wtactics}
+Snowdrop (2011).
+\newblock Wtactics.
+\newblock \url{http://wtactics.org/the-game/}.
+\newblock Accessed: 05/03/2013.
+
+\bibitem[{Studios(2011)}]{shadow-era}
+W.~G. Studios (2011).
+\newblock Shadow era.
+\newblock \url{http://www.shadowera.com/content.php?140-About8}.
+\newblock Accessed: 27/04/2013.
+
+\bibitem[{Talk(2011)}]{magic-abilities}
+Talk (2011).
+\newblock \url{http://mtg.wikia.com/wiki/Keyword_Abilities}.
+\newblock Accessed: 15/02/2013.
+
+\end{thebibliography}

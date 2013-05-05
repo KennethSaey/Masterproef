@@ -1,0 +1,16 @@
+%\subsection{DSLs}
+%\textit{Something about domain specific languages in general}
+%
+%\subsection{Open Source Collectible Card Game}
+%\textit{How others do it, http://wtactics.org/?, http://librecardgame.sourceforge.net/dokuwiki/doku.php?}
+\subsection{SandScape}
+SandScape \cite{sandscape} is the online, browser based environment for WTactics, ``A truly free customizable card game with great strategical depth and beautiful looks'' \cite{wtactics}. Basically, SandScape is a computer game played in a browser, which can handle almost any collectible card game. This is accomplished by imposing no game rules at all. Players can import sets of cards and get a virtual table top to place the cards on. The rest of the game is up to the players, they are the ones that enforce the rules and gameplay. This approach does indeed allow for almost every collectible card game to be played, but lacks in automation. For example: players themselves will have to edit their health points after each successful attack.
+
+This is the complete opposite of a custom made computer version of a CCG. Custom made versions are able to automate every aspect of the CCG which does not require user interaction, but do not allow for players to impose their own rules.
+
+Our DSL is somewhere in the middle of both of those options. Using the DSL alone, developers are able to create a new CCG, with its own set of rules and cards and still profit from as much automation as possible.
+
+\subsection{Forge}
+Forge \cite{forge} is a Java based implementation of \textit{Magic: The Gathering}. The source code is not publicly available, but the game can be customised by players. Players are able to add their own cards to the game. This is done through the use of the Forge API \cite{forge-api}, which is a scripting language parsed by the Forge Engine for defining cards. An important part of the API is the \textit{Ability Factory}, an extensive set of variables like \textit{Cost}, \textit{Target}, \textit{Conditions} and many more to completely define an ability (or spell).
+
+Since this scripting language is specially designed for creating Magic: The Gathering cards, it is actually some form of a domain specific language. Because the scope of the scripting language only covers cards, it is less powerful than our DSL as to expression, but the fact that it is parsed instead of compiled makes it more accessible to non-programmers and players.

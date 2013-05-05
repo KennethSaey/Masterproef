@@ -1,0 +1,24 @@
+\subsection{Creatures and Abilities}
+Five abilities where used while designing the code base and DSL for creatures with abilities. These where the abilities in Table \ref{table:Abilities}. From a list of $46$ other abilities used in the game \textit{Magic: The Gathering} \cite{magic-abilities}, six relate only to creatures and abilities, the already implemented features. Of those six, only one could not directly be implemented in the same way, because the ability needed an argument.
+\begin{table}[h]
+\caption{Abilities}
+\label{table:Abilities}
+\begin{tabular}{|l|p{0.35\textwidth}|}
+\hline
+Ability & Description \\ \hline
+Flying & Creatures with Flying can't be blocked except by other creatures with Flying and\/or Reach. \\
+Reach & Creatures with Reach can block creatures with Flying. \\
+Shadow & Creatures with this ability can only block or be  blocked by other creatures with the Shadow ability. \\
+Trample & Creatures with Trample may deal \textit{excess} damage to the defending player if they are blocked. \\
+Unblockable & Creatures with Unblockable can not be blocked by other creatures \\
+\hline
+\end{tabular}
+\end{table}
+The apply method of the ability trait contains reflection code with hard coded references to the packages in which abilities reside. This code could be removed if, for example, we would pass the name of the ability class to the method, but this would result in more code in the ability class and companion object. Since these last two would be written by the users of our framework the current solution is easiest to use for our users.
+
+\subsection{Abilities with parameters}
+Currying was used to combine the ability-parameter and the creature parameter into one apply-method. The same DSL syntax (Code Listing \ref{Ability with argument DSL}) can be achieved without currying by adding an apply-method which temporarily stores the ability-parameter inside the companion object (see Code Listing \ref{Ability with argument without currying}). But since currying is available in scala, using it is the better option.
+\codepart{code.scala}{Ability with argument without currying}{86}{100}
+
+\subsection{Ability composition}
+The idea of ability composition, an easy way to wrap multiple abilities in one new abilities, is not easy to accomplish with our current code setup. It is easy enough to create a function (the composition operator) which takes two abilities as parameters and constructs the AbilityCreatures one after the other, but once this is done, there is no way to know whether the new creature has been constructed through the use of composition, or just by adding two abilities to it.

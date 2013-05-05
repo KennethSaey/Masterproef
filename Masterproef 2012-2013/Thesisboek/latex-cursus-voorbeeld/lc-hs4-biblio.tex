@@ -1,0 +1,242 @@
+
+\chapter{Bibliografische verwijzingen}
+
+Het verwijzen naar literatuur is iets dat frequent gebeurt in wetenschappelijke documenten. En dat verwijzen moet volgens welbepaalde regels gebeuren, geen komma teveel of te weinig.\footnote{Wellicht is het van literatuurverwijzingen dat de term `kommaneuterij' komt} Maar er zijn leukere dingen om te doen dan te letten op punten en komma's. Laat het vervelende werk over aan de computer. Het systeem is in \latex zo opgebouwd dat je met het commando \lcommand{\\citet\{auteurkey\}} de naam van de auteur samen met het jaar krijgt en de volledige referentie achteraan in de bibliografie. Hiervoor moeten alle gebruikte referenties in een bibliografische databank zitten. In dit deel wordt kort overlopen hoe een bruikbare bibliografie kan verkregen worden voor een thesis. Voor meer opties en andere manieren van citeren (bijvoorbeeld met nummers in plaats van met auteur, jaar) verwijzen we naar de helpbestanden van \bibtex.\footnote{Op een Debian systeem in \bestand{/usr/share/doc/texmf/bibtex/base/btxdoc.dvi.gz}}
+
+\section{\bibtex, het programma}
+
+In feite gebeurt het genereren van de bibliografie door een extern programma, dat de bibliografische informatie uit een aantal databanken\footnote{Een duur woord voor platte tekstbestanden met speciale opmaak} haalt. Daarom dat op de plaats waar we de bibliografie wensen in te voegen, het volgende commando moet gegeven worden:
+\begin{llt}
+\bibliography{bibliodatabase1, bibliodatabase2, ... }
+\end{llt}
+De argumenten \lcommand{bibliodatabase1} en  \lcommand{bibliodatabase2}, gescheiden door komma's, zijn de bestandsnamen van de databanken zonder de extensie \bestand{.bib}. Dus de volledige naam van de databanken luidt \bestand{bibliodatabase1.bib} en \bestand{bibliodatabase2.bib}. Meerdere bestanden mogen opgegeven worden. Dit opent perspectieven voor samenwerking~\ldots
+\npar
+Het citeren in de tekst wordt uitgelegd in sectie \ref{cite-et-all}. Om de bibliografie effectief in het pdf document op te nemen, laten we onze tekst een eerste keer verwerken door de \latex compiler. Daarna geven we het commando:
+\begin{lt}
+bibtex naam-van-ons-document-zonder-extensie
+\end{lt}
+In TeXnicCenter (de \latex editor onder windows) is er een knopje om \bibtex op te roepen. Dit commando genereert dan twee bestanden: \bestand{ons-document.bbl} en \bestand{ons-document.blg}. Het \bestand{.blg}-bestand (van \bibtex log) is analoog aan het \latex \bestand{.log}-bestand (zie bladzijde \pageref{logbestand}) en is niet echt belangrijk. Het \bestand{.bbl}-bestand (van \bibtex BibLiografie) is te vergelijken met het \latex \bestand{.aux}-bestand en bevat informatie voor de \latex compiler om op een juiste manier de bibliografie te genereren.
+\npar
+Wanneer we ons document opnieuw door de \latex compiler laten verwerken (minimum twee keer, zie bladzijde \pageref{inhoudsopgave}), wordt de bibliografie in het document opgenomen.
+\npar
+Standaard produceert \lcommand{\\citet\{auteurkey\}} nummers in de tekst, zoals dit: [13]. Voor een thesis is het auteur--jaar mechanisme te verkiezen, zoals dit: \cite{baal01}. Hiervoor moeten we een aantal extra instructies meegeven in ons document. Vooreerst moet \lcommandx{natbib} gebruikt worden. Dit is een pakket dat de functionaliteit van \bibtex vergroot.
+\begin{llt}
+\usepackage[round]{natbib}         % Voor auteur-jaar citaties.
+\end{llt}
+Deze regel zorgt ervoor dat \lcommand{natbib} geladen wordt en ronde haakjes gebruikt. 
+\begin{MinderBelangrijk}
+Om de punctuaties in te stellen kan eventueel de volgende lijn in de \engels{preamble} worden opgenomen (maar de standaardwaarden zijn meestal wel goed):\index{bibpunct@\lcommand{\\bibpunct}}
+\begin{llt}
+\bibpunct{(}{)}{;}{y}{,}{,}  % Auteur-jaar citaties, zie natbib.dvi voor uitleg
+\end{llt}
+Er zijn zes argumenten, waarmee de volgende zaken kunnen aangepast worden:
+\begin{enumerate}
+\item Het `open de haakjes' symbool. Standaard gelijk aan \lcommand{(}.
+\item Het `sluit de haakjes' symbool, Standaard gelijk aan \lcommand{)}.
+\item Het punctuatiesymbool tussen verschillende citaties. Standaard is dit \lcommand{;} Dit toepassen op een voorbeeld geeft \citet{baal01,jones02}.
+\item De letter \lcommand{n} voor citaties met nummers, \lcommand{s} om de nummers in superscript te zetten en alle andere letters om auteur-jaar citatie te bekomen. Dit laatste wordt standaard gebruikt.
+\item Het punctuatiesymbool dat gebruikt wordt tussen de auteur en het jaar in het geval dit laatste niet tussen haakjes wordt gezet. Standaard is dit \lcommand{,} zoals in \citep{baal01}.
+\item Het punctuatiesymbool dat verschijnt wanneer de auteurs van twee (of meer) artikels gelijk zijn. Door \bibtex wordt dit dan gecombineerd tot \mbox{1999a,b}. Standaard dus een komma.
+\end{enumerate}
+\end{MinderBelangrijk}
+
+Doordat citeren vooral belangrijk is in wetenschappelijke literatuur en dat wetenschappelijke literatuur meestal Engelstalig is, zet \bibtex standaard \engels{and} tussen de verschillende auteurs, bv Jones and Allen (2002). Voor een Nederlandse thesis is dit geen zicht. De oplossing is om zelf een bibliografisch opmaakbestand te maken. De manier waarop \bibtex de bibliografie verwerkt zit namelijk niet in het programma zelf ingebakken, maar wordt ingelezen uit een opmaakbestand.
+
+\begin{MinderBelangrijk}
+\npar
+Een nieuw \bibtex opmaakbestand maken, kan gebeuren door het speciale bestand \bestand{makebst.tex} te \LaTeX en (met \command{latex} en niet met \command{pdflatex}). Dit bestand bevindt zich normaalgezien ergens in de \latex installatie. Daar \latex ook een programmeertaal is, kan het gebruikt worden om programma's te schrijven. Dit is wat het commando \command{latex makebst.tex} doet: we krijgen een vraag-en-antwoord-dialoog waarin we puntje voor puntje kunnen kiezen hoe onze bibliografie er moet uitzien. Al deze opties worden bewaard onder de naam \bestand{bibliodutch} (die bestandsnaam is het antwoord op één van de eerste vragen) met standaard extensie \bestand{.dbj}. Dit is opnieuw een \latex programma (ja, ja, een programma dat een programma schrijft). Met \command{latex bibliodutch.dbj} wordt het bestand \bestand{bibliodutch.bst} gecreëerd. Dit is het bibliografisch opmaakbestand dat we nodig hebben.
+\npar
+\end{MinderBelangrijk}
+
+Natuurlijk is het veel gemakkelijker om ergens zo een opmaakbestand van iemand te kopiëren. Het opmaakbestand dat voor dit document gebruikt werd, is vrij beschikbaar~\ldots
+\npar
+Om dit opmaakbestand effectief te gebruiken, moet de volgende regel in de \engels{preamble} toegevoegd worden:
+\begin{llt}
+\bibliographystyle{bibliodutch}
+\end{llt}
+Verder moet het bestand \bestand{bibliodutch.bst} zich in de werkdirectory bevinden, zodat \bibtex eraan kan.
+\npar
+Om ervoor te zorgen dat de bibliografie in de inhoudstafel wordt opgenomen (standaard gebeurt dit namelijk niet) moet het pakket \lcommandx{tocbibbind} in de \engels{preamble} opgeladen worden:
+\begin{llt}
+\usepackage[nottoc]{tocbibind}	% Bibliografie in ToC; zie tocbibind.dvi
+\end{llt}
+De optie \lcommand{nottoc} zorgt ervoor dat de inhoudsopgave zelf niet in de inhoudsopgave komt.
+
+\section{De bibliografische databank}
+
+\subsection{Opbouw van de databank}\label{bibvb1}
+
+De bibliografische databank bestaat uit verschillende items. Elk item komt overeen met één referentie en is van de vorm:
+\begin{llt}
+@article{athos:92,
+    author = {A. Athos and D. Porthos and D. Aramis},
+    title = {The influence of Women on society and how to cope with},
+    journal = {Journal of Random Logic},
+    year = {1992},
+    volume = {13},
+    pages = {11-19}
+}
+\end{llt}
+Het eerste woord, vooraf gegaan door een @, bepaalt het type item dat we wensen in te voegen. In dit geval is dat een artikel. Dan worden de verschillende eigenschappen van het artikel opgegeven tussen accolades. De verschillende eigenschappen worden van elkaar gesplitst door komma's. Na de laatste eigenschap (in het voorbeeld \lcommand{pages}) staat er dus geen komma. De eerste eigenschap is de \begrip{key} van die referentie. Dit is hetgeen gebruikt wordt om in de tekst naar dat artikel te refereren (e.g. \lcommand{\\citet\{athos:92\}} geeft `\citet{athos:92}'). De rest van de eigenschappen mag in gelijk welke volgorde voorkomen.
+\npar
+Samengevat hebben we dus: \lcommand{@article\{key, eig1, eig2,..., eigN\}} waarbij de verschillende eigenschappen de volgende vorm hebben: \lcommand{eig1 = \{waarde\}} of \lcommand{eig1 = "waarde"} (dubbele aanhalingstekens of accolades, je mag kiezen). Verder mag elke eigenschap op een nieuwe regel geplaatst worden. Dit bevordert de overzichtelijkheid.
+\npar
+Meestal komen vele artikels uit hetzelfde tijdschrift. Het is lastig om dan elke keer opnieuw de volledige naam van dat tijdschrift te moeten intypen. Vandaar dat we in het begin van onze \bibtex database afkortingen mogen definiëren. Dit gebeurt als volgt:
+\begin{llt}
+@string{JRL = "Journal of Random Logic"}
+\end{llt}
+Dit kunnen we dan als volgt gebruiken in de \bibtex items:\index{string}
+\begin{llt}
+...
+    journal = JRL,
+    year = {1992}
+...
+\end{llt}
+Merk op dat afkortingen die gedefinieerd zijn met \lcommand{@string\{...\}} niet tussen accolades of aanhalingstekens mogen staan.
+\npar
+\bibtex heeft de eigenschap om in titels (het \lcommand{title} veld) alle hoofdletters om te zetten naar kleine letters. Om dit tegen te gaan (voor namen bijvoorbeeld), moeten de letters nog eens extra tussen accolades gezet worden. Dus 
+\begin{llt}
+...
+    title = {The influence of {Women} on society and how to cope with},
+...
+\end{llt}
+zorgt ervoor dat Women met een hoofdletter blijft staan in de bibliografie van ons finaal \bestand{pdf}-document. Verder mogen allerhande \latex opmaak commando's gebruikt worden in de bibliografie:
+
+\begin{llt}
+...
+    title = {The relation of \textit{E. coli} to humankind},
+...
+\end{llt}
+Het is aangeraden om accenten en andere specialiteiten tussen accolades te zetten, dus \lcommand{\{\\"o\}} en niet \lcommand{\\"o} om ergens in de bibliografie \"o te produceren.
+
+
+\subsection{De verschillende items}
+
+Zoals in de vorige sectie werd beschreven, begint elk \bibtex item met een @ gevolgd door de naam van het documenttype waarnaar het item verwijst (boek, artikel,\ldots). Afhankelijk van wat het item is, kunnen verschillende eigenschappen gegeven worden. Niet elke eigenschap kan bij elk item gegeven worden. Het is bijvoorbeeld niet mogelijk om de \engels{journal} mee te geven bij een boek. Een \engels{journal} past meer bij een artikel. Verder zijn sommige velden verplicht, en andere optioneel. Bij een artikel moet bijvoorbeeld altijd de auteur gegeven worden, maar niet het tijdschriftnummer. De verschillende velden worden beschreven in de volgende sectie. Hier geven we een overzicht van de mogelijke items. Diegenen die dieper op het onderwerp willen ingaan, worden doorverwezen naar \bestand{btxdoc.dvi}.
+\newcommand{\bibent}[4]{\item[@]\lcommandx{#1}\hspace{\labelsepp}#2\\
+    \mbox{}\quad\parbox{0.15\textwidth}{Verplicht:}\parbox[t]{0.76\textwidth}{#3}\\
+    \mbox{}\quad\parbox{0.15\textwidth}{Optioneel:}\parbox[t]{0.76\textwidth}{\renewcommand{\baselinestretch}{1}\small\normalsize #4}
+    }
+\begin{itemize}
+\newlength{\labelsepp}
+\setlength{\labelsepp}{\labelsep}
+\setlength{\labelsep}{0pt}
+\bibent{article}{Om een artikel op te nemen.}{\lcommand{author}, \lcommand{title}, \lcommand{journal}, \lcommand{year}.}{\lcommand{vol}, \lcommand{number}, \lcommand{pages}, \lcommand{month}, \lcommand{note}.}
+\bibent{book}{Een boek met een expliciete uitgever.}{\lcommand{author} of \lcommand{editor}, \lcommand{title}, \lcommand{publisher}, \lcommand{year}.}{\lcommand{volume} of \lcommand{number}, \lcommand{series}, \lcommand{address}, \lcommand{edition}, \lcommand{month}, \lcommand{note}.}
+\bibent{booklet}{Een boek zonder auteur of uitgever.}{\lcommand{title}.}{\lcommand{author}, \lcommand{howpublished}, \lcommand{address}, \lcommand{month}, \lcommand{year}, \lcommand{note}.}
+\bibent{inbook}{Een deel van een boek (hoofdstuk, sectie).}{\lcommand{author} of \lcommand{editor}, \lcommand{title}, \lcommand{chapter} en/of \lcommand{pages}, \lcommand{publisher}, \lcommand{year}.}{\lcommand{volume} or \lcommand{number}, \lcommand{series}, \lcommand{type}, \lcommand{address}, \lcommand{edition}, \lcommand{month}, \lcommand{note}.}
+\bibent{incollection}{Een deel van een boek met een eigen titel.}{\lcommand{author}, \lcommand{title}, \lcommand{booktitle}, \lcommand{publisher}, \lcommand{year}.}{\lcommand{editor}, \lcommand{volume} of \lcommand{number}, \lcommand{series}, \lcommand{type}, \lcommand{chapter}, \lcommand{pages}, \lcommand{address}, \lcommand{edition}, \lcommand{month}, \lcommand{note}.}
+\bibent{inproceedings}{Een artikel in de \engels{proceedings} van een conferentie.}{\lcommand{author}, \lcommand{title}, \lcommand{booktitle}, \lcommand{year}.}{\lcommand{editor}, \lcommand{volume} of \lcommand{number}, \lcommand{series}, \lcommand{pages}, \lcommand{address}, \lcommand{month}, \lcommand{organization}, \lcommand{publisher}, \lcommand{note}.}
+\bibent{manual}{Voor technische documentatie zoals gebruiksaanwijzingen.}{\lcommand{title}.}{\lcommand{author}, \lcommand{organization}, \lcommand{address}, \lcommand{edition}, \lcommand{month}, \lcommand{year}, \lcommand{note}.}
+\bibent{masterthesis}{Voor een afstudeerthesis.}{\lcommand{author}, \lcommand{title}, \lcommand{school}, \lcommand{year}.}{\lcommand{type}, \lcommand{address}, \lcommand{month}, \lcommand{note}.}
+\bibent{misc}{De vuilbak, als de rest niet past.}{Geen.}{\lcommand{author}, \lcommand{title}, \lcommand{howpublished}, \lcommand{month}, \lcommand{year}, \lcommand{note}.}
+\bibent{phdthesis}{Voor een doctoraatsthesis. Eigenlijk hetzelfde als een afstudeerthesis~\ldots}{\lcommand{author}, \lcommand{title}, \lcommand{school}, \lcommand{year}.}{\lcommand{type}, \lcommand{address}, \lcommand{month}, \lcommand{note}.}
+\bibent{proceedings}{Een publicatie voortvloeiend uit een conferentie.}{\lcommand{title}, \lcommand{year}.}{\lcommand{editor}, \lcommand{volume} of \lcommand{number}, \lcommand{series}, \lcommand{address}, \lcommand{month}, \lcommand{organization}, \lcommand{publisher}, \lcommand{note}.}
+\bibent{techreport}{Voor een technisch of intern rapport.}{\lcommand{author}, \lcommand{title}, \lcommand{institution}, \lcommand{year}.}{\lcommand{type}, \lcommand{number}, \lcommand{address}, \lcommand{month}, \lcommand{note}.}
+\bibent{unpublished}{Voor ongepubliceerd werk met titel en auteur.}{\lcommand{author}, \lcommand{title}, \lcommand{note}.}{\lcommand{month}, \lcommand{year}.}
+\end{itemize}
+Laat je niet afschrikken door dit overweldigend aanbod aan mogelijkheden. De meest gebruikte items zijn \lcommand{article} en soms nog \lcommand{book}. De rest is voor speciale literatuur. Verder moet de benaming gezien worden als hulpmiddel om te onthouden welke mogelijkheden er bestaan, maar moet dit niet strikt opgevolgd worden. Je mag zeker \lcommand{masterthesis} gebruiken voor een \mbox{Ph.D} thesis. Beide items geven juist hetzelfde resultaat.
+
+\subsection{De verschillende eigenschappen}
+
+De verschillende eigenschappen die in de items kunnen ingevuld worden, zijn:
+\renewcommand{\bibent}[2]{\item[]\mbox{}\hspace{-\leftmargin}\lcommandx{#1}\hspace{\labelsepp}#2}
+\begin{itemize}
+\setlength{\labelsepp}{\labelsep}
+\setlength{\labelsep}{0pt}
+\bibent{address}{Het adres van de uitgever.}
+\bibent{author}{De auteurs.}
+\bibent{booktitle}{De titel van het boek, wanneer slechts een deel van dat boek geciteerd wordt.}
+\bibent{chapter}{Een hoofdstuk of sectienummer.}
+\bibent{edition}{De editie van het boek. Bijvoorbeeld `Derde'. Het woordje `editie' moet er niet achter komen, daar zorgt \bibtex voor.}
+\bibent{editor}{De uitgever van het boek, niet te verwarren met de auteur.}
+\bibent{howpublished}{Hierin kunnen allerhande speciale mededelingen gestoken worden, bijvoorbeeld `Persoonlijke mededeling'.}
+\bibent{institution}{In een technisch rapport komt hier de naam van de financierder.}
+\bibent{journal}{De naam van het tijdschrift waaruit een artikel komt.}
+\bibent{month}{De maand in dewelke het werk geschreven werd. Wordt zelden gebruikt.}
+\bibent{note}{Extra informatie die toegevoegd moet worden aan de bibliografie. Moet beginnen met een hoofdletter.}
+\bibent{number}{Het nummer van een tijdschrift of een ander werk dat in series wordt uitgegeven. Wetenschappelijke tijdschriften hebben meestal een volume en een nummer. De bladzijdetelling loopt meestal door in de verschillende nummers van eenzelfde volume. Zodus is het niet nodig om ook het nummer van een tijdschrift mee te geven in de bibliografie.}
+\bibent{organization}{De sponsor van de conferentie.}
+\bibent{pages}{De bladzijden bestreken door het werk. Voor tijdschriften is het gebruikelijk om een bereik mee te geven: \lcommand{99-102}.}
+\bibent{publisher}{De naam van de uitgever.}
+\bibent{school}{De naam van de instelling waar de thesis geschreven werd.}
+\bibent{series}{De naam van de serie. De titel bevat dan de naam van het boek zelf.}
+\bibent{title}{Titel van het werk.}
+\bibent{type}{Het type werk, bijvoorbeeld `Beleidsnota'.}
+\bibent{volume}{Het volumenummer van een tijdschrift. Is niet verplicht maar sterk aangeraden.}
+\bibent{year}{Het jaar van publicatie.}
+\end{itemize}
+Ook hier moet men zich niet te streng houden aan de benaming. In het auteursveld mag zeker `Anonymous' staan.
+
+\subsubsection*{Iets meer over het veld \lcommand{author}}\index{author}
+
+Elke auteur wordt gescheiden door het woordje \lcommandx{and}. Een auteur kan ingegeven worden als \lcommand{voornaam achternaam} of als \lcommand{achternaam, voornaam}. Dit heeft geen invloed op hoe de auteurs geciteerd worden in de bibliografie. \bibtex wisselt die volgorde om, afhankelijk van de gebruikte citatiestijl. Bij de eerste mogelijkheid \lcommand{voornaam achternaam} kan het gebeuren dat delen van samengestelde namen niet meegenomen worden in de achternaam. Bij de tweede manier weet \bibtex met zekerheid wat de voornaam is en wat de achternaam (de twee worden namelijk gescheiden door een komma). Het voorbeeld van sectie \ref{bibvb1} zou dus beter als volgt geschreven worden:
+\begin{llt}
+...
+    author = {Athos, A. and Porthos, D. and Aramis, D.},
+...
+\end{llt}
+
+\subsection{Templates}
+
+Het is niet leuk om telkens opnieuw al die types en eigenschappen in te typen. Vandaar dat we met \engels{templates} kunnen werken. Dit zijn lege bibitems. Alle tekst in een \bibtex databank die niet in een item zit, wordt beschouwd als commentaar (in een item zelf kan geen commentaar ingebracht worden\footnote{Hoewel. Aangezien \bibtex alle eigenschappen negeert die het niet nodig acht voor een bepaalde item, kunnen wij de eigenschap \lcommand{commentaar = Mijn opmerkingen} toevoegen, zonder dat deze verschijnt in de bibliografie.}). Bijgevolg laten we de \engels{templates} niet starten door een @ maar bijvoorbeeld wel door een \lcommand{A}. Wanneer we een nieuw item willen toevoegen aan onze databank, kopiëren en plakken we de lege \engels{template}, vervangen de \lcommand{A} door een @ en vullen we de verschillende items aan. Om de optionele velden te onderscheiden van de verplichte, worden ze ingesprongen. Een optioneel argument mogen we leeg laten. Als voorbeeld voor een \lcommand{article} hebben we de volgende \engels{template}:
+\begin{llt}
+Aarticle{,
+author = {},
+title = {},
+journal = {},
+year = {},
+	volume = {},
+	number = {},
+	pages = {},
+	note = {}
+}
+\end{llt}
+Merk op dat de laatste eigenschap \lcommand{note} geen komma op het einde heeft. Denk hieraan wanneer je dit weinig gebruikte veld uit je items verwijdert. De komma van het vorige veld (in casu \lcommand{pages}) moet dan ook verdwijnen.
+\npar
+\begin{MinderBelangrijk}
+Voor mensen die echt niet graag in tekstbestanden rommelen en alles liever met knopjes besturen, bestaan er programma's om je \bibtex databank te beheren. Een goed programma dat op alle besturingssystemen werkt, is JabRef: \url{http://jabref.sourceforge.net/}. Voor de Mac fanaten is er BibDesk: \url{http://bibdesk.sourceforge.net/}.
+\end{MinderBelangrijk}
+
+\section{Citeren in de tekst}\index{citet@\lcommand{\\citet}}\index{citep@\lcommand{\\citep}}\label{cite-et-all}
+
+We hebben nu alles gezien om een bibliografie te maken, behalve het citeren in de tekst zelf. Hiervoor bestaan verschillende commando's. De twee basiscommando's zijn 
+\begin{itemize}
+\item \lcommand{\\citet\{athos:92\}} (CITE in Text) om te citeren in doorlopende tekst. Voorbeeld: volgens \citet{athos:92} moet je met gevaar leren leven. 
+\item \lcommand{\\citep\{athos:92\}} (CITE in Parentheses) om het geciteerde werk tussen haakjes te zetten. Voorbeeld: Leve de koning \citep{athos:92}!
+\end{itemize}
+Deze commando's hebben ook een stervorm om alle namen te laten zien: \lcommand{\\citet*\{athos:92\}} geeft \citet*{athos:92}. Meerdere items kunnen in één enkel commando samengebracht worden: \lcommand{\\citep\{jones02,athos:92\}} geeft \citep{jones02,athos:92}.
+\npar
+Je kan ook commentaar kwijt in citaties, wat handig is wanneer de haakjes automatisch worden geplaatst:
+\begin{center}
+\begin{tabular}{l@{\quad\ensuremath{\longrightarrow}\quad}l}
+\lcommand{\\citet\[Hoofdstuk 13\]\{athos:92\}}                  &\citet[Hoofdstuk 13]{athos:92}         \\
+\lcommand{\\citep\[sectie 3\]\{jones02\}}                       &\citep[sectie 3]{jones02}              \\
+\lcommand{\\citep\[in\]\[sectie 3\]\{jones02\}}                 &\citep[in][sectie 3]{jones02}          \\
+\lcommand{\\citep\[in\]\[\]\{jones02\}}                         &\citep[in][]{jones02}                  
+\end{tabular}
+\end{center}
+Wanneer haakjes ongewenst zijn, kunnen we gebruik maken van de ALternatieve commando's (\lcommand{citeal}, met de \lcommand{t} of \lcommand{p} erachter, afhankelijk of we in de tekst citeren of tussen haakjes):
+\begin{center}
+\begin{tabular}{l@{\quad\ensuremath{\longrightarrow}\quad}l}
+\lcommand{\\citealt\{athos:92\}}                                &\citealt{athos:92}                     \\
+\lcommand{\\citealt*\{athos:92\}}                               &\citealt*{athos:92}                    \\
+\lcommand{\\citealp\{athos:92\}}                                &\citealp{athos:92}                     \\
+\lcommand{\\citealp*\[in\]\[sectie 3\]\{jones02\}}              &\citealp*[in][sectie 3]{jones02}       \\
+\end{tabular}
+\end{center}
+Soms wens je alleen de auteur of alleen het jaar. Dit laat toe om iets gevariëerder te citeren:
+\begin{center}
+\begin{tabular}{l@{\quad\ensuremath{\longrightarrow}\quad}l}
+\lcommand{\\citeauthor\{athos:92\}}                             &\citeauthor{athos:92}                  \\
+\lcommand{\\citeauthor*\{athos:92\}}                            &\citeauthor*{athos:92}                 \\
+\lcommand{\\citeyear\{athos:92\}}                               &\citeyear{athos:92}                    \\
+\lcommand{\\citeyearpar\{jones02\}}                             &\citeyearpar{jones02}                  \\
+\lcommand{\\citeyearpar\[in\]\[sectie 3\]\{jones02\}}           &\citeyearpar[in][sectie 3]{jones02}    \\
+\end{tabular}
+\end{center}
+Om in het begin van een zin een auteur te citeren wiens familienaam begint met een kleine letter, kan je gebruik maken van de hoofdlettervariant van de hierboven vermelde commando's: \lcommand{\\citet\{vanOostrum96\}} geeft: \citet{vanOostrum96}, terwijl \lcommand{\\Citet\{vanOostrum96\}} \Citet{vanOostrum96} geeft.
+\npar
+Artikels die nooit geciteerd worden in de tekst, komen normaalgezien ook niet voor in de bibliografie. Indien we toch ongeciteerde artikels in de bibliografie wensen op te nemen, gebruiken we het commando \lcommand{\\nocite\{key\}} om het artikel met \lcommand{key} op te nemen in de bibliografie. Met \lcommand{\\nocite\{*\}} worden alle artikels uit de bibiografische databank in de bibliografie opgenomen.
+
+

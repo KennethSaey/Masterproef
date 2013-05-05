@@ -1,0 +1,103 @@
+\chapter{Achtergrond en motivatie}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 1: Collectible Card Games %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Collectible Card Games}
+Een \engels{collectible card game} is een type kaartspel, meestal gespeeld met twee personen, met als doel om de levenspunten van de tegenstander op nul te krijgen. Dit gebeurt door het spelen van verschillende kaarten. Het spelbord (meestal gewoon een tafel) is opgedeeld in zones. Elke zone kan een of meerdere kaarten bevatten, en de acties die met een kaart ondernomen kunnen worden zijn afhankelijk van de spelzone waarin de kaart zich bevindt. De globale spelregels beschrijven op welke manier kaarten van spelzone kunnen veranderen. Er zijn steeds verschillende types van kaarten aanwezig, vaak met hun eigen specifieke eigenschappen en vaardigheden, die een invloed uitoefenen op alle onderdelen van het spel. CCGs zijn een niet te onderschatten uitdaging vanuit het standpunt van een software ontwikkelaar, aangezien ze veel verschillende vormen van modulariteit bevatten en een overvloed aan regels die de basisregels van het spel grondig kunnen beïnvloeden.
+
+% Subsectie 1.1: Spelzones %
+\subsection{Spelzones}
+Een eerste niveau van modulariteit binnen CCGs zijn de verschillende zones op het virtuele spelbord. De beschikbare zones van één welbepaald spel veranderen bijna nooit, maar verschillende CCGs beschikken wel over verschillende spelzones. Bovendien hebben spelzones hun eigen effect op de spelregels, met betrekking tot de acties die uitgevoerd kunnen worden met kaarten die zich in de zone bevinden. Een van de oudste en meest populaire CCGs is \engels{Magic: The Gathering} dat in 1993 door Richard Garfield (\cite{magic-the-gathering}) ontworpen werd. Voorbeelden zullen aan de hand van dit spel gegeven worden. \engels{Magic: The Gathering} bevat zes verschillende spelzones, zoals te zien op Figuur \ref{magic-zones.pdf}. Elke speler heeft zijn eigen deck of \engels{library}. Deze bevat aan het begin van het spel alle kaarten waarmee een speler het spel wil spelen. Vaak staat er een limiet op het aantal kaarten dat een deck mag bevatten. Tijdens het spel zullen er verschillende momenten zijn waarop een speler een of meerdere kaarten van zijn deck mag trekken om op die manier in het spel te brengen.
+\mijnfiguur[H]{width=\textwidth}{magic-zones.pdf}{Magic: The Gathering - Spelzones}
+Elke speler heeft ook een \textit{handzone}. Dit is geen echte zone op het spelbord, maar dit zijn de kaarten die de speler letterlijk in zijn hand houdt, afgeschermd van de tegenstander. Aan het begin van het spel trekt een speler een welbepaald aantal kaarten van zijn deck en plaatst die in zijn hand. Gedurende het spel wordt de hand aangevuld met de kaarten die van zijn deck getrokken worden.
+
+De \engels{battlefield}-zone is een gemeenschappelijke zone waar zich de actie van het spel bevindt. Hier worden kaarten tegen elkaar uitgespeeld in de hoop de tegenstander te verslaan. Kaarten waarvan alle acties opgebruikt zijn of die om een of andere reden \textit{vernietigd} werden komen op de aflegstapel terecht, die in \engels{Magic: The Gathering} de \engels{graveyard} genoemd wordt.
+
+Verder bevat \engels{Magic: The Gathering} nog twee andere spelzones, die minder frequent voorkomen in andere CCGs. De \engels{stack} bevat alle \engels{spells} en \engels{abilities}, twee speciale types kaarten. Verder is er ook nog een \engels{exile}-zone, waar kaarten terecht komen die uit het spel verwijderd moeten worden.
+
+% Subsectie 1.2: Kaarttypes%
+\subsection{Kaarttypes}
+Verschillende types en subtypes van kaarten zorgen voor een tweede niveau van modulariteit. \engels{Magic: The Gathering} bijvoorbeeld bevat onder andere \textit{land}-kaarten, \engels{creature}-kaarten (wezens), \engels{sorceries}, \engels{instants}, \engels{enchantments}, \engels{artifacts} en hun subtype \engels{equipment} en \engels{planeswalkers}. Voorbeelden van deze kaarten zijn te zien in Figuur \ref{magic-card-types.pdf}. Landkaarten zijn onderverdeeld in verschillende subtypes waarvan de vijf voornaamste \textit{bergen}, \textit{bossen}, \textit{eilanden}, \textit{moerassen} en \textit{vlaktes} zijn. De \engels{creature}-kaarten kunnen volgens de basisspelregels enkel van de \textit{handzone} naar de \textit{slagveldzone} (\engels{battlefield}) verplaatst worden, indien de \textit{slagveldzone} van die speler de correcte types en aantallen van landkaarten bevat zoals aangegeven op de \engels{creature}-kaart. In dit geval zijn de landkaarten dus een vereiste voor het spelen van de \engels{creature}-kaarten.
+\mijnfiguur[H]{width=\textwidth}{magic-card-types.pdf}{Magic: The Gathering - Kaart types}
+
+Het spel \engels{Shadow Era} \cite{shadow-era} bevat een gelijkaardig type van \engels{creature}-kaarten (Figuur \ref{shadow-era-creature.pdf}), maar de vereiste om deze te kunnen spelen is hierbij niet een specifieke set van landkaarten, maar wel een voldoende grote voorraad \textit{grondstoffen} die vergroot kan worden door andere kaarten op te offeren.
+\mijnfiguur[H]{width=0.3\textwidth}{shadow-era-creature.pdf}{Shadow Era - Creature}
+
+Andere kaarten kunnen dan weer effect hebben op de eigenschappen van kaarten. Zo heeft een \engels{equipment}-kaart een invloed op de \engels{creature}-kaart waaraan ze gehecht is. Figuur \ref{equipment.pdf} toont de \engels{equipment}-kaart \engels{Whispersilk Cloak} en de \engels{Creature}-kaart \engels{Craw Wurm}. Zolang de \engels{equipment}-kaart aan de \engels{creature}-kaart gehecht is, krijgt de \engels{creature}-kaart de \engels{abilities} \engels{unbloackable} en \engels{shroud}.
+\mijnfiguur[H]{width=0.8\textwidth}{equipment.pdf}{Het effect van \engels{equipment} op \engels{creatures}}
+Het is dus belangrijk bij de implementatie van een CCG dat veranderingen aan eigenschappen en spelregels zonder ingewikkelde broncode geïmplementeerd kunnen worden.
+
+% Subsectie 1.3: Vaardigheden %
+\subsection{Vaardigheden}
+Een derde niveau van modulariteit is dat vele kaarten eigenschappen hebben die zich gedragen als \textit{vaardigheden} (\engels{abilities}). Vaardigheden veranderen de \engels{gameplay} minder dramatisch: het effect van een vaardigheid is meestal in tijd beperkt, namelijk zolang de kaart meedoet aan het actieve spel, en de invloed ervan beperkt zich meestal tot de kaarten die rechtstreeks met de kaart in kwestie in contact komen. Een goed voorbeeld van een dergelijke vaardigheid is \engels{Flying}. \engels{Drifting Shade} (Figuur \ref{flying-ability.pdf}), een wezen met de vaardigheid \engels{Flying} kan tijdens een aanvalsactie enkel geblokt worden door wezens die ook de vaardigheid \engels{Flying} bezitten.
+\mijnfiguur[H]{width=0.4\textwidth}{flying-ability.pdf}{Flying vaardigheid: Drifting Shade}
+De beperkte invloed van eigenschappen die zich gedragen als vaardigheden is echter geen vaststaand feit, wat opnieuw een belangrijk punt is om in acht te nemen tijdens de ontwikkeling van een computerversie van een CCG.
+
+% Subsectie 1.4 %
+\subsection{DSL en modulariteit}
+Het doel van deze masterproef is om een domein-specifieke taal te ontwikkelen die eenvoudig genoeg is zodat ze gebruikt kan worden door mensen met weinig programmeerervaring (zoals de auteurs van CCGs) maar toch krachtig genoeg om alle niveaus van modulariteit aan te passen. Hier kunnen opeenvolgende computerversies van CCGs niet alleen sneller uitgebracht worden, maar is het ook mogelijk om verschillende CCGs te ontwikkelen vanaf eenzelfde codebasis.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 2: Domein-specifieke talen %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Domein-specifieke talen}
+Een domein-specifieke taal (DSL) is een programmeertaal die speciaal ontworpen werd op problemen binnen een goed gedefinieerd probleemdomein op te lossen. Ze verschilt van een \engels{general-purpose language} (GPL) in het feit dat een GPL in staat moet zijn om problemen in alle domeinen op te lossen (uiteraard met variabele efficiëntie). Domein-specifieke talen vallen onder te verdelen in drie categorieën.
+\npar
+De meest algemeen bekende categorie van domein-specifieke talen zijn de alleenstaande DSLs. Zoals de naam aangeeft beschikken alleenstaande DSLs over hun eigen compiler of interpreter om de code uit te voeren. Voorbeelden van alleenstaande DSLs zijn HTML, voor het definiëren van de structuur van webpagina's, en SQL, voor het schrijven van query's voor SQL-databases.
+\npar
+Een tweede type van DSLs zijn DSLs die ingebed zijn in applicaties. Deze domein-specifieke talen kunnen niet worden gebruikt buiten hun gastheertoepassing en zijn vaak sterk verbonden met het doel van de gastheertoepassing. De formules die in Microsoft Excel gebruikt kunnen worden in de cellen van een rekenblad zijn een voorbeeld van een DSL die ingebed is in een applicatie.
+\npar
+Het derde een laatste type van DSLs zijn de ingebedde domein-specifieke talen (\engels{Embedded Domain Specific Languages} of EDSLs). Deze zijn ingebed in een programmeertaal en zijn vaak het gevolg van een slim gebruik van methodenamen en \engels{syntactic sugar} aangeleverd door de programmeertaal. Indien de gastheertaal over voldoende \engels{syntactic sugar} beschikt wordt het mogelijk om een EDSL sterk op natuurlijke taal te doen lijken. Dit is een zeer handig kenmerk indien nieuwe code snel moet worden toegevoegd door anderen dan de auteur van de originele broncode.
+%%%%%%%%%%%%%%%%%%%
+% Sectie 3: Scala %
+%%%%%%%%%%%%%%%%%%%
+\section{Scala}
+Scala is \engels{een general purpose language} die ontworpen is om veelvoorkomende \engels{programming patterns} uit te drukken op een bondige, elegante en type-veilige manier (\cite{scala-website}).
+% Subsectie 3.1: Integratie met Java %
+\subsection{Integratie met Java}
+Scala broncode wordt door de Scala-compiler gecompileerd naar Java bytecode die volledige compatibel is met bytecode die door een Java-compiler vanuit Java broncode gegenereerd wordt (zie Figuur \ref{scala-java-integration.pdf}). Dit betekent dat Scala, net zoals Java, uitgevoerd wordt door de Java virtuele machine (JVM). Meer nog, doordat Scala en Java compatibel zijn op bytecode niveau is het mogelijk om bestaande Java bibliotheken aan te spreken vanuit Scala en omgekeerd, bestaande Scala bibliotheken kunnen in Java programma's gebruikt worden.
+\mijnfiguur[H]{width=0.8\textwidth}{scala-java-integration.pdf}{Scala-Java integratie}
+\npar
+Ondanks het feit dat Scala en Java bytecode-compatibel zijn, is dit niet het geval voor de broncode. Scala-code lijkt op Java-code, maar is meestal een stuk bondiger. Constructie van een lege klasse \textit{Person} is nog heel gelijkaardig (zie Codefragmenten \ref{Java klasse} en \ref{Scala klasse}).
+\javacodepart{code/Code-hoofdstuk-2.scala}{Java klasse}{2}{3}
+\codepart{code/Code-hoofdstuk-2.scala}{Scala klasse}{5}{6}
+Het toevoegen van een publiek veld \textit{name} met bijhorende constructor is echter veel eenvoudiger in Scala (Codefragment \ref{Scala klasse met publiek veld}) van in Java (Codefragment \ref{Java klasse met publiek veld}), aangezien de constructor meteen op de klassenaam volgt.
+\javacodepart{code/Code-hoofdstuk-2.scala}{Java klasse met publiek veld}{8}{16}
+\codepart{code/Code-hoofdstuk-2.scala}{Scala klasse met publiek veld}{18}{22}
+Indien we het veld \textit{name} privaat maken Scala toe om \engels{getters} en \engels{setters} te schrijven die ervoor zorgen dat de toegang van buitenaf tot een privaat veld uniform wordt met de toegang tot een publiek veld (Codefragment \ref{Scala klasse met privaat veld}). In Java is dit niet mogelijk en verschilt toegang tot een privaat veld van toegang tot een publiek veld. Vergelijk hiertoe Codefragmenten \ref{Java klasse met publiek veld} en \ref{Java klasse met privaat veld}.
+\javacodepart{code/Code-hoofdstuk-2.scala}{Java klasse met privaat veld}{24}{37}
+\codepart{code/Code-hoofdstuk-2.scala}{Scala klasse met privaat veld}{39}{45}
+Merk ook op dat in Scala het gebruik van een puntkomma niet vereist is. Gelet op codeerstandaarden hebben we in Java 25 regels code geschreven en in Scala slechts 14, ongeveer de helft. Scala is dus inderdaad een stuk bondiger, zonder in te boeten aan leesbaarheid. Door de uniforme toegang tot publieke en private velden van een klasse kunnen we zelfs zeggen dat Scala eenduidiger is dan Java.
+
+% Subsectie 3.2: Scala is object-georiënteerd %
+\subsection{Scala is object-georiënteerd}
+Tijdens kennismakingen met Java wordt er vaak gezegd: \engels{In Java, everything is an object}. Dit refereert naar de object-georiënteerdheid van Java, maar is eigenlijk een onterecht statement, aangezien primitieve types (\textit{int}, \textit{double}, ...) en functies in Java geen objecten zijn. Scala lost dit echter op door \'e\'en superklasse \textit{scala.Any} te voorzien. \textit{scala.Any} heeft twee subklasses: \textit{scala.AnyVal}, een superklasse voor de voorgedefinieerde klasses die primitieve types voorstellen, zoals \textit{scala.Int} en \textit{scala.Double} en \textit{scala.AnyRef}, een superklasse voor alle andere klasses. Een overzicht van de klassestructuur van Scala is te zien in Figuur \ref{scala-class-hierarchy.pdf}.
+\mijnfiguur[H]{width=0.8\textwidth}{scala-class-hierarchy.pdf}{Scala klasse-hiërarchie}
+\npar
+Nog belangrijker dan het voorzien van klasses voor de primitieve types uit Java is het feit dat in Scala ook functies objecten zijn. Functies zijn objecten van de klasse \textit{Function}. Dit leidt tot de volgende sectie.
+
+% Subsectie 3.3: Scala is een functionele programmeertaal %
+\subsection{Scala is een functionele programmeertaal}
+Naast een puur object-georiënteerde invalshoek bezit Scala ook verschillende eigenschappen die ze tot een functionele programmeertaal maakt. Scala biedt ondersteuning voor anonieme functies. Codefragment \ref{Anonieme functie} toont een anonieme functie die de derde macht van een getal berekent. Het type van deze functie is Function1[Int, Int], een functie met \'e\'en argument van het type Int dat een object van het type Int als resultaat heeft.
+\codepart{code/Code-hoofdstuk-2.scala}{Anonieme functie}{47}{47}
+Aangezien functies objecten zijn kunnen ze eenvoudig aan andere functies meegegeven worden als argument. Zo biedt Scala een natuurlijke ondersteuning aan voor \textit{hogere-orde functies}. Codefragment \ref{Hogere-orde functie} geeft een voorbeeld van een functie \textit{max} die het maximum van een reeks \textit{values} bepaald aan de hand van een functie \textit{comparator} die twee elementen met elkaar vergelijkt. Door andere functies als eerste argument mee te geven kan de gebruiker zelf bepalen volgens welk criterium het maximum bepaald moet worden.
+\codepart{code/Code-hoofdstuk-2.scala}{Hogere-orde functie}{49}{51}
+Verder kunnen funties in Scala genest worden en biedt de programmeertaal ondersteuning voor \engels{currying}, het definiëren van meerdere parameterlijsten bij een methode. Het aanroepen van een dergelijke functie met minder parameterlijsten levert opnieuw een functie op, met de overige parameterlijsten als argumenten.
+
+% Subsectie 3.4: Scala is statisch getypeerd %
+\subsection{Scala is statisch getypeerd}
+Scala is, net zoals Java, een statisch getypeerde taal. Dit betekent dat het controleren van types al plaats vindt tijdens het compileren en niet pas tijdens het uitvoeren. Voordeel hiervan is dat er tijdens het uitvoeren van het programma geen \engels{type-checks} meer moeten gebeuren.
+
+%% Subsectie 3.5: Scala is uitbreidbaar
+\subsection{Scala is uitbreidbaar}
+De Scala programmeertaal is uitzonderlijk geschikt voor het ontwerpen van domein-specifieke talen. Scala biedt hiervoor verschillende mechanismen. Een eerste mechanisme is dat elke methode zonder parameters als postfix operator gebruikt kan worden en elke methode met slechts een parameter als infix operator. Binnen het thema van CCGs zouden we een \textit{Creature}-klasse kunnen bedenken zoals in Codefragment \ref{Infix en postfix operatoren} met twee methodes. Een \textit{attacks}-methode met als argument het aan te vallen \textit{Creature} en een \textit{dies}-methode die opgeroepen hoort te worden wanneer een wezen dood gaat.
+\codepart{code/Code-hoofdstuk-2.scala}{Infix en postfix operatoren}{53}{60}
+Codefragment \ref{Gebruik van infix en postfix operatoren} toont hoe de infix (regel 3) en postfix operator (regel 5) gebruikt kunnen worden samen met hun equivalente, meer traditioneel object-georiënteerde versies (regels 4 en 6). Door van dit mechanisme gebruik te maken hebben we een DSL voor \textit{Creatures} gebouwd met twee operatoren.
+\codepart{code/Code-hoofdstuk-2.scala}{Gebruik van infix en postfix operatoren}{62}{67}
+
+Verder legt Scala veel minder beperkingen op aan methodenamen, waardoor methodes die als infix of postfix gebruikt worden niet te onderscheiden vallen van echte operatoren. Zo kunnen we een methode \textit{+} definiëren voor een klasse \textit{Fraction} (zie Codefragment \ref{Vrije methodenamen}) die een breuk voorstelt en de \textit{+} verder gebruiken alsof de instanties van de \textit{Fraction}-klasse echte getallen zijn en geen objecten.
+\codepart{code/Code-hoofdstuk-2.scala}{Vrije methodenamen}{69}{79}
+
+Een derde mechanisme dat van pas komt bij de constructie van DSLs is de automatische constructie van closures (\cite{closure-construction}). Een closure is de combinatie van de referentie naar een functie en haar eigen lokale variabelenomgeving. Indien een methode parameters bevat die zelf parameterloze functies voorstellen, dan kunnen de namen van deze methodes zelf gebruikt worden als argumenten van functies. Dit heet \engels{call-by-name}-evaluatie. Codefragment \ref{Automatische constructie van closures} geeft aan wat hiervan het effect is. Er wordt een methode \textit{my\_while} gedefinieerd die twee parameters heeft, beide van het type \textit{parameterloze-functie-type}. Op regel $8$ van het codefragment wordt de methode aangeroepen met twee parameters. Deze parameters worden echter niet meteen geëvalueerd, maar ze worden geëncapsuleerd in functie-objecten die doorgegeven worden aan de body van de \textit{my\_while}-methode en pas geëvalueerd worden op de plaatsen in die body waar de naam van de parameters voorkomen. Dit is op regels $2$ en $3$ van het codefragment. Aan de hand van dit mechanisme is het mogelijk om zelf controlestructuren te bouwen voor een DSL.
+\codepart{code/Code-hoofdstuk-2.scala}{Automatische constructie van closures}{81}{91}
+
+Al deze mechanismen in Scala zullen ons helpen bij het bouwen van onze eigen DSL voor collectible card games.

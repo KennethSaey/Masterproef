@@ -1,0 +1,591 @@
+
+\chapter{Platte tekst}
+
+Onder `platte' tekst (\engels{plain text} verstaan we simpele tekst zonder toeters en bellen, dus geen formules, tabellen of figuren. Alle tekst die komt na een percentteken (\%) wordt als commentaar geïnterpreteerd en wordt niet weergegeven in het finale document.\index{commentaar}
+
+\section{Speciale Tekens}
+
+\subsection{\latex symbolen}
+
+De volgende symbolen hebben een speciale betekenis voor \LaTeX, en kunnen niet zomaar gebruikt worden.
+\begin{lt}
+% $ & # _ { }  ~  ^ "  \  | < >
+\end{lt}
+
+De volgende zeven tekens kunnen door er een
+\lcommand{\\} (backslash)
+voor te zetten gewoon afgedrukt worden \$ \& \% \# \_ \{ \}:
+\begin{lt}
+\$ \& \% \# \_ \{ \}
+\end{lt}
+\index{\@\lcommand{\\}}
+\index{_@\lcommand{_}}
+\index{\#}
+\index{\%}
+\index{\&}
+\index{\$}
+\index{\~{}}
+\index{\^@\lcommand{^}}
+\index{$>$}
+\index{$<$}
+%\index{$|$} Geeft fouten in de index --> niet insteken.
+Een tilde (\~{}) kan met \lcommand{\\~\{\}} verkregen worden. Een hoedje, ook wel accent circonflexe genoemd, (\^{}) is met \lcommand{\\^\{\}} te verkrijgen. Groter dan ($>$), kleiner dan ($<$) en de rechte streep ($|$) verkrijgt men door er dollartekens rond te plaatsen: \lcommand{$>$}, \lcommand{$<$} en \lcommand{$|$}. De \engels{backslash} (\verb?\?) krijgt men met \lcommand{\\verb?\\?} of met \lcommand{$\\backslash$} (dollartekens dienen om in \engels{math mode} te komen, zie hoofdstuk \ref{math-mode}).
+\npar
+Als aanhalingsteken wordt niet het gebruikelijke \verb|"| gebruikt. In boeken worden voor \index{aanhalingsteken}aanhalingsteken openen en aanhalingsteken sluiten verschillende tekens gebruikt. Voor aanhalingstekens openen worden er twee \lcommand{``} (\engels{back quotes}) gebruikt, voor aanhalingstekens sluiten gebruikt men \lcommand{''} (gewone \engels{quotes}). Tegenwoordig wordt ook vaak met enkele aanhalingstekens gewerkt `zoals dit'.
+\npar
+Voor de ouderwetse Nederlandse "`aanhalingstekens"' wordt het volgende gebruikt: \lcommand{\"`xxx\"'}. Om te openen dus een dubbele \engels{quote} gevolgd door een \engels{back quote}. Het sluiten is weer een dubbele \engels{quote} maar nu gevolgd door een normale enkele \engels{quote}.
+
+\subsection{Euro}
+
+Het \begrip{euro}-symbool is iets dat pas later werd toegevoegd aan \latex. Om het te kunnen gebruiken moet het pakket \begrip{eurosim} geladen worden. In de \engels{preamble} wordt hiertoe de volgende lijn opgenomen:
+\begin{llt}
+\usepackage{eurosym}                   % Om het euro symbool te krijgen
+\end{llt}
+Een euro symbool invoeren gebeurt dan met het commando \lcommand{\\euro\\}, wat \euro\ geeft (die laatste slash na \lcommand{\\euro} zorgt ervoor dat er een spatie is na het eurosymbool).
+
+\subsection{Ellipsis (dots)}\index{ellipsis}
+
+In tegenstelling tot typmachines, waar elke punt en komma evenveel ruimte
+in beslag neemt als een gewone letter, worden punten en komma's in boeken
+zo dicht mogelijk tegen de vorige letter aangezet.
+Als `voortzettingspunten'
+(drie punten met een speciale afstand) is er het commando \lcommand{\\ldots}\index{ldots@\lcommand{\\ldots}}, wat het volgende geeft: `\ldots' in plaats van `...'.
+
+\subsection{Koppeltekens en verbindingsstreepjes}\index{koppelteken}\index{verbindingsstreepje}
+
+Er bestaan drie soorten streepjes: -, --, ---. Het kleinste (-) wordt gebruikt als koppelteken tussen woorden en voor woordafbreking op het einde van een regel. Het tweede (--) wordt gebruikt voor bereiken tussen getallen (1--3) en het grootste wordt als gedachtenstreepje gebruikt --- zoals dit. Zij worden getypt door het koppelteken op het toetsenbord één, twee of drie keer na elkaar te gebruiken. Een vierde soort streepje is het minteken, maar dat zien we later in \engels{math mode}.
+
+\subsection{Speciale letters en accenten}
+
+Om accenten op letters te plaatsen, moeten de volgende commando's gebruikt worden (tenzij het pakket \lcommand{inputenc} gebruikt wordt, zie sectie \ref{accenten1} op bladzijde \pageref{accenten1}):
+
+\begin{center}
+\begin{tabular}{r@{=}lr@{=}lr@{=}lr@{=}lr@{=}lr@{=}lr@{=}lr@{=}lr@{=}l}
+\'o     &\lcommand{\\'o}    &\`o    &\lcommand{\\`o}    &\^o    &\lcommand{\\^o}    &\"o    &\lcommand{\\"o}    &
+\~o     &\lcommand{\\~o}    &\=o    &\lcommand{\\=o}    &\.o    &\lcommand{\\.o}    &\c{o}  &\lcommand{\\c\{o\}}&\r{o}  &\lcommand{\\r\{o\}}
+\end{tabular}
+\end{center}
+Dus om een cédille (\c{c}\index{cédille}) te produceren, gebruiken we het volgende commando: \lcommand{\\c\{c\}}. 
+\npar
+Om graden celsius (\textcelsius \index{graden}\index{celsius}) weer te geven moet een nieuw pakket geladen worden: \lcommand{textcomp}:\index{textcomp}
+\begin{llt}
+\usepackage{textcomp}          % Voor onder andere graden celsius
+\end{llt}
+Met het commando \lcommand{\\textcelsius} kan dan het graden celsius symbool gegenereerd worden. Indien het pakket \lcommand{SIunits} geladen is (zie sectie \ref{SIunits}), kan graden celsius ook verkregen worden met \lcommand{\\celsius}.
+\npar
+Enkele speciale letters die soms van pas kunnen komen:
+\begin{center}
+\begin{tabular}{r@{=}lr@{=}lr@{=}lr@{=}lr@{=}lr@{=}lr@{=}lr@{=}l}
+\oe &\lcommand{\\oe}    &\OE  &\lcommand{\\OE}  &\o &\lcommand{\\o} &\O &\lcommand{\\O} &\AA &\lcommand{\\AA} &\ss  &\lcommand{\\ss}
+&!` &\lcommand{!`}  &?` &\lcommand{?`}
+\end{tabular}
+\end{center}
+
+\section{Spaties} \label{spaties}
+
+\latex verzorgt de opmaak van je document. Het is daarom niet van belang w\'a\'ar je de \index{spaties} spaties en de regelovergangen plaatst in je bronbestand, omdat \latex zich daar toch niets van aantrekt. Meerdere spaties na elkaar worden door \latex vervangen door één enkele spatie. Spaties in het begin van een paragraaf worden genegeerd.
+\npar
+Als je expliciet ergens een spatie wilt invoeren, dan doe je dat met \lcommand{\\\ } (i.e. een backslash gevolgd door een letterlijke spatie).
+\npar
+Na commando's worden spaties normaalgezien ingeslikt. Als we bijvoorbeeld het volgende in onze broncode typen: \lcommand{\\euro spatie}. dan geeft dit \euro spatie, terwijl we liever \euro\ spatie zien. Om dit te vermijden, moeten we een harde spatie invoegen door een backslash te plaatsen na het commando: \lcommand{\\euro\\ spatie}.
+\npar 
+Soms mogen twee woorden die gescheiden worden door een spatie, niet op een verschillende lijn terecht komen. Hiervoor wordt een beschermde spatie gebruikt, aangegeven door een tilde: \lcommand{\~}. Dus \lcommand{A.\~Armagneau} geeft `A.~Armagneau', waarbij nooit een nieuwe lijn zal begonnen worden na de `A.'.\index{\~{}}
+\npar
+Een meer algemene manier om iets bij elkaar te houden, is het gebruik van een mbox: \lcommand{\\mbox\{sa-men\}} zal altijd bij elkaar blijven. Ook wanneer het \latex goed uitkomt om de regel af te splitsen tussen `sa' en `men' (als je `\mbox{sa-men}' zomaar in je tekst schrijft, zal \latex er namelijk van uitgaan dat er mag gesplitst worden op de plaats van het streepje).
+ 
+\section{Paragrafen}\index{paragraaf}\label{paragraaf}
+
+Eén harde enter op het einde van een regel, wordt door \latex aanzien als een spatie. Een lege regel (een aantal opeenvolgende lege regels worden, analoog aan opeenvolgende spaties, slechts als één lege regel aanzien) geldt echter als een paragraafovergang. Dat wil nog niet zeggen dat er in het gecompileerde document ook een lege regel komt, wel dat er een nieuwe lijn wordt begonnen. Een nieuwe paragraaf beginnen, kan ook door het commando \lcommand{\\par} te geven.\index{paragraaf}\index{par@\lcommand{\\par}}
+\npar
+Het hangt van de documentklasse af, hoe de paragrafen gezet worden.
+In artikels, rapporten en boeken worden paragrafen weergegeven door
+het inspringen van de eerste regel en wordt er geen witruimte gelaten tussen de paragrafen.\footnote{In de nederlandse documentklasse \lcommand{artikel3} is dit echter niet zo. Daarin worden paragrafen gescheiden door witte ruimte en niet door het inspringen van de eerste regel.}
+\npar
+Dit kan veranderd worden door de volgende aanwijzingen in de \engels{preamble} te plaatsen:
+\begin{llt}
+\setlength{\parindent}{0pt}                       % Geen inspringen van paragrafen
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}  % Ruimte tssn paragrafen, slecht
+\end{llt}
+\index{parindent}\index{parskip@\lcommand{\\parskip}}\label{parskip}
+Met de eerste aanwijzing wordt de paragraafinspringing op nul punten gezet. De tweede aanwijzing geeft aan dat tussen elke paragraaf een witte ruimte moet gelaten worden: namelijk één keer de hoogte van de letter x. \latex krijgt echter speling van ons: als blijkt dat er een mooiere bladschikking is als de witte ruimte wordt vergroot (maximum met de helft van de hoogte van de letter x) of verkleind (met 0.2 keer de hoogte van de letter x) dan mag dat gebeuren. Dit is een zogenaamde \begrip{rubberen lengte} (zie ook sectie \ref{latex-eenheden}).
+\npar
+Er is echter ook een nadeel verbonden aan het instellen van een niet-nul \lcommand{parskip}: die afstand wordt namelijk ook gebruikt om te plaatsen rond titels. Zodus krijg je veel te veel witte ruimte rond je titels. Als oplossing hiervoor werd in dit document elke paragraaf niet gescheiden door een lege regel, maar door het zelfgebakken commando \lcommand{\\npar}, dat in de \engels{preamble} als volgt werd gedefinieerd:
+\begin{llt}
+\newcommand{\npar}{\par \vspace{2.3ex plus 0.3ex minus 0.3ex}}
+\end{llt}
+Dit commando zorgt ervoor dat wanneer het geplaatst wordt, een nieuwe paragraaf wordt begonnen en een verticale lege ruimte wordt ingebracht. Natuurlijk werd de \lcommand{\\parskip} niet aangepast (vandaar dat hierboven `slecht' in de commentaar staat)!
+\npar
+Normale tekst wordt uitgevuld. \latex breekt regels en pagina's automatisch af. Voor elke alinea wordt de best mogelijke verdeling van woorden en regels gezocht en worden, waar nodig, woorden automatisch afgebroken.
+\npar
+Voor uitzonderingsgevallen\footnote{Het is dus niet de bedoeling dat je dit constant doorheen je document gebruikt. \latex weet meestel zelf beter waar regels afgebroken moeten worden.} kan men het afbreken be\"invloeden met de volgende commando's: Het commando \lcommand{\\\\} of \lcommand{\\newline} \index{newline@\lcommand{\\newline}} \index{\\@\lcommand{\\\\}} breekt de regel af zonder een nieuwe paragraaf te beginnen. Het commando \lcommand{\\\\*} breekt een regel af, maar er mag op die plaats geen nieuwe pagina begonnen worden. 
+\npar
+Wanneer extra witruimte tussen de regels gewenst is, kan dat als optionele parameter aan het commando \lcommand{\\\\} doorgegeven worden, bijvoorbeeld \lcommand{\\\\[5mm]}. 
+\npar
+Een alternatief voor het gebruik van \lcommand{\\npar} is \lcommand{\\\\\\\\} (twee keer een nieuwe regel). Technisch gezien wordt er dan geen nieuwe paragraaf begonnen en dus zal er ook nooit ingesprongen worden (wat de waarde van \lcommand{\\parindent} ook weze). Verder is de verticale witte ruimte gelijk aan de hoogte van een tekstregel, wat eigenlijk te veel is. 
+\npar
+Met behulp van de commando's
+\index{linebreak@\lcommand{\\linebreak}}
+\index{nolinebreak@\lcommand{\\nolinebreak}}
+\index{pagebreak@\lcommand{\\pagebreak}}
+\index{nopagebreak@\lcommand{\\nopagebreak}}
+\begin{llt}
+\linebreak[n]
+\nolinebreak[n]
+\pagebreak[n]
+\nopagebreak[n]
+\end{llt}
+kan de wenselijkheid voor het afbreken van regels (pagina's) ingesteld worden, \lcommand{[n]} geeft de mate van wenselijkheid weer
+(0, 1, 2, 3 of~4 met 0 = niet wenselijk, 4 = zeer wenselijk).
+\index{newpage@\lcommand{\\newpage}}
+Het commando \lcommand{\\newpage} kan gegeven worden om een nieuwe pagina te \index{clearpage@\lcommand{\\clearpage}}
+beginnen. Het commando \lcommand{\\clearpage} doet dit ook, maar drukt eerst alle nog niet \index{cleardoublepage@\lcommand{\\cleardoublepage}}
+afgedrukte figuren en tabellen af. Het commando \lcommand{\\cleardoublepage} doet hetzelfde,
+maar wanneer het document wordt gecompileerd om dubbelzijdig af te drukken, wordt er op een rechterbladzijde begonnen.
+\npar
+\latex doet erg veel moeite om mooie regels te maken.
+Als echter geen enkele van de ingebouwde methoden een mogelijkheid biedt om een gladde rechterkantlijn te produceren, dan resulteert dit in een waarschuwing (`\engels{overfull hbox}'). Dit treedt vooral op als er geen geschikte plek wordt gevonden om een woord af te breken.
+Als het commando \lcommand{\\sloppy} wordt gegeven, is \latex gewoonlijk \index{sloppy@\lcommand{\\sloppy}} veel minder streng en vermijdt zulke lange regels door de woordafstand te vergroten (wat er echter minder mooi uitziet). Het effect van \lcommand{\\sloppy} kan weer ongedaan gemaakt worden met \lcommand{\\fussy}.
+\index{fussy@\lcommand{\\fussy}}
+Er worden in dit geval ook waarschuwingen geproduceerd (`\engels{underfull hbox}'),
+maar het resultaat is meestal goed bruikbaar.
+
+\section{Woordafbreking}\index{afbreken}
+
+Het afbreken van woorden (hyphenatie) op het einde van de regels, zodat de tekst mooi uitgevuld is, gebeurt automatisch. Die woordafbreking kan vermeden worden door een paragraaf tussen \lcommand{\\begin\{sloppypar\}} en \lcommand{\\end\{sloppypar\}} te zetten (of door het commando \lcommand{\\sloppy} te geven: vanaf die plaats wordt dan in \engels{sloppypar} mode gewerkt; ongedaan maken van \lcommand{\\sloppy} gebeurt met \lcommand{\\fussy}). Dit zet echter de woordafbreking uit voor de hele paragraaf, wat voor niet zo mooi ogende tekstopmaak zorgt. Een betere manier is om \latex te laten weten hoe een woord moet gesplitst worden. Dit kan door in de \engels{preamble} het volgende commando op te nemen:
+\begin{llt}
+\hyphenation{af-split-sen woord-af-bre-king}
+\end{llt}
+De woorden worden dus van elkaar gescheiden door een spatie en niet door een komma. Midden in de tekst kan ook het volgende gegeven worden: \lcommand{af\\-bre\\-ken}. Dit geeft gewoon `af\-bre\-ken' maar maakt duidelijk aan \latex waar het woord afgebroken mag worden. 
+\npar
+\latex werd oorspronkelijk in Amerika ontwikkeld, waar Engels de voertaal is. Daardoor worden Engelse afsplitsingsregels gebruikt, die niet altijd correct zijn in het Nederlands. Vandaar dat we specifiek in ons document moeten meegeven welke taal we willen gebruiken. De naam van de \latex uitbreiding die daarvoor instaat is \lcommandx{babel}. Door de volgende lijn in onze \engels{preamble} op te nemen, zorgen we voor Nederlandstalige ondersteuning in ons document:
+\begin{llt}
+\usepackage[dutch]{babel}       % Voor nederlandstalige hyphenatie
+\end{llt}
+Dit zorgt niet alleen voor voor de juiste hyphenatie, maar ook voor juiste titels (Inhoudsopgave in plaats van \engels{Table of Contents}, Hoofdstuk in plaats van \engels{Chapter}).
+\npar
+Wanneer we nu zomaar ons document compileren, is de kans groot dat we de volgende waarschuwing krijgen (te vinden in het \bestand{log}-bestand dat door de latexcompiler gegenereerd werd):
+\begin{lt}
+Package babel Warning: No hyphenation patterns were loaded for
+(babel)                the language `Dutch'
+(babel)                I will use the patterns loaded for \language=0 instead.
+\end{lt}
+De taal 0 staat voor Amerikaans Engels. Niet goed voor onze hyphenatieregels. Dit komt omdat het Nederlands niet echt belangrijk is op wereldschaal en daardoor niet standaard ingeschakeld staat in \latex. Er moet ergens in de configuratiebestanden iets veranderd worden, en daarna moet aan \latex meegedeeld worden dat er een configuratiebestand veranderd is (de latexcompiler leest namelijk niet elke keer alle configuratiebestanden; dat zou veel te lang duren). Om Nederlands te kunnen gebruiken in een document, moet het volgende gebeuren (hiervoor heb je administratieve rechten nodig op je computersysteem):
+\begin{enumerate}
+\item Open het bestand \bestand{language.dat} met een gewone teksteditor (wordpad, vim, emacs). Het zou kunnen dat er zo verschillende bestanden op je \latex systeem staan. Het juiste bestand is op Debian GNU/Linux te vinden onder de \bestand{generic} directory\footnote{namelijk: \bestand{/usr/share/texmf/tex/generic/config/language.dat}}.
+\item In dat bestand vind je een lijn die er ongeveer als volgt uitziet:
+\begin{llt}
+%! dutch	nehyph.tex
+\end{llt}
+Verwijder het commentaarteken, het uitroepteken (het zou kunnen dat er op sommige systemen geen uitroepteken staat) en de spatie.
+\item Bewaar het bestand.
+\item Geef dan ergens in een commandovenster (dos-prompt) het volgende commando
+\begin{lt}
+fmtutil --all
+\end{lt}
+Het zou kunnen dat er dan een foutmelding verschijnt dat het commando niet te vinden is. Zoek er dan naar, ga naar de directory waar het zich bevindt\footnote{Op een Debian GNU/Linux systeem: \bestand{/usr/bin/fmtutil}} en voer het vandaar uit. Verder zou het kunnen dat op een Windowssysteem het volgende moet gebruikt worden: \command{fmtutil /all}.
+\end{enumerate}
+\begin{MinderBelangrijk}
+Voor de Debian gebruikers is \engels{The Debian Way to do it} als \engels{root} \command{dpkg-reconfigure tetex-bin} via de commando prompt in te geven. Op andere GNU/Linux of Unix systemen is er een handig menugebaseerd programmaatje dat je, als root, oproept met \command{texconfig}.
+\npar
+Onder Windows kan je in het MikTex configuratie programma (start $>>$ programma's $>>$ MikTeX $>>$ MikTeX Options) verschillende talen selecteren. De \latex compiler wordt dan automatisch geupdated.
+\npar
+Mensen die graag meerdere talen in eenzelfde document gebruiken, kunnen dat. Selecteer hiertoe meerdere talen in de \engels{preamble}: \lcommand{\\usepackage\[dutch,english\]\{babel\}}. De taal die standaard gebruikt wordt in het document is de laatste die ingegeven wordt. Wanneer we willen overschakelen op de andere taal, geven we het commando \lcommand{\\selectlanguage\{dutch\}}. Om terug te keren naar het Engels: \lcommand{\\selectlanguage\{english\}}. Meer opties kunnen gevonden worden in het helpbestand van Babel.\footnote{Op een Debian GNU/Linux systeem te vinden in \bestand{/usr/share/doc/texmf/generic/babel/user.dvi.gz}}
+\end{MinderBelangrijk}
+
+\section{Arbitraire witte ruimte}
+
+In dit deel wordt uit de doeken gedaan hoe je \latex kan verplichten om ergens witte ruimte vrij te laten. Gebruik deze commando's echter niet lichtzinnig. Het is niet de bedoeling dat de auteur constant aangeeft waar er witte ruimte moet komen. \latex weet dit meestal zelf beter. Slechts in uitzonderlijke gevallen mag de auteur dit corrigeren.
+
+\subsection{Lengte eenheden in \latex} \label{latex-eenheden}
+
+Lengtes hebben in \latex altijd een eenheid, ook als we de lengte nul wensen. De meest gebruikelijke eenheden zijn:
+\npar
+\begin{tabular}{l@{\quad}l}
+\lcommand{cm}& centimeter\\
+\lcommand{mm}& millimeter\\
+\lcommand{in}& inch\\
+\lcommand{pt}& punten (1 inch = 72.27 pt)\\
+\lcommand{em}& lettertype specifiek: de breedte van een hoofdletter M\\
+\lcommand{ex}& lettertype specifiek: de hoogte van de letter x
+\end{tabular}
+\npar
+Soms zijn zogenaamde rubberen lengtes nodig. Dit betekent dat we een gemiddelde lengte opgeven met een maximum en een minimum. Rubberen lengtes worden als volgt voorgesteld: \lcommand{\{1ex plus0.5ex minus0.3ex\}}. In sectie \ref{parskip} op bladzijde \pageref{parskip} wordt een rubberen lengte gebruikt om de ruimte tussen paragrafen te bepalen.\index{rubberen lengte}
+\npar
+Met \lcommand{\\fill} wordt een speciale rubberen lengte gezet. Dit is een rubberen lengte met gemiddelde nul en maximale waarde gelijk aan oneindig.
+
+\subsection{Horizontale witte ruimte}
+
+De volgende commando's kunnen gebruikt worden om ergens in een zin horizontale ruimte in te voeren:\index{hspace@\lcommand{\\hspace}}
+\begin{llt}
+\hspace{lengte}
+\hspace*{lengte}
+\end{llt}
+Hierin is \lcommand{lengte} een lengte-eenheid van de vorm uitgelegd in sectie \ref{latex-eenheden}. De gewone vorm (zonder asterisk) van \lcommand{\\hspace} negeert de vraag naar witte ruimte wanneer die op het einde van een regel komt, zodat een nieuwe regel nooit met een spatie begint. De \mbox{*-vorm} zet altijd witte ruimte, ook aan het begin van een regel.
+\npar
+De lengtespecificatie mag negatief zijn. Op die manier is het mogelijk om twee karakters bovenop elkaar te printen, bijvoorbeeld de euro van de arme man (arm, omdat hij het \lcommand{eurosym} pakket niet heeft): C\hspace{-0.8em}=\footnote{Geproduceerd met \lcommand{C\\hspace\{-0.8em\}=}}.\label{pmeuro}
+\npar
+Het commando \lcommand{\\hfill} is een afkorting van \lcommand{\\hspace\{\\fill\}} en zorgt ervoor dat de tekst links van het commando naar links wordt geduwd en rechts van het commando naar rechts. Bijvoorbeeld\index{hfill@\lcommand{\\hfill}}
+\begin{llt}
+De auteur   \hfill  De begeleider   \hfill  De promotor
+\end{llt}
+geeft het volgende:
+\npar
+De auteur   \hfill  De begeleider   \hfill  De promotor
+\npar
+Variaties op \lcommand{\\hfill} zijn \lcommand{\\dotfill} en \lcommand{\\hrulefill}. Het eerste vult aan met punten, het tweede met een horizontale lijn.\index{hrulefill@\lcommand{\\hrulefill}}\index{dotfill@\lcommand{\\dotfill}}
+\npar
+Verder kunnen \lcommand{\\quad} en \lcommand{\\qquad} gebruikt worden. Het eerste zet een spatie van 10, 11 of 12 punten, afhankelijk van welke optie in de documentklasse wordt meegegeven (zie sectie \ref{documentclass} op bladzijde \pageref{documentclass}). Het tweede zet een spatie die dubbel zo groot is. Korte spaties kunnen ingegeven worden met \lcommand{\\;} en \lcommand{\\,} waarbij het laatste echt wel klein is.\index{quad@\lcommand{\\quad}}
+\npar
+Er bestaat nogal wat verwarring over het feit of er nu een spatie moet komen tussen een getal en zijn eenheid, of dat die spatie overbodig is. De conventie is een halve spatie: \lcommand{\\,}. Schrijf dus \lcommand{10\\,km/u}, wat het juiste \mbox{10\,km/u} geeft en niet het foute \mbox{10 km/u}. \index{eenheid} Het lettertype moet recht zijn, niet cursief. Nog beter is echter gebruik maken van het pakket \lcommandx{SIunits} (zie bladzijde \ref{SIunits}).
+
+\subsection{Verticale witte ruimte}
+
+Naast het gebruik van \lcommand{\\\\[lengte]} kan verticale witte ruimte ook gegenereerd worden met het commando \lcommand{\\vspace}, waarbij de syntax juist dezelfde is als voor \lcommand{\\hspace}. Ook hier kunnen negatieve waarden ingegeven worden. Praktisch nut hiervan kan zijn om de tekst eens hoger op een nieuwe bladzijde te beginnen.
+\npar
+Het commando \lcommand{\\vfill} doet hetzelfde als \lcommand{\\hfill} maar dan in verticale richting.
+\npar
+Speciale commando's om witte ruimte in te voeren, afhankelijk van het gekozen lettertype, zijn: \lcommand{\\bigskip}, \lcommand{\\medskip} en \lcommand{\\smallskip}.
+
+\section{Lettertypes}
+
+In dit deel wordt overlopen hoe het mogelijk is om lettertypes te wijzigen. Een veel voorkomende fout bij wjziwjk tekstverwerkers, is het gebruik van veel te veel verschillende lettertypes, wat zorgt voor een rommelig document. Het is veel stijlvoller wanneer alle titels hetzelfde lettertype hebben en slechts variëren in grootte. 
+
+\subsection{Lettergrootte}\index{lettergrootte}\label{lettergrootte}
+
+De algemene lettergrootte wordt gekozen in het begin van het document, wanneer de documentklasse wordt gekozen (zie sectie \ref{documentclass} op bladzijde \pageref{documentclass}). Er kan gekozen worden tussen 10pt, 11pt en 12pt lettergrootte. Het verschil tussen deze basisgroottes is groter dan men op het eerste zicht zou denken:\\
+{
+\fontsize{10}{12}\selectfont
+Ideaal voor veel tekst op weinig bladzijden: 10pt.\\
+\fontsize{11}{12}\selectfont
+Ideaal voor een leesbaar document: 11pt.\\
+\fontsize{12}{12}\selectfont
+Ideaal om te doen alsof er veel tekst is: 12pt.
+}
+\npar
+Soms is het nodig om in de tekst een groter of een kleiner lettertype te kiezen. Dit wordt niet gedaan door een andere puntsgrootte te nemen, maar door specifiek te zeggen wat je wenst. Op die manier hoef je niet alles opnieuw in te stellen, als je zou beslissen om de algemene documentgrootte te veranderen. Er bestaan tien\footnote{Exodus 20:1-17} specificaties om de lettergrootte te bepalen. In tabel \ref{lgr} worden ze weergegeven, samen met het commando om ze te verkrijgen. De \lcommand{\\normalsize} is hetgeen normaalgezien doorheen het document gebruikt wordt. Let op het gebruik van hoofdletters in de commandonamen.
+\npar
+\begin{table}[htb]
+\begin{center}
+\caption{De tien lettergroottes.\label{lgr}}
+\vspace{1ex}
+\begin{tabular}{l@{\;}l}
+\hline\hline
+\vspace{-1.6ex} &\\
+\lcommand{\\Huge}        &\Huge{Bovenal bemin één God,}\\
+\lcommand{\\huge}        &\huge{Zweert niet ijdel, vloekt noch spot.}\\
+\lcommand{\\LARGE}       &\LARGE{Heilig steeds de dag des Heren,}\\
+\lcommand{\\Large}       &\Large{Vader, moeder zult gij eren.}\\
+\lcommand{\\large}       &\large{Dood niet, geef geen ergernis,}\\
+\lcommand{\\normalsize}  &\normalsize{Doe nooit wat onkuisheid is.}\\
+\lcommand{\\small}       &\small{Vlucht het stelen en bedriegen,}\\
+\lcommand{\\footnotesize}&\footnotesize{Ook de achterklap en 't liegen.}\\
+\lcommand{\\scriptsize}  &\scriptsize{Wees steeds kuis in uw gemoed,}\\
+\lcommand{\\tiny}        &\tiny{En begeer nooit iemands goed.} \\
+\hline\hline
+\end{tabular}
+\end{center}
+\end{table}
+Wanneer een lettergroottedeclaratie wordt gegeven, bijvoorbeeld \lcommand{\\small}, wordt alle tekst vanaf dan in die lettergrootte weergegeven. Om enkele woorden klein te krijgen, moet je het volgende typen: \lcommand{\\tiny schattig klein \\normalsize}, wat \tiny schattig klein \normalsize geeft. Deze lettergroottedeclaraties zijn zogenaamde omgevingsdeclaraties: zij wijzigen de omgeving. Vandaar dat het bovenstaande voorbeeld kan herschreven worden als \lcommand{\{\\tiny schattig klein\}} (een manier om een omgeving te openen is `\lcommand{\{}' en om te sluiten `\lcommand{\}}'). Op die manier hoeft het originele lettertype (de \lcommand{\\normalsize}) niet gekend te zijn. Men zou verleid kunnen worden om het volgende te gebruiken: \lcommand{\\tiny\{schattig klein\}}, maar dit is ten zeerste af te raden, daar het niet werkt en de documentopmaak volledig in de war stuurt.
+\begin{MinderBelangrijk}
+\npar
+Het veranderen van de lettergrootte wijzigt ook de interlinieruimte (gelukkig maar!). De interlinieruimte wordt bepaald door twee lengtes: \lcommand{\\baselineskip} en \lcommand{\\baselinestretch}. Om de totale interlinieruimte te kennen, moeten deze twee lengtes met elkaar vermenigvuldigd worden. De \lcommand{\\baselineskip} is de natuurlijke (of minimale) interliniespatiëring voor elk lettertype. De gebruiker zou dit dus eigenlijk nooit moeten wijzigen. De \lcommand{\\baselinestretch} is een factor die met de \lcommand{\\baselineskip} wordt vermenigvuldigd, wat de gebruikte interlinieafstand geeft. Dit is hetgeen mag gewijzigd worden door de gebruiker. Standaard is de \lcommand{\\baselinestretch} gelijk aan 1, maar voor dit document werd 1.2 gebruikt. Het wijzigen kan gebeuren in de \engels{preamble}\label{baselinestretch}\index{baselinestretch@\lcommand{\\baselinestretch}} met het commando:
+\begin{llt}
+\renewcommand{\baselinestretch}{1.2}   % De interlinie afstand wat vergroten.
+\end{llt}
+Maar ook in de \engels{body} van het document kan met hetzelfde commando de \lcommand{\\baselinestretch} gewijzigd worden. Om de wijziging actief te maken, moet echter een andere lettergrootte gekozen worden (doordat de totale interlinieafstand slechts één keer berekend wordt, namelijk bij het begin van het gebruik van een lettergrootte), bijvoorbeeld \lcommand{\\small\\normalsize} wanneer je toch wenst in \lcommand{\\normalsize} te blijven.
+\end{MinderBelangrijk}
+
+\subsection{Letterstijlen}\index{letterstijlen}
+
+Soms is het nodig om andere letterstijlen te selecteren. Dit kan op verschillende manieren. In tabel \ref{letterstijlen} staan de verschillende mogelijkheden. In de tweede kolom staat hoe de omgeving kan gewijzigd worden. In de derde kolom staan de verschillende commando's om korte stukken tekst te veranderen. Omgevingen kunnen op twee manieren gebruikt worden: enerzijds door de declaratie \lcommand{\\scshape} te geven (om bijvoorbeeld \engels{Small Caps} te verkrijgen), anderzijds door met \lcommand{\\begin\{scshape\}} en \lcommand{\\end\{scshape\}} te werken. De commandovorm wordt gebruikt voor korte stukken tekst en is eigenlijk equivalent met `\lcommand{\{\\scshape xxx\}}'.\index{vet}\index{italic}\index{lettertypes}
+
+\begin{table}[h]
+\begin{center}
+\caption{Hoe verschillende letterstijlen selecteren: met een nieuwe omgeving of met een commando.\label{letterstijlen}\vspace{1.2ex}}
+\begin{tabular}{l@{\;}l@{\quad}l@{\;}l}
+\hline\hline
+        &Omgeving           &Commando                       &Voorbeeld\\
+\hline
+Familie &\lcommand{\\rmfamily}&\lcommand{\\textrm\{xxx\}}     &\textrm{Roman letters.}\\
+        &\lcommand{\\ttfamily}&\lcommand{\\texttt\{xxx\}}     &\texttt{Typewriter letters. Typmachine.}\\
+        &\lcommand{\\sffamily}&\lcommand{\\textsf\{xxx\}}     &\textsf{Sans serif letters.}\\
+Vorm    &\lcommand{\\upshape}&\lcommand{\\textup\{xxx\}}     &\textup{Upright tekst. Rechtopstaande tekst.}\\
+        &\lcommand{\\itshape}&\lcommand{\\textit\{xxx\}}     &\textit{Italic tekst.}\\
+        &\lcommand{\\slshape}&\lcommand{\\textsl\{xxx\}}     &\textsl{Slanted letters.}\\
+        &\lcommand{\\scshape}&\lcommand{\\textsc\{xxx\}}     &\textsc{Small Caps. Hoofdletters.}\\
+Serie   &\lcommand{\\mdseries}&\lcommand{\\textmd\{xxx\}}     &\textmd{Medium weight letters, de standaard.}\\
+        &\lcommand{\\bfseries}&\lcommand{\\textbf\{xxx\}}     &\textbf{Bold face. Vettige letters.}\\
+Default &&\lcommand{\\textnormal\{xxx\}} &\textnormal{De standaard.}\\
+Benadrukken &&\lcommand{\\emph\{xxx\}}       &\emph{Te benadrukken tekst, meestal italic.}\\
+\hline\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Het \lcommand{\\emph\{\}} is een speciaal commando. Het zorgt ervoor dat de te benadrukken tekst in een ander lettertype wordt gezet. Dit is meestal \engels{italic} maar als je al in \engels{italic} zit,\index{emph@\lcommand{\\emph}} wordt dit weer normale tekst. Dus \lcommand{\\emph\{E.~coli\} \\textit\{latijn \\emph\{E.~coli\} latijn\}} geeft: \emph{E.~coli} \textit{latijn \emph{E.~coli} latijn}.
+
+\section{Centreren en indentatie}\index{centreren}\index{indentatie} 
+
+\latex zorgt ervoor dat je automatisch rechte kantlijnen hebt. Als dit niet lukt, krijg je \engels{underfull} (wanneer de lijn niet volledig vol geraakt) of \engels{overfull} (wanneer de tekst uitsteekt buiten de rechterkantlijn) waarschuwingen. Soms is iets anders gewenst dan uitgevulde tekst.\index{underfull}\index{overfull}
+\npar
+Tekst centreren gebeurt met de \lcommand{center} omgeving: \index{centerline@\lcommand{\\centerline}}
+\begin{llt}
+\begin{center}
+Te centreren tekst.
+\end{center}
+\end{llt}
+Om één enkele lijn te centreren kan ook het commando \lcommand{\\centerline\{tekst\}} gebruikt worden. 
+\npar
+Om alle tekst naar links uit te lijnen, kan het volgende gebruikt worden: \index{uitlijnen}
+\begin{llt}
+\begin{flushleft}
+Naar links uit te lijnen tekst.
+\end{flushleft}
+\end{llt}
+Analoog kan \lcommand{flushright} gebruikt worden om tekst evenwijdig met de rechterkantlijn uit te lijnen.
+\begin{quote}
+Om tekst uit te vullen waarbij de kantlijnen inspringen, zoals deze paragraaf, kan je \lcommand{\\begin\{quote\}} \lcommand{tekst} \lcommand{\\end\{quote\}} gebruiken. 
+\begin{MinderBelangrijk}
+
+In plaats van \lcommand{quote} kan ook \lcommand{quotation} gebruikt worden. Bij dit laatste commando wordt de eerste zin van een paragraaf ingesprongen, terwijl bij \lcommand{quote} de paragrafen gescheiden worden door extra verticale ruimte.
+
+Om poëzie te indenteren, kan gebruik worden gemaakt van de  \lcommand{verse} omgeving. Individuele lijnen worden dan beëindigd met \lcommand{\\\\}, strofen worden aangegeven door blanco lijnen.
+\end{MinderBelangrijk}
+\end{quote}
+
+\section{Lijsten}
+
+Er bestaan drie soorten geordende lijsten in \latex: \begrip{itemize}, \begrip{enumerate} en \begrip{description}. De lijsten beginnen met \lcommand{\\begin\{soort_lijst\}} en eindigen met \lcommand{\\end\{soort_lijst\}}. Binnen deze omgeving worden de verschillende items begonnen met \lcommand{\\item}, waarbij al dan niet een optioneel argument kan meegegeven worden: \lcommand{\\item\[argument\]}.
+
+\subsection{Itemize}
+
+\begin{itemize}
+\item De \engels{itemize} omgeving zorgt ervoor dat voor elk item een \engels{bullet} verschijnt. 
+\item Elk item wordt begonnen met \lcommand{\\item}.
+\item[*] Indien iets anders gewenst is dan een bolletje in het begin, kan dat meegegeven worden als extra argument: \lcommand{\\item\[*\]}.
+\item[$\bullet$] Waarom gemakkelijk doen als moeilijk ook kan? Met \lcommand{\\item\[$\\bullet$\]} verkrijg je hetzelfde als met \lcommand{\\item}.
+\end{itemize}
+De bovenstaande \engels{itemize} lijst werd als volgt gegenereerd:
+\begin{llt}
+\begin{itemize}
+\item De \engels{itemize} omgeving zorgt ervoor dat voor elk item een \engels{bullet} verschijnt. 
+\item Elk item wordt begonnen met \lcommand{\\item}.
+\item[*] Indien iets anders gewenst is dan een bolletje in het begin, kan dat meegegeven worden als extra argument: \lcommand{\\item\[*\]}.
+\item[$\bullet$] Waarom gemakkelijk doen als moeilijk ook kan? Met \lcommand{\\item\[$\\bullet$\]} verkrijg je hetzelfde als met \lcommand{\\item}.
+\end{itemize}
+\end{llt}
+
+\subsection{Enumerate}
+
+\begin{enumerate}
+\item De \engels{enumerate} omgeving zet nummers voor de verschillende items.
+\item De nummering begint vanaf 1.
+\item[--3.] Ook hier kan een optioneel argument meegegeven worden: \lcommand{\\item\[--3.\]}.
+\item Let er echter op dat de teller van de nummering dan niet verhoogd wordt.
+\end{enumerate}
+De bovenstaande \engels{enumerate} lijst werd als volgt gegenereerd:
+\begin{llt}
+\begin{enumerate}
+\item De \engels{enumerate} omgeving zet nummers voor de verschillende items.
+\item De nummering begint vanaf 1.
+\item[--3.] Ook hier kan een optioneel argument meegegeven worden: \lcommand{\\item\[--3.\]}.
+\item Let er echter op dat de teller van de nummering dan niet verhoogd wordt.
+\end{enumerate}
+\end{llt}
+
+\subsection{Description}
+
+\begin{description}
+\item[doel] Deze lijst kan gebruikt worden wanneer een aantal termen moeten verklaard worden.
+\item[werking] Het optioneel argument van \lcommand{item} wordt in het vet gezet.
+\item Wanneer geen optioneel argument wordt meegegeven, krijg je iets zoals dit item.
+\end{description}
+De bovenstaande \engels{description} lijst werd als volgt gegenereerd:
+\begin{llt}
+\begin{description}
+\item[doel] Deze lijst kan gebruikt worden wanneer een aantal termen moeten verklaard worden.
+\item[werking] Het optioneel argument van \lcommand{item} wordt in het vet gezet.
+\item Wanneer geen optioneel argument wordt meegegeven, krijg je iets zoals dit item.
+\end{description}
+\end{llt}
+
+\subsection{Geneste lijsten}
+
+Lijsten kunnen genest worden. Als lijsten van dezelfde soort genest worden, verandert de labeling (bij \engels{itemize}) of de manier van nummering (bij \engels{enumerate}).
+\begin{itemize}
+\item Overdrijven $\bullet$
+      \begin{enumerate}
+      \item Overdrijven 1.
+            \begin{itemize}
+            \item Overdrijven --
+                  \begin{enumerate}
+                  \item Overdrijven (a)  
+                  \end{enumerate}
+            \end{itemize}
+      \item Overdrijven 2.
+      \end{enumerate}
+\end{itemize}
+Dit overdreven gebruik van `overdrijven' werd als volgt gegenereerd:
+\begin{llt}
+\begin{itemize}
+\item Overdrijven $\bullet$
+      \begin{enumerate}
+      \item Overdrijven 1.
+            \begin{itemize}
+            \item Overdrijven --
+                  \begin{enumerate}
+                  \item Overdrijven (a)  
+                  \end{enumerate}
+            \end{itemize}
+      \item Overdrijven 2.
+      \end{enumerate}
+\end{itemize}
+\end{llt}
+Het nesten in eenzelfde omgeving mag tot vier niveau's diep gaan. Wanneer verschillende soorten lijsten worden gebruikt, kan men tot zes niveau's diep gaan. Het is niet omdat het mogelijk is om zeer diep te nesten, dat het ook goed is om dat te doen. Denk aan de leesbaarheid: vanaf drie niveau's zal de lezer nog moeilijk weten in welk subniveau hij zich bevindt en gaat hij de lijst lezen als gewone doorlopende tekst.
+
+\begin{MinderBelangrijk}
+
+\subsection{Veranderen van het label}
+
+Wat \latex eigenlijk doet, telkens als het het \lcommand{\\item} commando wordt gegeven, is dit commando vervangen door (afhankelijk van de omgeving waarin je zit):\index{labelitemi@\lcommand{\\labelitemi}}\index{labelenumi@\lcommand{\\labelenumi}}
+\begin{center}
+\begin{tabular}{llll}
+\lcommand{\\labelitemi}&\lcommand{\\labelitemii}&\lcommand{\\labelitemiii}&\lcommand{\\labelitemiv}\\
+\lcommand{\\labelenumi}&\lcommand{\\labelenumii}&\lcommand{\\labelenumiii}&\lcommand{\\labelenumiv}
+\end{tabular}
+\end{center}
+Hierbij wordt de \lcommand{i} voor het eerste, \lcommand{ii} voor het tweede, \lcommand{iii} voor het derde en \lcommand{iv} voor het vierde niveau gebruikt. 
+\npar
+Deze commando's kunnen echter gewijzigd worden. Om bijvoorbeeld plustekens te krijgen in \lcommand{itemize} in plaats van \engels{bullets}, geven we het volgende commando, juist na \lcommand{\\begin\{itemize\}}:
+\begin{llt}
+\renewcommand{\labelitemi}{+}
+\end{llt}
+Indien we deze aanpassing algemeen willen laten gelden, geven we dit commando in de \engels{preamble}.
+\npar
+Voor de \engels{enumerate} omgeving ligt het iets moeilijker: er moet namelijk een teller afgedrukt worden. De verschillende commando's om een teller af te drukken zijn \lcommand{\\arabic\{tel\}}, \lcommand{\\roman\{tel\}}, \lcommand{\\Roman\{tel\}}, \lcommand{\\alph\{tel\}} en \lcommand{\\Alph\{tel\}}. De uitleg over hoe een teller dan afgeprint wordt, is te vinden op bladzijde \pageref{bladzijdenummering}. De verschillende tellers zijn voor de vier niveau's: \lcommand{enumi}, \lcommand{enumii}, \lcommand{enumiii} en \lcommand{enumiv}.\index{arabic}\index{roman}\index{Roman}\index{alph}\index{Alph} 
+\npar
+Om bijvoorbeeld de nummering van het tweede niveau van \engels{enumerate} te veranderen, naar Romeinse cijfers met een haakje achter (`I)', `II)',~\ldots), geef je het volgende commando juist na \lcommand{\\begin\{enumerate\}} of in de \engels{preamble}:
+\begin{llt}
+\renewcommand{\labelenumii}{\Roman{enumii})}
+\end{llt}
+Het zou ook kunnen dat je graag het vorige niveau erbij betrekt, met letters (`A.I)', `A.II)',~\ldots, `B.I)', `B.II)',~\ldots):
+\begin{llt}
+\renewcommand{\labelenumii}{\Alph{enumi}.\Roman{enumii})}
+\end{llt}
+Vergeet dan ook niet het eerste niveau te hernoemen, want dit staat nog altijd op \lcommand{arabic}.
+\npar
+Andere instellingen die enkel aan het begin van een lijst (na \lcommand{\\begin\{soort_lijst\}}) kunnen gegeven worden:
+\begin{itemize}
+\item\lcommand{\\topsep}\; De verticale ruimte die ingevoegd wordt tussen de lijst en de bovenliggende en onderliggende tekst.
+\item\lcommand{\\parsep}\; De verticale ruimte tussen verschillende paragrafen van eenzelfde item.
+\item\lcommand{\\itemsep}\; De verticale ruimte die bovenop \lcommand{\\parsep} wordt gebruikt om verschillende items te scheiden.
+\end{itemize}
+Het instellen van deze lengtes gebeurt bijvoorbeeld voor \lcommand{\\topsep} met \lcommand{\\setlength\{\\topsep\}\{lengte\}}, waarbij \lcommand{lengte} een lengte is zoals uitgelegd in sectie \ref{latex-eenheden} op bladzijde \pageref{latex-eenheden}.
+
+\subsection{Theorem --- Stelling}
+
+Een speciale vorm van een \lcommand{enumerate} omgeving, is een lijst waarvan de items doorheen heel het document lopen.
+Soms kan het van pas komen om doorheen de tekst, een soort nummering te hebben van bijvoorbeeld belangrijke eigenschappen (stellingen, definities) zoals het onderstaande voorbeeld:
+\begin{levensles}[Hoogmoed]\label{les1}
+Hoogmoed is in zichzelf denken: ``Bewijzen dat ik juist ben, is toegeven dat ik fout zou kunnen zijn."
+% Adam was de eerste van een hele reeks mannen die te klagen had over wat zijn vrouw hem te eten gaf.
+\end{levensles}
+Je zou dit zelf kunnen doen via het gebruik van verschillende letterstijlen, maar wanneer je dan ergens een extra item wilt toevoegen, moet je heel de nummering handmatig aanpassen. Niet handig. We zullen hier uitleggen hoe dit automatisch kan gebeuren. Hiervoor gebruiken we het voorbeeld van de `levensles'. Met het commando (liefst in de \engels{preamble} te geven)
+\begin{llt}
+\newtheorem{levensles}{Levensles}[chapter]
+\end{llt}
+maken we de omgeving zoals gebruikt in levensles \ref{les1}. Hierbij is \lcommand{levensles} de naam van het \engels{theorem} en \lcommand{Levensles} is hetgeen verschijnt in het begin (let hier op de hoofdletter). Het optionele argument \lcommand{\[chapter\]} zorgt ervoor dat de telling van de levenslessen elk hoofdstuk opnieuw begint. Dit kan ook \lcommand{\[section\]} of \lcommand{\[subsection\]} zijn.
+\npar
+Het definiëren van een nieuwe levensles gebeurt als volgt:
+\begin{llt}
+\begin{levensles}[Schrijven]
+Wanneer je een boek schrijft, weet dan dat het papier geduldig is, maar de lezer niet.
+\end{levensles}
+\end{llt}
+\begin{levensles}[Schrijven]
+Wanneer je een boek schrijft, weet dan dat het papier geduldig is, maar de lezer niet.
+\end{levensles}
+Het optionele \lcommand{\[Schrijven\]} zorgt ervoor dat je de levensles kan benoemen.
+\end{MinderBelangrijk}
+
+\section{Voetnoten} \index{voetnoot}
+
+Voetnoten zijn te vermijden. Zij leiden de aandacht van de lezer af. Meestal kan de tekst van een voetnoot opgenomen worden in de doorlopende tekst, eventueel tussen haakjes.\footnote{Ja, dit document is een slecht voorbeeld.}
+\npar
+Voetnoten worden gegenereerd met het commando \lcommand{\\footnote\{tekst\}}, daar waar het nummer van de voetnoot moet verschijnen.
+\npar
+Voetnoten mogen alleen voorkomen in doorlopende tekst, niet in titels, tabellen en wiskundige modus. Wanneer we daar toch een voetnoot wensen, doen we dit door er een \lcommand{\\footnotemark} te zetten (dit lukt echter niet in titels). De tekst van de voetnoot geven we dan later in met \lcommand{\\footnotetext\{tekst\}}. Zorg wel dat dit laatste commando gegeven wordt voordat er een andere voetnoot wordt aangemaakt.
+
+\section{Kantlijnopmerkingen}\index{kantlijn}
+
+Een kantlijnopmerking kan geproduceerd worden met:
+\begin{llt}
+\marginpar{Niet gebruiken, is lastig\\bij het\\afdrukken}
+\end{llt}
+\marginpar{Niet gebruiken, is lastig\\bij het\\afdrukken}Dit plaatst de kantlijnopmerking in de rechterkantlijn. Wanneer dubbelzijdig wordt afgeprint, komt de kantlijnopmerking altijd in de buitenste kantlijn, dus voor oneven pagina's in de rechterkantlijn, voor even pagina's in de linkerkantlijn.
+\npar
+Een kantlijnopmerking is \mbox{1.9\,cm} breed. Deze breedte kan hergedefiniëerd worden met:
+\begin{llt}
+\setlength{\marginparwidth}{1cm} % kan ook andere lengte zijn ...
+\end{llt}
+
+\section{Letterlijke tekst}
+
+Soms is het nodig om tekst exact weer te geven zoals hij getypt werd (bijvoorbeeld voor de voorbeelden die we ter illustratie geven in deze cursus). Voor korte stukken tekst waarin geen nieuwe lijnen zitten, kan het commando \lcommand{\\verb!tekst!} gebruikt worden. De uitroeptekens mogen vervangen worden door gelijk welk teken dat niet voorkomt in de letterlijke tekst zelf. De tekst wordt gezet in typmachineletters. Alle tekst wordt ook op één regel gepropt. Bijvoorbeeld  \lcommand{\\verb?Verboden dingen zijn leuk: \% \$ & \}\{?} geeft \verb!Verboden dingen zijn leuk: % $ & }{!. En zoals je kan zien, wordt de regel niet op tijd afgebroken.\index{verb@\lcommand{\\verb}}
+\npar
+Voor langere stukken tekst is de \lcommandx{verbatim} omgeving aangewezen (links de tekst die ingegeven werd om het rechtse resultaat te produceren):
+
+\begin{minipage}{.5\textwidth}
+\begin{llt}
+\begin{verbatim}
+# include <stdio.h>
+void main(void)
+{
+    printf("Dag Grootmoeder!\n")
+}
+\end{verbatim}
+\end{llt}
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+\begin{verbatim}
+# include <stdio.h>
+void main(void)
+{
+    printf("Dag Grootmoeder!\n")
+}
+\end{verbatim}
+\end{minipage}
+Het \lcommand{\\verb} commando en de \lcommand{verbatim} omgeving mogen niet gebruikt worden in zelfgemaakte \latex commando's.\label{cvoorbeeld}
+
+\begin{MinderBelangrijk}
+\npar
+Er bestaat ook een pakket \lcommand{verbatim} (\lcommand{\\usepackage\{verbatim\}} in de \engels{preamble}) waarmee hele bestanden letterlijk kunnen ingevoegd worden in een document: \lcommand{\\verbatiminput\{letterlijke-tekst.txt\}}.
+\npar
+Voor grotere stukken code of wanneer het typmachinelettertype niet geschikt is, kan een speciaal pakket gebruikt worden: \lcommandx{listings}. Dit pakket is speciaal geschreven om vooral programmacode in een mooi lettertype te zetten (het werd in dit werk voor alle voorbeelden gebruikt). Met \lcommand{listings} kunnen ook nieuwe verbatim omgevingen gemaakt worden. Verder bevat \lcommand{listings} \engels{syntax highlighting} (het in het vet/kleur zetten van sleutelwoorden) voor verschillende programmeertalen. Voor meer uitleg verwijzen we naar de zeer goede documentatie van het pakket: \bestand{listings.dvi}.\footnote{Op een Debian systeem te vinden in \bestand{/usr/share/doc/texmf/latex/listings/listings.dvi.gz}}
+\end{MinderBelangrijk}
+
+\section{Eenheden}\index{eenheden}\label{SIunits}
+
+Getallen hebben meestal een eenheid. Er moet een spatie staan tussen een waarde en zijn eenheid, maar geen nieuwe lijn. Verder is die spatie kleiner dan de spaties tussen woorden. Nogal complex om elke keer handmatig te doen. Het gebruik van het pakket \lcommand{SIunits} is dan aangewezen. De documentatie ervan is verhelderend\footnote{Op een Debian systeem te vinden in \bestand{/usr/share/doc/texmf/latex/SIunits/SIunits.pdf.gz}}.
+\npar
+Het pakket wordt geladen met de volgende regel in de \engels{preamble}:
+\begin{llt}
+\usepackage[Gray,squaren,thinqspace,thinspace]{SIunits} % Elegant eenheden zetten
+\end{llt}
+\begin{MinderBelangrijk}
+De opties \lcommand{Gray} en \lcommand{squaren} zijn nodig om conflicten te vermijden met de pakketten \lcommand{pstricks} en \lcommand{amssymb}. Optie \lcommand{thinqspace} zorgt ervoor dat er slechts een kleine spatie is tussen een getal en zijn eenheid. Indien meer ruimte gewenst is, kan \lcommand{mediumqspace} of \lcommand{thickqspace} gebruikt worden. De optie \lcommand{thinspace} (dus zonder die q van de vorige optie) geeft aan dat vermenigvuldiging van eenheden moet voorgesteld worden door een kleine spatie (bijvoorbeeld de spatie tussen newton meter: \newton\usk\metre). Dit is eigenlijk de definitie van \lcommand{\\usk}, die we verder tegenkomen. Andere mogelijkheden zijn: \lcommand{cdot} (een punt als vermenigvuldigingssymbool), \lcommand{mediumspace} en \lcommand{thickspace}.
+\end{MinderBelangrijk}
+\npar
+Een getal koppelen aan zijn eenheid gebeurt met het commando \lcommand{\\unit\{getal\}\{eenheid\}}\index{unit} waarbij \lcommand{getal} het getal is (mogen ook letters zijn, bijvoorbeeld \lcommand{\\unit\{x\}\{\\metre\}}) en \lcommand{eenheid} de eenheid. Als eenheid kunnen de voorgedefinieerde eenheden gebruikt worden, maar ook eigen eenheden kunnen gecreërd worden. We kunnen ervan uitgaan dat we in \engels{math mode} zitten (zie hoofdstuk \ref{math-mode}), dus superscript kan: \lcommand{\\unit\{9.81\}\{m/s^2\}} geeft \unit{9.81}{m/s^2}.
+\npar
+\lcommand{SIunits} heeft ook een hoop voorgedefinieerde eenheden. Een overzicht hiervan kan gevonden worden in de documentatie van \lcommand{SIunits}. 
+\begin{description}
+\item[Eenheden] Meestal komt het erop neer, te schrijven wat je zegt met een backslash ervoor: \lcommand{\\celsius} \lcommand{\\degree} \lcommand{\\arcminute} \lcommand{\\bbar} geeft \celsius \degree \arcminute \bbar. Let op, meter is \lcommand{\\metre} en liter is \lcommand{\\litre}. 
+\item[Prefixen] Kunnen gewoon geplaatst worden voor de eenheid: \lcommand{\\micro\\metre} voor \micro\metre. Liever numeriek? Geen probleem, plaats er een \lcommand{d} achter: \lcommand{\\microd\\metre} voor \microd\metre.
+\item[Machten] Kan je ofwel in wiskundige modus zetten: \lcommand{$\\metre^2$} ($\metre^2$), of voor tweede en derde machten via \lcommand{\\squaren\\metre} (\squaren\metre) \lcommand{\\cubic\\second} (\cubic\second) \lcommand{\\newton\\squared} (\newton\squared) of \lcommand{\\candela\\cubed} (\candela\cubed). Gebruik \lcommand{rp} (van \engels{reciprocal}) vóór elk macht commando om de macht negatief te krijgen: \lcommand{\\rpcubic\\metre} (\rpcubic\metre).
+\item[Samengestelde eenheden] Gebruik \lcommand{\\per}\index{per@\lcommand{\\per}} als het volgende getal in de noemer komt en \lcommand{\\usk}\index{usk@\lcommand{\\usk}} als het daaropvolgende getal in de teller moet: \lcommand{\\watt\\per\\metre\\usk\\kelvin} voor \watt\per\metre\usk\kelvin. 
+\item[Power] Met \lcommand{\\power\{grondtal\}\{exponent\}} kan je machten maken: \lcommand{\\power\{10\}\{100\}} (\power{10}{100}).
+\end{description}
+
+
+

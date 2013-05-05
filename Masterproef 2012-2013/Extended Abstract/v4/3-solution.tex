@@ -1,0 +1,31 @@
+Designing a DSL for collectible card games is a process best done in incremental steps, each one covering more game functionalities.
+\subsection*{Step 1: Cards}
+Collectible card game are basically a card game, so cards are a logical first step to model, as shown in Code Listing \ref{Card class}. Cards are identified by a name. Since we want our DSL to resemble natural English language, the verb \textit{to call} is used to name a card, see Code Listing \ref{Card called}. The called-method is an object function with one argument, so scala's syntactic sugar for infix operators lets us use it as seen in Code Listing \ref{Called DSL}. This is the very first part of a DSL for the definition of a collectible card game.
+\codepart{code.scala}{Card class}{2}{4}
+\codepart{code.scala}{Card called}{6}{12}
+\codepart{code.scala}{Called DSL}{14}{14}
+
+\subsection*{Step 2: Creatures}
+Named cards alone do not make a card game. Every card game has a need for some cards to progress the game. With CCGs this is usually accomplished by letting \textit{creatures} \textit{attack} the opponent. \textit{Creatures} are a type of card. In a programming language this is easily modeled by creating a Creature-subclass of the Card-class. As a part of the example, creatures have some properties, like damage points and health counters (Code Listing \ref{Creature class}). Damage points and health counters should be assignable at construction time, but since scala has no syntactic sugar for constructor arguments the easiest way to incorporate those assignations into the DSL is by providing a method (verb) for each of them (Code Listing \ref{Creature with property}) and call those immediatly after construction (Code Listing \ref{Creature DSL}). By now you may have noticed that every \textit{DSL-verb}-method returns the \textbf{this}-object. This allows for method chaining in scala, which is equivalent to \textit{sentence-construction} in the DSL.
+\codepart{code.scala}{Creature class}{16}{19}
+\codepart{code.scala}{Creature with property}{21}{33}
+\codepart{code.scala}{Creature DSL}{35}{35}
+
+\subsection*{Step 3: Abilities}
+A game is made more interesting by adding modifiers to certain game aspects. In CCGs creatures are modified by the \textit{abilities} they possess. Abilities have an influence on the game actions (like attacking and blocking) available to a creature. Abilities can be added to or removed from creatures during gameplay. Since \textit{seperation of concerns} is a good property to have in any program, the best way to add an ability to a creature is to wrap an ability-class round a creature-class using the {Decorator} design pattern (Code Listing \ref{AbilityCreature class}). Using this pattern, a creature with the ability \textit{Flying} is modeled by a class \textit{FlyingCreature}, as in Code Listing \ref{FlyingCreature class}.
+To simply add an ability to a creature, another creature-method (DSL-verb) is needed. This time however, we can't simply return the \textbf{this}-object, since it needs to be wrapped inside a subclass of \textit{AbilityCreature}. This problem can be solved by passing a function to the DSL-verb which does the actual wrapping. The definition of the DSL-verb can be viewed in Code Listing \ref{Creature has ability}. Now we can add an ability to a creature in our DSL using the syntax in Code Listing \ref{Has ability DSL}. To get a readable DSL, we would like for \textit{wrapper\_function} in Code Listing \ref{Has ability DSL} to be the name of an ability. Since it still has to be a function we can define a companion object for each new ability, as in Code Listing \ref{Ability companion object}. With syntactic sugar, our DSL now looks like Code Listing \ref{Flying DSL}.
+\codepart{code.scala}{AbilityCreature class}{37}{41}
+\codepart{code.scala}{FlyingCreature class}{43}{44}
+\codepart{code.scala}{Creature has ability}{46}{50}
+\codepart{code.scala}{Has ability DSL}{52}{52}
+\codepart{code.Scala}{Ability companion object}{54}{56}
+\codepart{code.scala}{Flying DSL}{58}{58}
+
+Since the apply method of the ability companion object has basically the same implementation for every ability, it can be abstracted into an ability trait (Code Listing \ref{Ability trait}) which can then be inherited by the specific ability companion objects (Code Listing \ref{Specific ability companion object}).
+\codepart{code.scala}{Ability trait}{60}{68}
+\codepart{code.scala}{Specific ability companion object}{70}{70}
+
+\subsection*{Step 4: Abilities with parameters}
+When we take a look at CCGs like \cite{magic-the-gathering} we see that abilities themselves can have parameters. To accomodate this feature we need an extension of the ability trait which uses currying to process the extra parameter. How to do this can be seen in Code Listing \ref{Ability with argument}. Code Listing \ref{Ability with argument DSL} shows how an ability with argument can be used in the DSL.
+\codepart{code.scala}{Ability with argument}{72}{81}
+\codepart{code.scala}{Ability with argument DSL}{83}{84}

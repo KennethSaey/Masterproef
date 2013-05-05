@@ -1,0 +1,68 @@
+\chapter{Ontwikkeling van een DSL}
+Het ontwikkelen van een domein-specifieke taal voor \engels{collectible card games} is een proces dat best ondernomen wordt in incrementele stappen gericht op een specifiek type van modulariteit.
+%%%%%%%%%%%%%%%%%%%%%
+% Sectie 1: Kaarten %
+%%%%%%%%%%%%%%%%%%%%%
+\section{Kaarten}
+De basis van een CCG zijn uiteraard de kaarten, dus het is een logische eerste stap om kaarten te modelleren. Gemeenschappelijk aan alle kaarten is dat ze een naam hebben. De klassedefinitie voor een kaart ziet er bijgevolg uit als in Codefragment \ref{Card klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{Card klasse}{2}{4}
+Aangezien kaarten eenvoudig toegevoegd moeten kunnen worden, is het belangrijk om een stuk DSL te voorzien voor het aanmaken van een kaart met een specifieke naam. Aangezien we willen aanleunen bij natuurlijke (engelse) taal kunnen we gebruik maken van het werkwoord \textit{to call} om een methode te definiëren zoals in Codefragment \ref{Called-methode}.
+\codepart{code/Code-hoofdstuk-3.scala}{Called-methode}{6}{12}
+Met deze zeven regels code en de kracht van Scala hebben we zonet een eerste stuk DSL geïmplementeerd om kaarten met een specifieke naam aan te maken. In onze DSL kunnen we de aanmaak van een nieuwe kaart met de naam \textit{Black Lotus} nu schrijven zoals in Codefragment \ref{DSL kaart creatie}.
+\codepart{code/Code-hoofdstuk-3.scala}{DSL kaart creatie}{14}{14}
+Hierbij wordt gesteund op de \engels{syntactic sugar} die aangeboden wordt door Scala. Zonder \engels{syntactic sugar} zou die regel code geschreven moeten worden zoals in Codefragment \ref{Kaart creatie zonder syntactic sugar}. Aangezien de \textit{called}-methode een methode is met één argument laat Scala ons toe om alle interpunctie (zowel de punt als de ronde haakjes) weg te laten.
+\codepart{code/Code-hoofdstuk-3.scala}{Kaart creatie zonder syntactic sugar}{16}{16}
+Belangrijk om op te merken is dat de \textit{called}-methode zichzelf (\textit{this}) terug geeft. Dit is nodig om van het principe van \engels{method chaining} gebruik te kunnen maken. Dit betekent dat we het aanmaken van een kaart met een specifieke naam op één regel kunnen schrijven, zonder gebruik te maken van een tussentijdse variabele om de kaart zonder naam op te slaan. In een DSL komt dit eigenlijk neer op de constructie van zinnen. Zonder het principe van \engels{method chaining} zou de creatie van die kaart er uitzien zoals in Codefragment \ref{Kaart creatie zonder method chaining}.
+\codepart{code/Code-hoofdstuk-3.scala}{Kaart creatie zonder method chaining}{18}{19}
+
+Scala bevat nog een handige feature, namelijk impliciete conversies, die ons toelaat om de aanmaak van kaarten nog compacter te schrijven. Impliciete conversies laten ons toe om methodes te definiëren die de één type omzetten in een ander. Als Scala tijdens het compileren van code een incorrect type tegen komt, dan zal hij eerst op zoek gaan naar een toepasbare impliciete methode en de conversie toepassen vooralleer een typefout te genereren. Aangezien een eenvoudige kaart enkel door een naam (van het type \textit{String}) gedefinieerd wordt kunnen we een impliciete methode voorzien die een instantie van het type \textit{String} omzet in een instantie van het type \textit{Card}. De code om dit te bekomen is terug te vinden op regel 1 tot en met 3 van Codefragment \ref{Impliciete String naar Card conversie}.
+\codepart{code/Code-hoofdstuk-3.scala}{Impliciete String naar Card conversie}{21}{32}
+Hiermee wordt de aanmaak van de kaart \textit{Black Lotus} gereduceerd tot Codefragment \ref{Kaart creatie met implicits}
+\codepart{code/Code-hoofdstuk-3.scala}{Kaart creatie met implicits}{34}{34}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 2: Creatures %
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Creatures}
+% Subsectie 2.1: Aanmaak van Creatures %
+\subsection{Aanmaak van Creatures}
+Kaarten met enkel een naam maken natuurlijk geen interessant spel. Er is ook nood aan kaarten die het spel doen vorderen. In CCGs is de meest voorkomende manier om het spel te laten vooruitgaan een aanval doen met wezens (\engels{creatures}). \engels{Creatures} zijn een specifiek type van kaarten en elk CCG bezit dit concept, hoewel de naam ervan niet altijd dezelfde is. In \textit{Pok\'eMon}, een CCG voor jongeren, heten de wezens, toepasselijk, Pok\'eMon.
+
+De belangrijkste eigenschappen van een \engels{Creature} zijn de concepten van aanvalskracht en levenspunten. Aanvalskracht geeft aan hoeveel schade een \engels{creature} kan doen, terwijl levenspunten aangeven hoeveel schade een \engels{creature} kan oplopen vooralleer het dood gaat (en dus meestal onbruikbaar wordt). Aan de hand van deze definitie van een \engels{creature} kunnen we een subklasse van \textit{Card} schrijven met twee extra variabelen om een \engels{creature} in code te modelleren. Dit is zichtbaar in Codefragment \ref{Creature klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{Creature klasse}{36}{39}
+Om onze DSL uit te breiden zodat we volwaardige \engels{creatures} kunnen aanmaken voegen we aan die klasse nog twee methodes toe, gelijkaardig aan de \textit{called}-methode van de klasse \textit{Card}. Zie Codefragment \ref{with_damage- en with_health-methodes} voor de twee methodes en Codefragment \ref{DSL creature creatie} voor de aanmaak van een \textit{Creature} met onze DSL.
+\lstinputlisting[caption=with\_damage- en with\_health-methodes,label=with_damage- en with_health-methodes,firstline=41,lastline=52]{code/Code-hoofdstuk-3.scala}
+\codepart{code/Code-hoofdstuk-3.scala}{DSL creature creatie}{54}{54}
+Ook hier kunnen we gebruik maken van \textit{implicits} (zie Codefragment \ref{Impliciete String naar Creature conversie}) om de aanmaakt van een \engels{creature} binnen onze DSL te reduceren tot Codefragment \ref{Creature creatie met implicits}.
+\codepart{code/Code-hoofdstuk-3.scala}{Impliciete String naar Creature conversie}{56}{60}
+\codepart{code/Code-hoofdstuk-3.scala}{Creature creatie met implicits}{62}{62}
+
+% Subsectie 2.2: Het probleem met implicits %
+\subsection{Het probleem met implicits}
+Er duikt nu echter een probleem op met de code in Codefragment \ref{Kaart creatie met implicits}. De compiler heeft nu de keuze uit twee verschillende impliciete methodes. De \textit{String} kan zowel naar een isntantie van de klasse \textit{Card} als van de klasse \textit{Creature} geconverteerd worden. Aangezien de compiler geen willekeurige keuze kan maken zal dat stuk code niet meer compileren. Dat we geen kaarten van de klasse \textit{Card} kunnen aanmaken is op zich geen ramp, in een spel zullen er namelijk enkel subklasses gebruikt worden. Het is echter niet ondenkbaar dat er ook subklasses van de klasse \textit{Creature} toegevoegd zullen worden waardoor, volgens het zelfde principe, geen instanties van de klasse \textit{Creature} meer aangemaakt zouden kunnen worden met implicits. Door de inconsistentie in onze DSL over waar wel en waar geen impliciete conversie gebruikt kunnen worden is het een beter idee om voor dit doeleinde het gebruik van implicits compleet te laten vallen.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 3: Vaardigheden %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vaardigheden}
+En spel wordt interessanter naarmate het meer mogelijkheden heeft en indien de standaard spelregels met verschillende variaties doorbroken kunnen worden. Bij CCGs wordt het standaard gedrag van \engels{creatures} aangepast door de toevoeging van vaardigheden (\engels{abilities}). Vaardigheden hebben een invloed op de acties, zoals aanvallen en verdedigen, die een \engels{creature} kan ondernemen. Vaardigheden kunnen tijdens het spel toegevoegd of verwijderd worden van \engels{creatures} dus is het best om deze volledig lost van de \textit{Creature} klasse te implementeren. Om de vaardigheid daarna aan een \engels{creature} toe te voegen maken we gebruik van het \textit{decorator} ontwerppatroon, zie Codefragment \ref{AbilityCreature klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{AbilityCreature klasse}{64}{72}
+Een \engels{creature} met de vaardigheid \textit{Flying} kan nu gemodelleerd worden zoals in Codefragment \ref{FlyingCreature klasse}.
+\codepart{code/Code-hoofdstuk-3.scala}{FlyingCreature klasse}{74}{76}
+Het toevoegen van een vaardigheid aan een \engels{creature} willen we natuurlijk ook voorzien in onze DSL. Hiervoor zullen we een extra methode in de \textit{Creature}-klasse moeten schrijven die als werkwoord in onze DSL gebruikt kan worden. De methode, die we \textit{has\_ability} zullen noemen en die opgeroepen dient te worden op een bestaande instantie van de klasse \textit{Creature} zal een parameter moeten hebben die aangeeft over welke vaardigheid het gaat. Verder moet de methode als resultaat een instantie van de juiste vaardigheidsklasse terug geven die rond het originele \engels{creature} gewikkeld zit. Gelukkige schiet de functionele kant van Scala ons hier te hulp. Functies zijn in Scala ook instanties van een klasse, namelijk van de klasse \textit{FunctionX}, waarbij \textit{X} het aantal parameters voorstelt. Als we nu een functie schrijven die een \textit{Creature}-instantie als parameter heeft en een instantie van de juiste vaardigheidsklasse terug heeft, dan hebben we een geschikte parameter gevonden voor de methode \textit{has\_ability}. Een voorbeeld van dergelijke functie voor de vaardigheid \textit{Flying} vinden we terug in Codefragment \ref{Flying vaardigheidsfunctie}. De implementatie van de methode \textit{has\_ability} is terug te vinden op regels 12 tot en met 14 van Codefragment \ref{has_ability-methode}.
+\codepart{code/Code-hoofdstuk-3.scala}{Flying vaardigheidsfunctie}{78}{80}
+\lstinputlisting[caption=has\_ability-methode,label=has_ability-methode,firstline=82,lastline=97]{code/Code-hoofdstuk-3.scala}
+Aangezien we de vaardigheidsfunctie een eenvoudige naam meegegeven hebben, namelijk \textit{Flying}, kunnen we in onze DSL een vaardigheid toevoegen aan een \engels{creature} zoals in Codefragment \ref{Vaardgiheid toevoegen in de DSL}.
+\codepart{code/Code-hoofdstuk-3.scala}{Vaardgiheid toevoegen in de DSL}{99}{99}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 4: Vaardigheden met parameters %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vaardigheden met parameters}
+Naast de eenvoudige vaardigheden zoals \textit{Flying} zijn er ook vaardigheden die zelf een of meerdere parameters bezitten. Een voorbeeld hiervan is de vaardigheid \textit{Absorb X}. Een \engels{creature} met deze vaardigheid kan \textit{X} schade absorberen vooralleer zijn levenspunten verminderd worden. De implementatie van bijhorende vaardigheidsklasse verschilt enkel van de standaard vaardigheidsklasse in dat ze een extra parameter meekrijgt (zie Codefragment \ref{AbsorbCreature klasse}).
+\codepart{code/Code-hoofdstuk-3.scala}{AbsorbCreature klasse}{101}{103}
+Ook de definitie van de bijhorende vaardigheidsfunctie kent een gelijkaardige uitbreiding, zoals te zien in Codefragment \ref{Absorb vaardigheidsfunctie}.
+\codepart{code/Code-hoofdstuk-3.scala}{Absorb vaardigheidsfunctie}{105}{107}
+In onze DSL kan de \textit{Absorb}-vaardigheid gebruikt worden zoals in Codefragment \ref{Vaardigheid met parameter toevoegen in DSL}.
+\codepart{code/Code-hoofdstuk-3.scala}{Vaardigheid met parameter toevoegen in DSL}{109}{109}
+Opgemerkt moet worden dat de \textit{Absorb}-vaardigheid  de waarde van \textit{X} meekrijgt tussen haakjes. Hier zijn twee dingen aan de hand. Ten eerste zien we hier een voorbeeld van \textit{currying}, een principe waarbij een functie slechts op een deel van de parameters wordt toegepast en een functie teruggeeft die de resterende parameters (in dit geval een \textit{Creature}-instantie) als parameters neemt. Het resultaat hiervan is dat de \textit{has\_ability}-methode inderdaad een instantie van de klasse \textit{Function1[Creature, AbilityCreature]} meekrijgt. De tweede opmerking is dat de haakjes rond de parameter niet weggelaten kunnen worden. De reden hiervoor is dan \textit{FunctionX}-objecten een \textit{apply}-methode gebruiken om hun functionaliteit toe te passen en dat Scala geen \engels{syntactic sugar} voorziet voor het weglaten van ronde haakjes bij de \textit{apply}-methode.

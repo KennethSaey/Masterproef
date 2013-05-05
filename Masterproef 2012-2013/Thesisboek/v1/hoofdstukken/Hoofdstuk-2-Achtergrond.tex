@@ -1,0 +1,40 @@
+\chapter{Achtergrond en motivatie}
+
+\section{Collectible Card Games}
+Een \engels{collectible card game} is een type kaartspel, meestal gespeeld met twee personen, met als doel om de levenspunten van de tegenstander op nul te krijgen. Dit gebeurt door het spelen van verschillende kaarten. Het spelbord (meestal gewoon een tafel) is opgedeeld in zones. Elke zone kan een of meerdere kaarten bevatten, en de acties die met een kaart ondernomen kunnen worden zijn afhankelijk van de spelzone waarin de kaart zich bevindt. De globale spelregels beschrijven op welke manier kaarten van spelzone kunnen veranderen. Er zijn steeds verschillende types van kaarten aanwezig, vaak met hun eigen specifieke eigenschappen en vaardigheden, die een invloed uitoefenen op alle onderdelen van het spel. CCGs zijn een niet te onderschatten uitdaging vanuit het standpunt van een software ontwikkelaar, aangezien ze veel verschillende vormen van modulariteit bevatten, en een overvloed aan regels die de basisregels van het spel grondig kunnen beïnvloeden.
+\npar
+Een eerste niveau van modulariteit binnen CCGs zijn de verschillende zones op het virtuele spelbord. De beschikbare zones van één welbepaald spel veranderen bijna nooit, maar verschillende CCGs beschikken wel over verschillende spelzones. Bovendien hebben spelzones hun eigen effect op de spelregels, met betrekking tot de acties die uitgevoerd kunnen worden met kaarten die zich in de zone bevinden.
+\npar
+Verschillende types en subtypes van kaarten zorgen voor een tweede niveau van modulariteit. \engels{Magic: The Gathering} bijvoorbeeld bevat onder andere \textit{land}-kaarten en \engels{creature}-kaarten (wezens). Landkaarten zijn onderverdeeld in verschillende subtypes waarvan de vijf voornaamste \textit{bergen}, \textit{bossen}, \textit{eilanden}, \textit{moerassen} en \textit{vlaktes} zijn. De \engels{creature}-kaarten kunnen volgens de basisspelregels enkel van de \textit{handzone} naar de \textit{slagveldzone} verplaatst worden, indien de \textit{slagveldzone} van die speler de correcte types en aantallen van landkaarten bevat zoals aangegeven op de \engels{creature}-kaart. In dit geval zijn de landkaarten dus een vereiste voor het spelen van de \engels{creature}-kaarten.
+
+Het spel \engels{Shadow Era} bevat een gelijkaardig type van \engels{creature}-kaarten, maar de vereiste om deze te kunnen spelen is hierbij niet een specifieke set van landkaarten, maar wel een voldoende grote voorraad \textit{gronDSLoffen} die vergroot kan worden door andere kaarten op te offeren.
+
+Andere kaarten kunnen dan weer effect hebben op de eigenschappen van kaarten, of op de algemene spelregels zelf. Het is dus belangrijk bij de implementatie van een CCG dat veranderingen aan eigenschappen en spelregels zonder ingewikkelde broncode geïmplementeerd kunnen worden.
+\npar
+Een derde niveau van modulariteit is dat vele kaarten eigenschappen hebben die zich gedragen als \textit{vaardigheden}. Vaardigheden veranderen de \engels{gameplay} minder dramatisch: het effect van een vaardigheid is meestal in tijd beperkt, namelijk zolang de kaart meedoet aan het actieve spel, en de invloed ervan beperkt zich meestal tot de kaarten die rechtstreeks met de kaart in kwestie in contact komen. Een goed voorbeeld van een dergelijke vaardigheid is \engels{Flying}: Een wezen met de vaardigheid \engels{Flying} kan tijdens een aanvalsactie enkel afgeblokt worden door wezens die ook de vaardigheid \engels{Flying} bezitten.
+De beperkte invloed van eigenschappen die zich gedragen als vaardigheden is echter geen vaststaand feit, wat opnieuw een belangrijk punt is om in acht te nemen tijdens de ontwikkeling van een computerversie van een CCG.
+\npar
+Het doel van deze masterproef is om een domein-specifieke taal te ontwikkelen eenvoudig genoeg is zodat ze gebruikt kan worden door mensen met weinig programmeerervaring (zoals de auteurs van CCGs) maar toch krachtig genoeg om alle niveaus van modulariteit aan te passen. Hier kunnen opeenvolgende computerversies van CCGs niet alleen sneller uitgebracht worden, maar is het ook mogelijk om verschillende CCGs te ontwikkelen bovenop de zelfde codebasis.
+
+\section{Domein-specifieke talen}
+Een domein-specifieke taal (DSL) is een programmeertaal die speciaal ontworpen werd op problemen binnen een goed gedefinieerd probleemdomein op te lossen. Ze verschilt van een \engels{general-purpose language} (GPL) in het feit dat een GPL in staat moet zijn om problemen in alle domeinen op te lossen (uiteraard met variabele efficiëntie). Domein-specifieke talen vallen onder te verdelen in drie categorieën.
+
+De meest algemeen bekende categorie van domein-specifieke talen zijn de alleenstaande DSLs. Zoals de naam aangeeft beschikken alleenstaande DSLs over hun eigen compiler of interpreter om de code uit te voeren. Voorbeelden van alleenstaande DSLs zijn HTML, voor het definiëren van de structuur van webpagina's, en SQL, voor het schrijven van query's voor SQL-databases.
+
+Een tweede type van DSLs zijn DSLs die ingebed zijn in applicaties. Deze domein-specifieke talen kunnen niet worden gebruikt buiten hun gastheertoepassing en zijn vaak sterk verbonden met het doel van de gastheertoepassing. De formules die in Microsoft Excel gebruikt kunnen worden in de cellen van een rekenblad zijn een voorbeeld van een DSL die ingebed is in een applicatie.
+
+Het derde een laatste type van DSLs zijn de ingebedde domein-specifieke talen (\engels{Embedded Domain Specific Languages} of EDSLs). Deze zijn ingebed in een programmeertaal en zijn vaak het gevolg van een slim gebruik van methodenamen en \engels{syntactic sugar} aangeleverd door de programmeertaal. Indien de gastheertaal over voldoende \engels{syntactic sugar} beschikt wordt het mogelijk om een EDSL sterk op natuurlijke taal te doen lijken. Dit is een zeer handig kenmerk indien nieuwe code snel moet worden toegevoegd door anderen dan de auteur van de originele broncode.
+
+\section{Scala}
+Scala is een programmeertaal gebouwd bovenop de Java virtuele machine. Scala is object-georiënteerd maar bevat daarnaast paradigmas uit functionele programmeertalen. Bovendien bevat Scala een aantal features die de taal bijzonder geschikt maakt voor het ontwikkelen van DSLs die sterk lijken op natuurlijke taal.
+
+De eerste is dat Scala geen beperkingen oplegt aan methodenamen. Een methode met de naam \textit{+} is niet ongewoon en zorgt er onder andere voor dat (wiskundige) operatoren gedefinieerd kunnen worden voor zelfgeschreven klasses.
+
+Daarnaast bevat Scala veel \engels{syntactic sugar} voor het weglaten van interpunctie. De broncode
+\begin{verbatim}
+10.+(2)
+\end{verbatim}
+roept bijvoorbeeld de methode \textit{+} op het object \textit{10} op met argument \textit{2}, maar dankzij \engels{syntactic sugar} is dit volledig equivalent met het statement
+\begin{verbatim}
+10 + 2
+\end{verbatim}

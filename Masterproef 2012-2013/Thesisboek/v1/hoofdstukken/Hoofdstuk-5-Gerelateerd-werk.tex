@@ -1,0 +1,19 @@
+\chapter{Gerelateerd werk}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Sectie 1: SandScape %
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{SandScape}
+SandScape \cite{sandscape} is de online, browsergebasseerde omgeving voor WTactics, ``Een volledige vrij aanpasbaar kaartspel met grote strategische diepgang en prachtige looks'' \cite{wtactics}. SandScape is een computerspel dat in een browser gespeeld wordt en zo goed als alle \engels{collectibel card games} aan kan. Dit wordt bereikt door geen spelregels op de leggen. De spelers kunnen zelf een kaartset importeren en spelen op een virtuele tafel. De rest van het spel is aan de spelers zelf. Zij moeten zichzelf spelregels opleggen en zorgen dat ze nageleefd worden. Door deze aanpak kunnen inderdaad praktisch alle \engels{collectible card games} gespeeld worden, maar er ontbreekt uiteraard een grote vorm van automatisering. Zo zullen spelers bijvoorbeeld zelf hun levenspunten moeten aanpassen na elke succesvolle aanval van de tegenstander.
+
+Dit is het compleet tegenovergestelde van een speciaal gebouwde computerversie van een CCG. Speciaal gebouwde computerversies kunnen elk aspect van het spel dat niet om gebruikersinteractie vraagt automatiseren, maar laten niet toe dat spelers hun eigen regels defini\"eren.
+
+Onze DSL bevindt zich ergens in het midden van beide opties. Door gebruik te maken van de DSL kunnen auteurs nieuwe CCGs maken, met een eigen set regels en kaarten, terwijl ze nog steeds kunnen profiteren van zo veel mogelijk automatisering.
+
+%%%%%%%%%%%%%%%%%%%
+% Sectie 1: Forge %
+%%%%%%%%%%%%%%%%%%%
+\section{Forge}
+Forge \cite{forge} is een Java gebasseerde implementatie van \textit{Magic: The Gathering}. De broncode is niet publiek beschikbaar, maar het spel kan wel aangepast worden door de spelers. Spelers kunnen hun eigen kaarten toevoegen door gebruik te maken van de Forge API \cite{forge-api}, een scripting taal voor het defini\"eren van kaarten die geparst wordt door de Forge Engine. Een belangrijk deel van de API is de \engels{Ability Factory}, een uitgebreide verzameling variabelen zoals \textit{Cost}, \textit{Target}, \textit{Conditions} en vele anderen om vaardigheden en \engels{spells} te defini\"eren.
+
+Aangezien deze scriptingtaal specifiek ontwikkeld werd voor het aanmaken van \engels{Magic: The Gathering} kaarten is dit eigenlijk ook een vorm van een domein specifieke taal. De scriptingtaal laat wel enkel toe om kaarten aan te maken, waardoor ze minder krachtig is dan onze DSL, maar door het feit dat een scriptingtaal geparst wordt in plaats van gecompileerd is ze waarschijnlijk wel eenvoudiger om onder de knie te krijgen voor niet-programmeurs en spelers.
